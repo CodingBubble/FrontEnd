@@ -12,6 +12,8 @@ class mainPage extends StatefulWidget {
 }
 
 class _mainPageState extends State<mainPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,14 @@ class _mainPageState extends State<mainPage> {
             );
           },
         ),
-        title: const Text("search"), //title aof appbar
+        title: Form(
+          key: this._formKey,
+          child: TextFormField(
+            keyboardType:
+                TextInputType.text, // Use email input type for emails.
+            decoration: const InputDecoration(hintText: 'Suche'),
+          ),
+        ), //title aof appbar
         backgroundColor: const Color(0xFF268223), //background color of appbar
       ),
     );
