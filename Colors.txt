@@ -1,0 +1,8 @@
+// White Primary Colour
+#ffffff
+
+// Green Secondary Colour
+#268223
+
+// Blau Tertiary Colour
+#00BCF6
