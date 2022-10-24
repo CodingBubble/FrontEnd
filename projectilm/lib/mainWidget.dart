@@ -51,7 +51,7 @@ class _mainWidgetState extends State<mainWidget> {
   Widget groups(name, description) {
     return Container(
       child: Text(name, style: TextStyle(color: fontColor)),
-      padding:
+      // padding:
     );
   }
 }
