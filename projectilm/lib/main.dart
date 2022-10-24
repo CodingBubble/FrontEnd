@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'mainPage.dart';
+import 'mainWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const mainPage(title: 'Grouping'),
+      home: const mainWidget(title: 'Grouping'),
     );
   }
 }

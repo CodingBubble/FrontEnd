@@ -2,16 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-class mainPage extends StatefulWidget {
-  const mainPage({super.key, required this.title});
+class mainWidget extends StatefulWidget {
+  const mainWidget({super.key, required this.title});
 
   final String title;
 
   @override
-  State<mainPage> createState() => _mainPageState();
+  State<mainWidget> createState() => _mainWidgetState();
 }
 
-class _mainPageState extends State<mainPage> {
+class _mainWidgetState extends State<mainWidget> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,14 @@ class _mainPageState extends State<mainPage> {
             );
           },
         ),
-        title: const Text("search"), //title aof appbar
+        title: Form(
+          key: this._formKey,
+          child: TextFormField(
+            keyboardType:
+                TextInputType.text, // Use email input type for emails.
+            decoration: const InputDecoration(hintText: 'Suche'),
+          ),
+        ), //title aof appbar
         backgroundColor: const Color(0xFF268223), //background color of appbar
       ),
     );
