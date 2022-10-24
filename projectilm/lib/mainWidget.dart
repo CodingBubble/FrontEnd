@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-class mainPage extends StatefulWidget {
-  const mainPage({super.key, required this.title});
+class mainWidget extends StatefulWidget {
+  const mainWidget({super.key, required this.title});
 
   final String title;
 
   @override
-  State<mainPage> createState() => _mainPageState();
+  State<mainWidget> createState() => _mainWidgetState();
 }
 
-class _mainPageState extends State<mainPage> {
+class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
