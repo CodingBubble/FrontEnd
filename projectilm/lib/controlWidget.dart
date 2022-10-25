@@ -43,7 +43,7 @@ class appHandler extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp.router(
         routerDelegate: _router.routerDelegate,
         routeInformationParser: _router.routeInformationParser,
-        routeInformationProvider: _router.routeInformationParser,
+        // routeInformationProvider: _router.routeInformationProvider,
       );
 
   final GoRouter _router = GoRouter(
@@ -51,12 +51,12 @@ class appHandler extends StatelessWidget {
     routes: <GoRoute>[
       GoRoute(
         routes: <GoRoute>[
-          GoRoute(
-            path: 'passwordResetWidget',
-            pageBuilder: (BuildContext context, GoRouterState state) =>  MaterialPage<void>(child: ,  key: ValueKey<String>(state.location +
-                            DateTime.now().millisecondsSinceEpoch.toString(),),
-                const passwordResetWidget(),
-          ),),
+          // GoRoute(
+          //   path: 'passwordResetWidget',
+          //   pageBuilder: (BuildContext context, GoRouterState state) =>  MaterialPage<void>(child: ,  key: ValueKey<String>(state.location +
+          //                   DateTime.now().millisecondsSinceEpoch.toString(),),
+          //       const passwordResetWidget(),
+          // ),),
         ],
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
