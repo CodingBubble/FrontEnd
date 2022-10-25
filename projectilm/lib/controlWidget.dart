@@ -8,7 +8,8 @@ class controlWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (1 == 0) {
+    if (1 == 1) {
+      //switched to the case mainWidget, only to test my design
       return MaterialApp(
         title: 'Grouping',
         debugShowCheckedModeBanner: false,

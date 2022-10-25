@@ -22,7 +22,9 @@ class _mainWidgetState extends State<mainWidget> {
         leading: Builder(
           builder: (BuildContext context) {
             return const IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(
+                Icons.search,
+              ),
               onPressed: null,
               // onPressed: () {
               //   Scaffold.of(context).openDrawer();
@@ -31,14 +33,26 @@ class _mainWidgetState extends State<mainWidget> {
             );
           },
         ),
-        title: Form(
-          key: this._formKey,
-          child: TextFormField(
-            keyboardType:
-                TextInputType.text, // Use email input type for emails.
-            decoration: const InputDecoration(hintText: 'Suche'),
+
+        title: Container(
+          child: Form(
+            key: this._formKey,
+            child: Container(
+              child: TextFormField(
+                keyboardType:
+                    TextInputType.text, // Use email input type for emails.
+                decoration: const InputDecoration(
+                  hintText: 'Suche',
+                ),
+              ),
+            ),
+          ), //title aof appbar
+          ElevatedButton(
+            child: Icon(Icons.search),
+            onPressed: () => {},
           ),
-        ), //title aof appbar
+        ),
+
         backgroundColor: const Color(0xFF268223), //background color of appbar
       ),
       body: Scrollbar(
