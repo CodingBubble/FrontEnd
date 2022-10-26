@@ -12,7 +12,7 @@ class controlWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //  Real User has to be called here not standard => make it dynamic later
     var realUser = new User(1, 'Jakob',
-        is_me: false); // if it is false, the log-In page will load
+        is_me: true); // if it is false, the log-In page will load
     if (realUser.is_me) {
       return MaterialApp(
         title: 'Grouping',

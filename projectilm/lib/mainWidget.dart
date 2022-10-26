@@ -90,17 +90,23 @@ class _mainWidgetState extends State<mainWidget> {
             child: Column(
               children: [
                 new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(WidgetColor)),
-                    child: groups(
-                      groupNames[index],
-                      groupDescription[index],
-                    ),
-                    onPressed: () => {
-                          /*Navigator.push(context, new MaterialPageRoute(builder: (context) => ))*/
-                        })
+                Container(
+                  width: MediaQuery.of(context).size.width *
+                      0.9, // the distance to the margin of display
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          WidgetColor,
+                        ),
+                      ),
+                      child: groups(
+                        groupNames[index],
+                        groupDescription[index],
+                      ),
+                      onPressed: () => {
+                            /*Navigator.push(context, new MaterialPageRoute(builder: (context) => ))*/
+                          }),
+                ),
               ],
             ),
           );
@@ -127,6 +133,7 @@ class _mainWidgetState extends State<mainWidget> {
         ],
       ),
       padding: constPadding,
+      alignment: Alignment.center,
       margin: constMargin,
       width: double.infinity,
     );
