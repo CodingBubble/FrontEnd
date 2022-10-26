@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'main.dart';
 import 'global.dart';
 
@@ -19,6 +20,7 @@ class _mainWidgetState extends State<mainWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        /*
         leading: Builder(
           builder: (BuildContext context) {
             return const IconButton(
@@ -33,27 +35,53 @@ class _mainWidgetState extends State<mainWidget> {
             );
           },
         ),
-
+        
         title: Container(
           child: Form(
             key: this._formKey,
-            child: Container(
-              child: TextFormField(
-                keyboardType:
-                    TextInputType.text, // Use email input type for emails.
-                decoration: const InputDecoration(
-                  hintText: 'Suche',
-                ),
+            child: TextFormField(
+              keyboardType:
+                  TextInputType.text, // Use email input type for emails.
+              decoration: const InputDecoration(
+                hintText: 'Suche',
               ),
             ),
-          ), //title aof appbar
-          ElevatedButton(
-            child: Icon(Icons.search),
-            onPressed: () => {},
           ),
-        ),
+        ), //title aof appbar
 
         backgroundColor: const Color(0xFF268223), //background color of appbar
+      ),
+      */
+        title: Container(
+          child: Row(
+            children: [
+              Builder(builder: (BuildContext context) {
+                return (IconButton(
+                  icon: Icon(Icons.search),
+                  color: WidgetColor,
+                  onPressed: () => {},
+                )); // here to add the onPressed-command to search something
+              }),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.62,
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                    hintText: "Suche",
+                  ),
+                ),
+              ),
+              Builder(builder: (BuildContext context) {
+                return (IconButton(
+                    icon: Icon(Icons.settings),
+                    color: WidgetColor,
+                    onPressed: () =>
+                        {})); //here to add the onPressed-command to navigate to settings
+              })
+            ],
+          ),
+        ),
+        backgroundColor: backgroundColor,
       ),
       body: Scrollbar(
           child: ListView.builder(
@@ -63,7 +91,13 @@ class _mainWidgetState extends State<mainWidget> {
               children: [
                 new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
                 ElevatedButton(
-                    child: groups(groupNames[index], groupDescription[index]),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(WidgetColor)),
+                    child: groups(
+                      groupNames[index],
+                      groupDescription[index],
+                    ),
                     onPressed: () => {
                           /*Navigator.push(context, new MaterialPageRoute(builder: (context) => ))*/
                         })
@@ -83,7 +117,10 @@ class _mainWidgetState extends State<mainWidget> {
       child: Column(
         children: [
           Text(name,
-              style: TextStyle(color: fontColor, fontSize: HeadfontOfWidget)),
+              style: TextStyle(
+                color: textColor,
+                fontSize: HeadfontOfWidget,
+              )),
           Text(description,
               style: TextStyle(
                   color: backgroundColor, fontSize: SecondfontOfWidget)),

@@ -11,13 +11,14 @@ class controlWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  Real User has to be called here not standard => make it dynamic later
-    var realUser = new User(1, 'Jakob', is_me: false);
+    var realUser = new User(1, 'Jakob',
+        is_me: false); // if it is false, the log-In page will load
     if (realUser.is_me) {
       return MaterialApp(
         title: 'Grouping',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          backgroundColor: themeColor,
+          backgroundColor: WidgetColor,
         ),
         home: const mainWidget(title: 'Grouping'),
       );
@@ -26,7 +27,7 @@ class controlWidget extends StatelessWidget {
         title: 'Grouping',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          backgroundColor: themeColor,
+          backgroundColor: WidgetColor,
         ),
         home: const logInWidget(title: 'Grouping'),
       );

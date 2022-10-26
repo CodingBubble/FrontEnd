@@ -48,6 +48,7 @@ class _logInWidget extends State<logInWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: WidgetColor,
         title: const Center(
           child: Text('Anmeldung'),
         ),
