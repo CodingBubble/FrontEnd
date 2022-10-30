@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.projectilm">
    <application
-        android:label="projectilm"
+        android:label="groups"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
