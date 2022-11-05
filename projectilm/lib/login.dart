@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'global.dart';
+import 'src/projectillm_bridgelib_base.dart';
+
 
 class logInWidget extends StatefulWidget {
   const logInWidget({super.key, required this.title});
@@ -11,7 +13,10 @@ class logInWidget extends StatefulWidget {
 }
 
 class logInForms extends StatelessWidget {
-  const logInForms({super.key});
+  logInForms({super.key});
+  final TextEditingController username_controller = TextEditingController();
+  final TextEditingController password_controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +27,9 @@ class logInForms extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Form(
             child: TextFormField(
+              controller: username_controller,
               keyboardType:
-                  TextInputType.name, // Use email input type for emails.
+                  TextInputType.name,
               decoration: InputDecoration(hintText: 'Name'),
             ),
           ),
@@ -32,15 +38,38 @@ class logInForms extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Form(
             child: TextFormField(
+              controller: password_controller,
               keyboardType: TextInputType
-                  .visiblePassword, // Use email input type for emails.
+                  .visiblePassword, 
               decoration: InputDecoration(hintText: 'Passwort'),
             ),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: evt_login,
+            child: Text('Einloggen'),
+          )
+
+        ),
+
       ],
     );
   }
+
+  void evt_login() {
+    login(username_controller.text, password_controller.text).then((bool k) {
+      if (!k) {print("Login failed!!!!"); return; }
+      print(me);
+
+    });
+  }
+
+
 }
 
 class _logInWidget extends State<logInWidget> {
@@ -53,7 +82,7 @@ class _logInWidget extends State<logInWidget> {
           child: Text('Anmeldung'),
         ),
       ),
-      body: const logInForms(),
+      body: logInForms(),
     );
   }
 
