@@ -4,6 +4,7 @@ import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
 import 'src/projectillm_bridgelib_base.dart';
+import "groups-Widget.dart";
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
@@ -12,7 +13,7 @@ class controlWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //  Real User has to be called here not standard => make it dynamic later
     var realUser = new User(1, 'Jakob',
-        is_me: false); // if it is false, the log-In page will load
+        is_me: true); // if it is false, the log-In page will load
     if (realUser.is_me) {
       return MaterialApp(
         title: 'Grouping',
@@ -35,9 +36,35 @@ class controlWidget extends StatelessWidget {
   }
 }
 
-class appHandler extends StatelessWidget {
-  appHandler({Key? key}) : super(key: key);
+class AppHandler {
+  var widgetPath;
+  AppHandler(widgetPath) {
+    this.widgetPath = widgetPath;
+  }
+  Widget build(BuildContext context) {
+    return (MaterialApp(routes: {"/": (context) => callingWidget(widgetPath)}));
+  }
 
+  callingWidget(widgetPath) {
+    if (widgetPath == "mainWidget") {
+      MaterialPageRoute(builder: (context) => mainWidget(title: "Grouping"));
+    }
+    if (widgetPath == "groupWidget") {
+      MaterialPageRoute(builder: (context) => Groups());
+    }
+    if (widgetPath == "logInWidget") {
+      MaterialPageRoute(builder: (context) => logInWidget(title: "Grouping"));
+    }
+  }
+}
+
+
+
+/*
+class appHandler extends StatelessWidget {
+ 
+ 
+ 
   static const String title = 'Grouping';
 
   @override
@@ -87,3 +114,4 @@ class appHandler extends StatelessWidget {
 //     },
 //   ),
 // ],
+*/

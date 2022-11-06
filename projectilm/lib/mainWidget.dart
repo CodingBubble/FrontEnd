@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projectilm/controlWidget.dart';
 import 'main.dart';
 import 'global.dart';
 
@@ -20,38 +21,6 @@ class _mainWidgetState extends State<mainWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        /*
-        leading: Builder(
-          builder: (BuildContext context) {
-            return const IconButton(
-              icon: Icon(
-                Icons.search,
-              ),
-              onPressed: null,
-              // onPressed: () {
-              //   Scaffold.of(context).openDrawer();
-              // },
-              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        
-        title: Container(
-          child: Form(
-            key: this._formKey,
-            child: TextFormField(
-              keyboardType:
-                  TextInputType.text, // Use email input type for emails.
-              decoration: const InputDecoration(
-                hintText: 'Suche',
-              ),
-            ),
-          ),
-        ), //title aof appbar
-
-        backgroundColor: const Color(0xFF268223), //background color of appbar
-      ),
-      */
         title: Container(
           child: Row(
             children: [
@@ -63,7 +32,7 @@ class _mainWidgetState extends State<mainWidget> {
                 )); // here to add the onPressed-command to search something
               }),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.62,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
@@ -74,6 +43,13 @@ class _mainWidgetState extends State<mainWidget> {
               Builder(builder: (BuildContext context) {
                 return (IconButton(
                     icon: Icon(Icons.settings),
+                    color: WidgetColor,
+                    onPressed: () =>
+                        {})); //here to add the onPressed-command to navigate to settings
+              }),
+              Builder(builder: (BuildContext context) {
+                return (IconButton(
+                    icon: Icon(Icons.edit),
                     color: WidgetColor,
                     onPressed: () =>
                         {})); //here to add the onPressed-command to navigate to settings
@@ -103,9 +79,7 @@ class _mainWidgetState extends State<mainWidget> {
                         groupNames[index],
                         groupDescription[index],
                       ),
-                      onPressed: () => {
-                            /*Navigator.push(context, new MaterialPageRoute(builder: (context) => ))*/
-                          }),
+                      onPressed: () => {AppHandler("groupWidget")}),
                 ),
               ],
             ),
