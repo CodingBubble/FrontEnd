@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'main.dart';
 import 'global.dart';
+import 'package:projectilm/projectillm_bridgelib.dart';
+
+
 
 class mainWidget extends StatefulWidget {
   const mainWidget({super.key, required this.title});
@@ -17,9 +20,15 @@ class mainWidget extends StatefulWidget {
 class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  void initState() {
+      super.initState();
+      loadGroups();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(
         title: Container(
           child: Row(
@@ -87,7 +96,9 @@ class _mainWidgetState extends State<mainWidget> {
         },
         itemCount: groupNames.length,
       )),
+    ),
     );
+    
   }
 
   // buttons and others
@@ -114,17 +125,32 @@ class _mainWidgetState extends State<mainWidget> {
   }
 
   List<String> groupNames = <String>[
-    "Sauf-Sport-Balance",
-    "Bildung für Idioten",
-    "Homo-Club",
-    "Asoziales Kommunistisches Netzwerk",
-    "Verein für effektive Gehirnspende",
+
   ];
   List<String> groupDescription = <String>[
-    "Nur für Trinken",
-    "Zielniveau ist Grundschule",
-    "Schwul? Dann komm rein",
-    "Niemand hat die Abisicht eine Mauer zu errichten",
-    "Frau Merker ist Ehrenmitglied"
+
   ];
+
+  void loadGroups()
+  {
+    login("Jakob", "Test1234").then((value) => {
+      if (!value) {
+        print("Error logging in as Jakob")
+      }
+      else {
+        me_get_groups().then((groups)  {
+          setState(() {
+            groups.forEach((group) { 
+              print("Group Found: ${group.name}");
+              groupNames.add(group.name);
+              groupDescription.add(group.description);
+            }
+           );
+          });
+        })
+      }
+    });
+  }
+
 }
+

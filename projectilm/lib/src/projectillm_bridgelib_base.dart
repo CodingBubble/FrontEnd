@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'api_settings.dart' as api_settings;
@@ -116,6 +117,23 @@ class Group {
     return [];
   }
 
+  Future<List<GroupMessage>> get_messages_gen(Int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "group_load_msgs_gen", "args": [username, password, id, part]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<GroupMessage> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(GroupMessage(e["id"], e["text"], User(e["userid"], e["username"]), 
+                  DateTime.parse(e["date"]), this))
+      });
+      return messages;
+    }
+    return [];
+  }
+
   Future<GroupMessage?> send_message(text) async {
     if (me==null) {return null; }
     var request = {"command": "group_msg_send", "args": [username, password, id, text]};
@@ -192,6 +210,23 @@ class Event {
   Future<List<EventMessage>> get_messages() async {
     if (me==null) {return []; }
     var request = {"command": "event_load_msgs", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<EventMessage> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(EventMessage(e["id"], e["text"], User(e["userid"], e["username"]), 
+                  DateTime.parse(e["date"]), this))
+      });
+      return messages;
+    }
+    return [];
+  }
+
+  Future<List<EventMessage>> get_messages_gen(Int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_msgs_gen", "args": [username, password, id, part]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
     var response = await http.get(url);
     var data = jsonDecode(response.body);
