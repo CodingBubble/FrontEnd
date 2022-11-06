@@ -42,18 +42,28 @@ class AppHandler {
     this.widgetPath = widgetPath;
   }
   Widget build(BuildContext context) {
-    return (MaterialApp(routes: {"/": (context) => callingWidget(widgetPath)}));
+    return MaterialApp(home: callingWidget(widgetPath, context));
+    //routes: {"/": (context) => callingWidget(widgetPath, context)}));
   }
 
-  callingWidget(widgetPath) {
+  callingWidget(widgetPath, context) {
     if (widgetPath == "mainWidget") {
-      MaterialPageRoute(builder: (context) => mainWidget(title: "Grouping"));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const mainWidget(title: "Grouping")));
     }
     if (widgetPath == "groupWidget") {
-      MaterialPageRoute(builder: (context) => Groups());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const GroupsWidget(title: "Grouping")));
     }
     if (widgetPath == "logInWidget") {
-      MaterialPageRoute(builder: (context) => logInWidget(title: "Grouping"));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const logInWidget(title: "Grouping")));
     }
   }
 }

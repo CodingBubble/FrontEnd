@@ -6,8 +6,6 @@ import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-
-
 class mainWidget extends StatefulWidget {
   const mainWidget({super.key, required this.title});
 
@@ -21,64 +19,65 @@ class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void initState() {
-      super.initState();
-      loadGroups();
+    super.initState();
+    loadGroups();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-      appBar: AppBar(
-        title: Container(
-          child: Row(
-            children: [
-              Builder(builder: (BuildContext context) {
-                return (IconButton(
-                  icon: Icon(Icons.search),
-                  color: WidgetColor,
-                  onPressed: () => {},
-                )); // here to add the onPressed-command to search something
-              }),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    hintText: "Suche",
+        appBar: AppBar(
+          title: Container(
+            child: Row(
+              children: [
+                Builder(builder: (BuildContext context) {
+                  return (IconButton(
+                    icon: Icon(Icons.search),
+                    color: WidgetColor,
+                    onPressed: () => {},
+                  )); // here to add the onPressed-command to search something
+                }),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Suche",
+                    ),
                   ),
                 ),
-              ),
-              Builder(builder: (BuildContext context) {
-                return (IconButton(
-                    icon: Icon(Icons.settings),
-                    color: WidgetColor,
-                    onPressed: () =>
-                        {})); //here to add the onPressed-command to navigate to settings
-              }),
-              Builder(builder: (BuildContext context) {
-                return (IconButton(
-                    icon: Icon(Icons.edit),
-                    color: WidgetColor,
-                    onPressed: () =>
-                        {})); //here to add the onPressed-command to navigate to settings
-              })
-            ],
+                Builder(builder: (BuildContext context) {
+                  return (IconButton(
+                      icon: Icon(Icons.settings),
+                      color: WidgetColor,
+                      onPressed: () =>
+                          {})); //here to add the onPressed-command to navigate to settings
+                }),
+                Builder(builder: (BuildContext context) {
+                  return (IconButton(
+                      icon: Icon(Icons.edit),
+                      color: WidgetColor,
+                      onPressed: () =>
+                          {})); //here to add the onPressed-command to navigate to settings
+                })
+              ],
+            ),
           ),
+          backgroundColor: backgroundColor,
         ),
-        backgroundColor: backgroundColor,
-      ),
-      body: Scrollbar(
-          child: ListView.builder(
-        itemBuilder: (context, index) {
-          return Material(
-            child: Column(
-              children: [
-                new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-                Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.9, // the distance to the margin of display
-                  child: ElevatedButton(
+        body: Scrollbar(
+            child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Material(
+              child: Column(
+                children: [
+                  new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+                  Container(
+                    width: MediaQuery.of(context).size.width *
+                        0.9, // the distance to the margin of display
+                    child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           WidgetColor,
@@ -88,17 +87,17 @@ class _mainWidgetState extends State<mainWidget> {
                         groupNames[index],
                         groupDescription[index],
                       ),
-                      onPressed: () => {AppHandler("groupWidget")}),
-                ),
-              ],
-            ),
-          );
-        },
-        itemCount: groupNames.length,
-      )),
-    ),
+                      onPressed: () => {AppHandler("groupWidget")},
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          itemCount: groupNames.length,
+        )),
+      ),
     );
-    
   }
 
   // buttons and others
@@ -124,33 +123,28 @@ class _mainWidgetState extends State<mainWidget> {
     );
   }
 
-  List<String> groupNames = <String>[
-
-  ];
+  List<String> groupNames = <String>["Wandertag", "Afterparty"];
   List<String> groupDescription = <String>[
-
+    "im Unstrut-Hainich",
+    "reichlich Alk da"
   ];
 
-  void loadGroups()
-  {
+  void loadGroups() {
     login("Jakob", "Test1234").then((value) => {
-      if (!value) {
-        print("Error logging in as Jakob")
-      }
-      else {
-        me_get_groups().then((groups)  {
-          setState(() {
-            groups.forEach((group) { 
-              print("Group Found: ${group.name}");
-              groupNames.add(group.name);
-              groupDescription.add(group.description);
+          if (!value)
+            {print("Error logging in as Jakob")}
+          else
+            {
+              me_get_groups().then((groups) {
+                setState(() {
+                  groups.forEach((group) {
+                    print("Group Found: ${group.name}");
+                    groupNames.add(group.name);
+                    groupDescription.add(group.description);
+                  });
+                });
+              })
             }
-           );
-          });
-        })
-      }
-    });
+        });
   }
-
 }
-
