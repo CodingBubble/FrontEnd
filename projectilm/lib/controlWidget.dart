@@ -36,34 +36,44 @@ class controlWidget extends StatelessWidget {
   }
 }
 
-class AppHandler {
+class AppHandler extends controlWidget {
   var widgetPath;
-  AppHandler(widgetPath) {
-    this.widgetPath = widgetPath;
-  }
-  Widget build(BuildContext context) {
-    return MaterialApp(home: callingWidget(widgetPath, context));
-    //routes: {"/": (context) => callingWidget(widgetPath, context)}));
-  }
+  var Context;
 
+  AppHandler(widgetPath, Context) {
+    this.widgetPath = widgetPath;
+    this.Context = Context;
+    callingWidget(widgetPath, Context);
+  }
+  /*
+  void textInConsole() {
+    print("Does work");
+  }
+*/
   callingWidget(widgetPath, context) {
+    //
     if (widgetPath == "mainWidget") {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const mainWidget(title: "Grouping")));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const mainWidget(title: "Grouping"),
+        ),
+      );
     }
     if (widgetPath == "groupWidget") {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const GroupsWidget(title: "Grouping")));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const GroupsWidget(title: "Grouping"),
+        ),
+      );
     }
     if (widgetPath == "logInWidget") {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const logInWidget(title: "Grouping")));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const logInWidget(title: "Grouping"),
+        ),
+      );
+    } else {
+      print("ERROR: False route paramaeter");
     }
   }
 }

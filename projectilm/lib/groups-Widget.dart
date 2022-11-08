@@ -12,9 +12,9 @@ class _StateGroups extends State<GroupsWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Deine Gruppen",
-        home: Scaffold(
+      debugShowCheckedModeBanner: false,
+      title: "Deine Gruppen",
+      home: Scaffold(
           appBar: AppBar(
             backgroundColor: backgroundColor,
             title: Container(
@@ -44,29 +44,26 @@ class _StateGroups extends State<GroupsWidget> {
           ),
           body: Column(
             children: [
-              // the searching-button and the chat function
-              Row(
+              //first widget as official chat
+              Container(
+                  child: Column(
                 children: [
-                  Builder(builder: (BuildContext context) {
-                    return (IconButton(
-                      icon: Icon(Icons.chat),
-                      color: WidgetColor,
-                      onPressed: () => {},
-                    )); // here to add the onPressed-command to search something
-                  }),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.62,
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        hintText: "Suche",
+                  new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.red),
                       ),
+                      child: chat("offizieller Chat"),
+                      onPressed: () => {},
                     ),
-                  ),
+                  )
                 ],
-
-                // The scrollbar within all groups
-              ),
+              )),
+              //second widget as Scrollbar for all events
+              new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
               Scrollbar(
                   child: ListView.builder(
                 itemBuilder: (context, index) {
@@ -98,26 +95,31 @@ class _StateGroups extends State<GroupsWidget> {
                   );
                 },
                 itemCount: eventNames.length,
-              )),
+              ))
             ],
-          ),
-        ));
+          )),
+    );
   }
 
   Widget eventWidget(name, description) {
-    return (Container(
+    return Container(
       child: Column(
         children: [
           Text(name,
-              style: TextStyle(color: textColor, fontSize: HeadfontOfWidget)),
+              style: TextStyle(
+                color: textColor,
+                fontSize: HeadfontOfWidget,
+              )),
           Text(description,
-              style: TextStyle(color: textColor, fontSize: SecondfontOfWidget))
+              style: TextStyle(
+                  color: backgroundColor, fontSize: SecondfontOfWidget)),
         ],
       ),
       padding: constPadding,
+      alignment: Alignment.center,
       margin: constMargin,
       width: double.infinity,
-    ));
+    );
   }
 
   var eventNames = [
@@ -136,4 +138,20 @@ class _StateGroups extends State<GroupsWidget> {
     "legendärer Abend",
     "Wie viel kann Jena uns bieten?"
   ];
+
+  Widget chat(name) {
+    return Container(
+      child: Text(
+        name,
+        style: TextStyle(
+          color: textColor,
+          fontSize: HeadfontOfWidget,
+        ),
+      ),
+      padding: constPadding,
+      alignment: Alignment.center,
+      margin: constMargin,
+      width: double.infinity,
+    );
+  }
 }
