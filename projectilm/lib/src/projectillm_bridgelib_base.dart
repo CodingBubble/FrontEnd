@@ -117,7 +117,7 @@ class Group {
     return [];
   }
 
-  Future<List<GroupMessage>> get_messages_gen(Int part) async {
+  Future<List<GroupMessage>> get_messages_gen(int part) async {
     if (me==null) {return []; }
     var request = {"command": "group_load_msgs_gen", "args": [username, password, id, part]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
@@ -224,7 +224,7 @@ class Event {
     return [];
   }
 
-  Future<List<EventMessage>> get_messages_gen(Int part) async {
+  Future<List<EventMessage>> get_messages_gen(int part) async {
     if (me==null) {return []; }
     var request = {"command": "event_load_msgs_gen", "args": [username, password, id, part]};
     var url = Uri.http(api_settings.host, jsonEncode(request));

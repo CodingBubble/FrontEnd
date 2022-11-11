@@ -132,6 +132,8 @@ class _mainWidgetState extends State<mainWidget> {
   ];
 
   void loadGroups() {
+
+    //TODO: make Login used by me
     login("Jakob", "Test1234").then((value) => {
           if (!value)
             {print("Error logging in as Jakob")}
