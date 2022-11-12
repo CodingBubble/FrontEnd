@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'global.dart';
 import 'src/projectillm_bridgelib_base.dart';
+import 'package:projectilm/controlWidget.dart';
 
 
 class logInWidget extends StatefulWidget {
   const logInWidget({super.key, required this.title});
-
   final String title;
 
   @override
@@ -16,8 +16,6 @@ class logInForms extends StatelessWidget {
   logInForms({super.key});
   final TextEditingController username_controller = TextEditingController();
   final TextEditingController password_controller = TextEditingController();
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,7 +49,7 @@ class logInForms extends StatelessWidget {
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
-            onPressed: evt_login,
+            onPressed: () => evt_login(context),
             child: Text('Einloggen'),
           )
 
@@ -61,11 +59,13 @@ class logInForms extends StatelessWidget {
     );
   }
 
-  void evt_login() {
+  void evt_login(con) {
     login(username_controller.text, password_controller.text).then((bool k) {
       if (!k) {print("Login failed!!!!"); return; }
-      print(me);
-
+      print("Logged In");
+      AppHandler("mainWidget", con); 
+      storage.write(key: "username", value: username_controller.text);
+      storage.write(key: "password", value: password_controller.text);
     });
   }
 
@@ -75,6 +75,20 @@ class logInForms extends StatelessWidget {
 class _logInWidget extends State<logInWidget> {
   @override
   Widget build(BuildContext context) {
+    storage.read(key: "username").then((String? store_username) {
+      storage.read(key: "password").then((String? store_password) {
+        login(store_username ?? "", store_password ?? "").then((out) {
+            if (!out) {
+              print("Failed logging in with stored values!!!");
+             // AppHandler("loginWidget", context); 
+            } else {
+              print("JUNGS: WIR HABEN VERSUCHT UNS EINZULOGGEN");
+              AppHandler("mainWidget", context); 
+            }
+          });
+      });
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: WidgetColor,

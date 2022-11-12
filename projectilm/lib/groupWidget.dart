@@ -125,7 +125,6 @@ List<Event> Events = <Event>[];
           else
             {
               current_group?.get_events_active().then((events) {
-                print(events);
                 setState(() {
                   Events = events;
                 });

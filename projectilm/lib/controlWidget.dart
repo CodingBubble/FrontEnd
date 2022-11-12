@@ -4,34 +4,28 @@ import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
 import 'src/projectillm_bridgelib_base.dart';
-import "group-Widget.dart";
+import 'groupWidget.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+
+
+
+final storage = FlutterSecureStorage();
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //  Real User has to be called here not standard => make it dynamic later
-    var realUser = new User(1, 'Jakob', is_me: true); // if it is false, the log-In page will load
-    if (realUser.is_me) {
-      return MaterialApp(
-        title: 'Grouping',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          backgroundColor: WidgetColor,
-        ),
-        home: const mainWidget(title: 'Grouping'),
-      );
-    } else {
-      return MaterialApp(
-        title: 'Grouping',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          backgroundColor: WidgetColor,
-        ),
-        home: const logInWidget(title: 'Grouping'),
-      );
-    }
+    return MaterialApp(
+      title: 'Grouping',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        backgroundColor: WidgetColor,
+      ),
+      home: const logInWidget(title: "Grouping")
+    );
+   
   }
 }
 
@@ -74,6 +68,15 @@ class AppHandler extends controlWidget {
     } else {
       print("ERROR: False route paramaeter");
     }
+  }
+}
+
+
+class ControlScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    
+    return new Scaffold();
   }
 }
 
