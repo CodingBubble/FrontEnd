@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectilm/projectillm_bridgelib.dart';
 //different colors
 
 const backgroundColor = Colors.white;
@@ -14,3 +15,7 @@ const discanceBetweenWidgets = 8.0;
 
 const HeadfontOfWidget = 30.0;
 const SecondfontOfWidget = 20.0;
+
+
+Group? current_group;
+

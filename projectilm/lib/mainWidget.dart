@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/groups-Widget.dart';
+import 'package:projectilm/group-Widget.dart';
 import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
@@ -85,10 +85,12 @@ class _mainWidgetState extends State<mainWidget> {
                         ),
                       ),
                       child: groups(
-                        groupNames[index],
-                        groupDescription[index],
+                        groups_glob[index]
                       ),
-                      onPressed: () => {AppHandler("groupWidget", context)},
+                      onPressed: () {
+                        current_group = groups_glob[index];
+                        AppHandler("groupWidget", context); 
+                      },
                       // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                     ),
                   ),
@@ -96,7 +98,7 @@ class _mainWidgetState extends State<mainWidget> {
               ),
             );
           },
-          itemCount: groupNames.length,
+          itemCount: groups_glob.length,
         )),
       ),
     );
@@ -104,16 +106,16 @@ class _mainWidgetState extends State<mainWidget> {
 
   // buttons and others
 
-  Widget groups(name, description) {
+  Widget groups(Group g) {
     return Container(
       child: Column(
         children: [
-          Text(name,
+          Text(g.name,
               style: TextStyle(
                 color: textColor,
                 fontSize: HeadfontOfWidget,
               )),
-          Text(description,
+          Text(g.description,
               style: TextStyle(
                   color: backgroundColor, fontSize: SecondfontOfWidget)),
         ],
@@ -125,11 +127,7 @@ class _mainWidgetState extends State<mainWidget> {
     );
   }
 
-  List<String> groupNames = <String>["Wandertag", "Afterparty"];
-  List<String> groupDescription = <String>[
-    "im Unstrut-Hainich",
-    "reichlich Alk da"
-  ];
+  List<Group> groups_glob = <Group>[];
 
   void loadGroups() {
 
@@ -141,14 +139,10 @@ class _mainWidgetState extends State<mainWidget> {
             {
               me_get_groups().then((groups) {
                 setState(() {
-                  groups.forEach((group) {
-                    print("Group Found: ${group.name}");
-                    groupNames.add(group.name);
-                    groupDescription.add(group.description);
-                  });
-                });
-              })
-            }
-        });
+                 groups_glob = groups;
+            });
+          })
+        }
+    });
   }
 }

@@ -2,16 +2,23 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:projectilm/controlWidget.dart';
+import 'package:projectilm/projectillm_bridgelib.dart';
 import 'global.dart';
 
-class GroupsWidget extends StatefulWidget {
+class GroupWidget extends StatefulWidget {
   final String title;
-  const GroupsWidget({super.key, required this.title});
+  const GroupWidget({super.key, required this.title});
   @override
-  State<GroupsWidget> createState() => _StateGroups();
+  State<GroupWidget> createState() => _StateGroup();
 }
 
-class _StateGroups extends State<GroupsWidget> {
+class _StateGroup extends State<GroupWidget> {
+
+ void initState() {
+    super.initState();
+    loadEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,16 +91,16 @@ class _StateGroups extends State<GroupsWidget> {
     );
   }
 
-  Widget eventWidget(name, description) {
+  Widget eventWidget(Event ev) {
     return Container(
       child: Column(
         children: [
-          Text(name,
+          Text(ev.name,
               style: TextStyle(
                 color: textColor,
                 fontSize: HeadfontOfWidget,
               )),
-          Text(description,
+          Text(ev.description,
               style: TextStyle(
                   color: backgroundColor, fontSize: SecondfontOfWidget)),
         ],
@@ -105,22 +112,29 @@ class _StateGroups extends State<GroupsWidget> {
     );
   }
 
-  var eventNames = [
-    "Fernsehabend bei Jakob",
-    "Kirmes in Helmsdorf",
-    "Coding für Ilmenau",
-    "Wandern im Eichsfeld",
-    "18. Geburtstag Sophia",
-    "Tag der offenen Tür FH Jena"
-  ];
-  var eventDescriptions = [
-    "Fluch der Karibik mit Snacks",
-    "Kirmes eben",
-    "das FrontEnd muss fertig werden",
-    "Gelegenheit, neue Projekte zu erfinden",
-    "legendärer Abend",
-    "Wie viel kann Jena uns bieten?"
-  ];
+List<Event> Events = <Event>[];
+
+  void loadEvents() {
+
+    //TODO: make Login used by me
+
+    login("Jakob", "Test1234").then((value) => {
+      
+          if (!value)
+            {print("Error logging in as Jakob")}
+          else
+            {
+              current_group?.get_events_active().then((events) {
+                print(events);
+                setState(() {
+                  Events = events;
+                });
+              })
+            }
+        });
+  }
+
+
 
   Widget chat(name) {
     return Container(
@@ -159,8 +173,7 @@ class _StateGroups extends State<GroupsWidget> {
                           ),
                         ),
                         child: eventWidget(
-                          eventNames[index],
-                          eventDescriptions[index],
+                          Events[index]
                         ),
                         onPressed: () => {},
                         // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
@@ -170,7 +183,7 @@ class _StateGroups extends State<GroupsWidget> {
                 ),
               );
             },
-            itemCount: eventNames.length,
+            itemCount: Events.length,
           ),
         ));
   }
