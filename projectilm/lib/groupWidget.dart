@@ -13,8 +13,7 @@ class GroupWidget extends StatefulWidget {
 }
 
 class _StateGroup extends State<GroupWidget> {
-
- void initState() {
+  void initState() {
     super.initState();
     loadEvents();
   }
@@ -112,14 +111,12 @@ class _StateGroup extends State<GroupWidget> {
     );
   }
 
-List<Event> Events = <Event>[];
+  List<Event> Events = <Event>[];
 
   void loadEvents() {
-
     //TODO: make Login used by me
 
     login("Jakob", "Test1234").then((value) => {
-      
           if (!value)
             {print("Error logging in as Jakob")}
           else
@@ -132,8 +129,6 @@ List<Event> Events = <Event>[];
             }
         });
   }
-
-
 
   Widget chat(name) {
     return Container(
@@ -171,9 +166,7 @@ List<Event> Events = <Event>[];
                             WidgetColor,
                           ),
                         ),
-                        child: eventWidget(
-                          Events[index]
-                        ),
+                        child: eventWidget(Events[index]),
                         onPressed: () => {},
                         // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                       ),
