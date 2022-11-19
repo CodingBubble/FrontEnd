@@ -365,7 +365,13 @@ class EventMessage extends Message {
 Future<bool> login(String _username, String _password) async {
   var request = {"command": "user_get_by_name", "args": [_username, _password]};
   var url = Uri.http(api_settings.host, jsonEncode(request));
-  var response = await http.get(url);
+  var response;
+  try {
+    response = await http.get(url);
+  } catch (e)  {
+    return false;
+  }
+ 
   var data = jsonDecode(response.body);
   if (data["success"]) {
     if (data["result"]!=-1) {
