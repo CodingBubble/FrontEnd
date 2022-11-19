@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:projectilm/settingsWidget.dart';
 import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-
-
 
 final storage = FlutterSecureStorage();
 
@@ -23,9 +21,9 @@ class controlWidget extends StatelessWidget {
       theme: ThemeData(
         backgroundColor: WidgetColor,
       ),
-      home: const logInWidget(title: "Grouping")
+      home: //const logInWidget(title: "Grouping")
+          const mainWidget(title: "grouping"),
     );
-   
   }
 }
 
@@ -65,17 +63,27 @@ class AppHandler extends controlWidget {
           builder: (context) => const logInWidget(title: "Grouping"),
         ),
       );
+    }
+    if (widgetPath == "settingsWidget") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const SettingsWidget(title: "Grouping"),
+        ),
+      );
     } else {
       print("ERROR: False route paramaeter");
     }
   }
-}
 
+  void printSomething() {
+    // only for testing
+    print("Is working");
+  }
+}
 
 class ControlScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     return new Scaffold();
   }
 }

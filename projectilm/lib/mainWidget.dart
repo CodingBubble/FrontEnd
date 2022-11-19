@@ -53,8 +53,9 @@ class _mainWidgetState extends State<mainWidget> {
                   return (IconButton(
                       icon: Icon(Icons.settings),
                       color: WidgetColor,
-                      onPressed: () =>
-                          {})); //here to add the onPressed-command to navigate to settings
+                      onPressed: () => {
+                            AppHandler("settingsWidget", context)
+                          })); //here to add the onPressed-command to navigate to settings
                 }),
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
@@ -84,12 +85,10 @@ class _mainWidgetState extends State<mainWidget> {
                           WidgetColor,
                         ),
                       ),
-                      child: groups(
-                        groups_glob[index]
-                      ),
+                      child: groups(groups_glob[index]),
                       onPressed: () {
                         current_group = groups_glob[index];
-                        AppHandler("groupWidget", context); 
+                        AppHandler("groupWidget", context);
                       },
                       // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                     ),
@@ -103,6 +102,8 @@ class _mainWidgetState extends State<mainWidget> {
       ),
     );
   }
+
+  List<Event> Groups = <Event>[];
 
   // buttons and others
 
@@ -130,7 +131,6 @@ class _mainWidgetState extends State<mainWidget> {
   List<Group> groups_glob = <Group>[];
 
   void loadGroups() {
-
     //TODO: make Login used by me
     login("Jakob", "Test1234").then((value) => {
           if (!value)
@@ -139,10 +139,10 @@ class _mainWidgetState extends State<mainWidget> {
             {
               me_get_groups().then((groups) {
                 setState(() {
-                 groups_glob = groups;
-            });
-          })
-        }
-    });
+                  groups_glob = groups;
+                });
+              })
+            }
+        });
   }
 }

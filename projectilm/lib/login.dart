@@ -3,7 +3,6 @@ import 'global.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'package:projectilm/controlWidget.dart';
 
-
 class logInWidget extends StatefulWidget {
   const logInWidget({super.key, required this.title});
   final String title;
@@ -26,8 +25,7 @@ class logInForms extends StatelessWidget {
           child: Form(
             child: TextFormField(
               controller: username_controller,
-              keyboardType:
-                  TextInputType.name,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(hintText: 'Name'),
             ),
           ),
@@ -37,39 +35,36 @@ class logInForms extends StatelessWidget {
           child: Form(
             child: TextFormField(
               controller: password_controller,
-              keyboardType: TextInputType
-                  .visiblePassword, 
+              keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(hintText: 'Passwort'),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
-            onPressed: () => evt_login(context),
-            child: Text('Einloggen'),
-          )
-
-        ),
-
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () => evt_login(context),
+              child: Text('Einloggen'),
+            )),
       ],
     );
   }
 
   void evt_login(con) {
     login(username_controller.text, password_controller.text).then((bool k) {
-      if (!k) {print("Login failed!!!!"); return; }
+      if (!k) {
+        print("Login failed!!!!");
+        return;
+      }
       print("Logged In");
-      AppHandler("mainWidget", con); 
+      AppHandler("mainWidget", con);
       storage.write(key: "username", value: username_controller.text);
       storage.write(key: "password", value: password_controller.text);
     });
   }
-
-
 }
 
 class _logInWidget extends State<logInWidget> {
@@ -78,14 +73,14 @@ class _logInWidget extends State<logInWidget> {
     storage.read(key: "username").then((String? store_username) {
       storage.read(key: "password").then((String? store_password) {
         login(store_username ?? "", store_password ?? "").then((out) {
-            if (!out) {
-              print("Failed logging in with stored values!!!");
-             // AppHandler("loginWidget", context); 
-            } else {
-              print("JUNGS: WIR HABEN VERSUCHT UNS EINZULOGGEN");
-              AppHandler("mainWidget", context); 
-            }
-          });
+          if (!out) {
+            print("Failed logging in with stored values!!!");
+            // AppHandler("loginWidget", context);
+          } else {
+            print("JUNGS: WIR HABEN VERSUCHT UNS EINZULOGGEN");
+            AppHandler("mainWidget", context);
+          }
+        });
       });
     });
 
