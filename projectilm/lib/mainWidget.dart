@@ -131,18 +131,10 @@ class _mainWidgetState extends State<mainWidget> {
   List<Group> groups_glob = <Group>[];
 
   void loadGroups() {
-    //TODO: make Login used by me
-    login("Jakob", "Test1234").then((value) => {
-          if (!value)
-            {print("Error logging in as Jakob")}
-          else
-            {
-              me_get_groups().then((groups) {
-                setState(() {
-                  groups_glob = groups;
-                });
-              })
-            }
-        });
+    me_get_groups().then((groups) {
+      setState(() {
+        groups_glob = groups;
+      });
+    });
   }
 }
