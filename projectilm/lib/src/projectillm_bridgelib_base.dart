@@ -4,7 +4,7 @@ import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'api_settings.dart' as api_settings;
 import 'dart:convert';
-
+import 'projectillm_bridgelib_vote.dart';
 
 class User {
   int id;
@@ -318,6 +318,37 @@ class Event {
     return false;
   }
 
+
+  Future<List<Poll>> get_polls () async {
+    if (me==null) {return []; }
+    var request = {"command": "event_get_votes", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Poll> polls = [];
+      data["result"].forEach((e)=> {
+        polls.add(Poll(e["id"], e["title"], this))
+      });
+      return polls;
+    }
+    return [];
+  } 
+
+  Future<Poll?> creator_create_poll(String title) async {
+    if (me==null) { return null; }
+    var request = {"command": "vote_create", "args": [username, password, id, title]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return Poll(data["id"], title ,this);
+    }
+    return null;
+  }
+
+
+
 }
 
 abstract class Message {
@@ -484,7 +515,3 @@ String username = "";
 String password = "";
 
 User? me;
-
-class Awesome {
-  bool get isAwesome => true;
-}
