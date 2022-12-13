@@ -40,6 +40,7 @@ dependencies:
   go_router: ^3.1.1
   flutter_secure_storage: ^5.0.2
   url_strategy:
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:

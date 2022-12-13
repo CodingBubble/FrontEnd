@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:http/http.dart' as http;
 import 'api_settings.dart' as api_settings;
 import 'dart:convert';
 import 'projectillm_bridgelib_vote.dart';
+import 'dart:io';
+import "package:async/async.dart";
 
 class User {
   int id;
@@ -190,6 +190,24 @@ class Group {
     }
     return null;
   }
+
+  Future<int> upload_image(File imageFile) async {
+    var req = {"command": "upload", "args": [username, password]};
+    var url = Uri.http(api_settings.host, jsonEncode(req));
+    var request = new http.MultipartRequest("POST", url);
+    var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var multipartFile = new http.MultipartFile('image', stream, length, filename: "image");
+    request.files.add(multipartFile);
+    var response = await request.send();
+    String body=await response.stream.bytesToString();
+    var data = jsonDecode(body);
+    if (data["success"]) {
+      return data["id"];
+    }
+    return -1;
+  }
+
 
 
 }
@@ -509,6 +527,22 @@ Future<Group?> me_create_group(String name, String desc) async {
     return null;
 }
 
+String get_image_url(int imgID) { 
+  var request = {"command": "access_file", "args": [username, password, imgID]};
+  return api_settings.host + "/"+ jsonEncode(request);
+}
+
+Future<bool> delete_image(int id) async
+{
+  var request = {"command": "delete_file", "args": [username, password]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+      return data["result"];
+    }
+  return false;
+}
 
 bool logged_in = false;
 String username = "";
