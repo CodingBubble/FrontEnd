@@ -61,8 +61,6 @@ class logInForms extends StatelessWidget {
       }
       print("Logged In");
       AppHandler("mainWidget", con);
-      storage.write(key: "username", value: username_controller.text);
-      storage.write(key: "password", value: password_controller.text);
     });
   }
 }
@@ -70,19 +68,6 @@ class logInForms extends StatelessWidget {
 class _logInWidget extends State<logInWidget> {
   @override
   Widget build(BuildContext context) {
-    storage.read(key: "username").then((String? store_username) {
-      storage.read(key: "password").then((String? store_password) {
-        login(store_username ?? "", store_password ?? "").then((out) {
-          if (!out) {
-            print("Failed logging in with stored values!!!");
-            // AppHandler("loginWidget", context);
-          } else {
-            print("JUNGS: WIR HABEN VERSUCHT UNS EINZULOGGEN");
-            AppHandler("mainWidget", context);
-          }
-        });
-      });
-    });
 
     return Scaffold(
       appBar: AppBar(
