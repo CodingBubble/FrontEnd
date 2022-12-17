@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
 import 'api_settings.dart' as api_settings;
 import 'dart:convert';
 import 'projectillm_bridgelib_vote.dart';
@@ -364,6 +365,35 @@ class Event {
     }
     return null;
   }
+
+   Future<List<ListItem>> get_list_items () async {
+    if (me==null) {return []; }
+    var request = {"command": "event_list_add_item", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<ListItem> items = [];
+      data["result"].forEach((e)=> {
+        items.add(ListItem(e["id"], e["title"], this))
+      });
+      return items;
+    }
+    return [];
+  } 
+
+  Future<ListItem?> creator_list_add_item(String title) async {
+    if (me==null) { return null; }
+    var request = {"command": "event_list_load", "args": [username, password, id, title]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return ListItem(data["id"], title ,this);
+    }
+    return null;
+  }
+
 
 
 
