@@ -193,7 +193,7 @@ class Group {
 
   Future<int> upload_image(File imageFile) async {
     var req = {"command": "upload", "args": [username, password]};
-    var url = Uri.http(api_settings.host, jsonEncode(req));
+    var url = Uri.http(api_settings.img_host, "?$username&$password&$id");
     var request = new http.MultipartRequest("POST", url);
     var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
