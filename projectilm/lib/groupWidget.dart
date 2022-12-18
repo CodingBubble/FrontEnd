@@ -34,7 +34,7 @@ class _StateGroup extends State<GroupWidget> {
                     icon: Icon(Icons.arrow_back),
                     color: WidgetColor,
                     onPressed: () => {
-                      AppHandler("mainWidget", context),
+                      AppHandler("mainWidget", context, []),
                     },
                   )); // here to add the onPressed-command to search something
                 }),
@@ -75,7 +75,9 @@ class _StateGroup extends State<GroupWidget> {
                             MaterialStateProperty.all<Color>(Colors.red),
                       ),
                       child: chat("offizieller Chat"),
-                      onPressed: () => {},
+                      onPressed: () => {
+                        AppHandler("chatWidget", context, ["offizieller Chat"])
+                      },
                     ),
                   )
                 ],
