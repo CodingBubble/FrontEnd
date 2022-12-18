@@ -574,6 +574,24 @@ Future<bool> delete_image(int id) async
   return false;
 }
 
+Future<List<Event>> get_events_active_i_joined() async {
+    if (me==null) {return []; }
+    var request = {"command": "user_get_all_active_joined_events", "args": [username, password]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Event> events = [];
+      data["result"].forEach((e)=> {
+        events.add(Event(e["id"], 
+                  Group(e["groupid"], e["admin"], e["groupname"], e["groupdesc"]),
+                  me!.id, e["eventname"], e["description"], DateTime.parse(e["date"])))
+      });
+      return events;
+      }
+    return [];
+  }
+
 bool logged_in = false;
 String username = "";
 String password = "";
