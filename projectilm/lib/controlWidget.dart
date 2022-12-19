@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:projectilm/chatWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainWidget.dart';
@@ -7,8 +10,6 @@ import 'global.dart';
 import 'login.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
-
-
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
@@ -30,18 +31,20 @@ class controlWidget extends StatelessWidget {
 class AppHandler extends controlWidget {
   var widgetPath;
   var Context;
+  var info;
 
-  AppHandler(widgetPath, Context) {
+  AppHandler(widgetPath, Context, info) {
     this.widgetPath = widgetPath;
+    this.info = info;
     this.Context = Context;
-    callingWidget(widgetPath, Context);
+    callingWidget(widgetPath, Context, info);
   }
   /*
   void textInConsole() {
     print("Does work");
   }
 */
-  callingWidget(widgetPath, context) {
+  callingWidget(widgetPath, context, info) {
     //
     if (widgetPath == "mainWidget") {
       Navigator.of(context).push(
@@ -70,6 +73,10 @@ class AppHandler extends controlWidget {
           builder: (context) => const SettingsWidget(title: "Grouping"),
         ),
       );
+    }
+    if (widgetPath == "chatWidget") {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const chatWidget("Grouping", info[0])));
     } else {
       print("ERROR: False route paramaeter");
     }
