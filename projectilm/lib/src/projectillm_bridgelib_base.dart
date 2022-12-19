@@ -273,6 +273,55 @@ class Event {
     return null;
   }
 
+  Future<List<Announcement>> get_announcements() async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_announcements", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Announcement> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(Announcement(e["id"], this, e["text"], 
+                  DateTime.parse(e["date"])))
+      });
+      return messages;
+    }
+    return [];
+  }
+
+  Future<List<Announcement>> get_announcements_gen(int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_announcements_gen", "args": [username, password, id, part]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Announcement> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(Announcement(e["id"], this, e["text"], 
+                  DateTime.parse(e["date"])))
+      });
+      return messages;
+    }
+    return [];
+  }
+
+  Future<Announcement?> creator_send_announcement(text) async {
+    if (me==null) {return null; }
+    var request = {"command": "event_announcement_send", "args": [username, password, id, text]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return Announcement(data["result"]["id"], this, text, 
+                  DateTime.parse(data["result"]["date"]));
+    }
+    return null;
+  }
+
+
+
   Future<bool> creator_update(String new_name, String new_desc, DateTime new_time) async {
     if (me==null) {return false; }
     var request = {"command": "event_update", "args": [username, password, id, new_name, new_desc, new_time.millisecondsSinceEpoch/1000]};
@@ -406,6 +455,26 @@ abstract class Message {
   DateTime time;
   Message(this.id, this.text, this.author, this.time);
 }
+
+class Announcement {
+  int id;
+  Event eventid;
+  String text;
+  DateTime time;
+  Announcement(this.id, this.eventid,this.text, this.time);
+  Future<bool> creator_delete() async {
+  if (me==null) {return false; }
+  var request = {"command": "event_announcement_delete", "args": [username, password, id]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+    return data["result"];
+  }
+  return false;
+  }
+}
+
 
 class GroupMessage extends Message {
   Group group;
