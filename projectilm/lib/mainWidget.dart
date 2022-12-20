@@ -54,7 +54,7 @@ class _mainWidgetState extends State<mainWidget> {
                       icon: Icon(Icons.settings),
                       color: WidgetColor,
                       onPressed: () => {
-                            AppHandler("settingsWidget", context)
+                            AppHandler("settingsWidget", context, [])
                           })); //here to add the onPressed-command to navigate to settings
                 }),
                 Builder(builder: (BuildContext context) {
@@ -88,7 +88,7 @@ class _mainWidgetState extends State<mainWidget> {
                       child: groups(groups_glob[index]),
                       onPressed: () {
                         current_group = groups_glob[index];
-                        AppHandler("groupWidget", context);
+                        AppHandler("groupWidget", context, []);
                       },
                       // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                     ),

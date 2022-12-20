@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:projectilm/chatWidget.dart';
@@ -29,23 +27,13 @@ class controlWidget extends StatelessWidget {
 }
 
 class AppHandler extends controlWidget {
-  var widgetPath;
-  var Context;
-  var info;
-
   AppHandler(widgetPath, Context, info) {
-    this.widgetPath = widgetPath;
-    this.info = info;
-    this.Context = Context;
     callingWidget(widgetPath, Context, info);
   }
-  /*
-  void textInConsole() {
-    print("Does work");
-  }
-*/
+
   callingWidget(widgetPath, context, info) {
     //
+
     if (widgetPath == "mainWidget") {
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -76,7 +64,10 @@ class AppHandler extends controlWidget {
     }
     if (widgetPath == "chatWidget") {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const chatWidget("Grouping", info[0])));
+          builder: (context) => chatWidget(
+                title: info[0],
+                titleOfChat: info[1],
+              )));
     } else {
       print("ERROR: False route paramaeter");
     }

@@ -28,7 +28,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  AppHandler("mainWidget", context);
+                  AppHandler("mainWidget", context, []);
                 },
               ),
               Text("Einstellungen", style: TextStyle(color: backgroundColor))

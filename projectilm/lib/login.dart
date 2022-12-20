@@ -55,13 +55,14 @@ class logInForms extends StatelessWidget {
   }
 
   void evt_login(con) {
-    login(username_controller.text, password_controller.text).then((bool k) async {
+    login(username_controller.text, password_controller.text)
+        .then((bool k) async {
       if (!k) {
         print("Login failed!!!!");
         return;
       }
       print("Logged In");
-      AppHandler("mainWidget", con);
+      AppHandler("mainWidget", con, []);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("username", username_controller.text);
       await prefs.setString("password", password_controller.text);
@@ -72,7 +73,7 @@ class logInForms extends StatelessWidget {
 class _logInWidget extends State<logInWidget> {
   @override
   Widget build(BuildContext context) {
-   login_from_storage();
+    login_from_storage();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: WidgetColor,
@@ -89,8 +90,10 @@ class _logInWidget extends State<logInWidget> {
     String username = await prefs.getString("username") ?? "";
     String password = await prefs.getString("password") ?? "";
     login(username, password).then((value) {
-      if(!value){ return; }
-      AppHandler("mainWidget", context);
+      if (!value) {
+        return;
+      }
+      AppHandler("mainWidget", context, []);
     });
   }
 
