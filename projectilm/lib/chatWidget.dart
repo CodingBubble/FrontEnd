@@ -35,19 +35,18 @@ class _stateChatWidget extends State<chatWidget> {
               title: Container(
             child: Row(
               children: [
-                /*
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.arrow_back),
                     color: WidgetColor,
                     onPressed: () => {AppHandler("groupWidget", context, [])},
                   )); // here to add the onPressed-command to search something
-                }),*/
-                Text(
+                }),
+                /*Text(
                   titleOfChat,
                   style:
                       TextStyle(color: WidgetColor, fontSize: HeadfontOfWidget),
-                ),
+                ),*/
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.settings),
