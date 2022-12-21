@@ -1,9 +1,11 @@
 import 'dart:async';
-
 import 'package:http/http.dart' as http;
+import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
 import 'api_settings.dart' as api_settings;
 import 'dart:convert';
-
+import 'projectillm_bridgelib_vote.dart';
+import 'dart:io';
+import "package:async/async.dart";
 
 class User {
   int id;
@@ -116,6 +118,23 @@ class Group {
     return [];
   }
 
+  Future<List<GroupMessage>> get_messages_gen(int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "group_load_msgs_gen", "args": [username, password, id, part]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<GroupMessage> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(GroupMessage(e["id"], e["text"], User(e["userid"], e["username"]), 
+                  DateTime.parse(e["date"]), this))
+      });
+      return messages;
+    }
+    return [];
+  }
+
   Future<GroupMessage?> send_message(text) async {
     if (me==null) {return null; }
     var request = {"command": "group_msg_send", "args": [username, password, id, text]};
@@ -173,6 +192,24 @@ class Group {
     return null;
   }
 
+  Future<int> upload_image(File imageFile) async {
+    var req = {"command": "upload", "args": [username, password]};
+    var url = Uri.http(api_settings.img_host, "?$username&$password&$id");
+    var request = new http.MultipartRequest("POST", url);
+    var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var multipartFile = new http.MultipartFile('image', stream, length, filename: "image");
+    request.files.add(multipartFile);
+    var response = await request.send();
+    String body=await response.stream.bytesToString();
+    var data = jsonDecode(body);
+    if (data["success"]) {
+      return data["id"];
+    }
+    return -1;
+  }
+
+
 
 }
 
@@ -206,6 +243,23 @@ class Event {
     return [];
   }
 
+  Future<List<EventMessage>> get_messages_gen(int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_msgs_gen", "args": [username, password, id, part]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<EventMessage> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(EventMessage(e["id"], e["text"], User(e["userid"], e["username"]), 
+                  DateTime.parse(e["date"]), this))
+      });
+      return messages;
+    }
+    return [];
+  }
+
   Future<EventMessage?> send_message(text) async {
     if (me==null) {return null; }
     var request = {"command": "event_msg_send", "args": [username, password, id, text]};
@@ -218,6 +272,55 @@ class Event {
     }
     return null;
   }
+
+  Future<List<Announcement>> get_announcements() async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_announcements", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Announcement> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(Announcement(e["id"], this, e["text"], 
+                  DateTime.parse(e["date"])))
+      });
+      return messages;
+    }
+    return [];
+  }
+
+  Future<List<Announcement>> get_announcements_gen(int part) async {
+    if (me==null) {return []; }
+    var request = {"command": "event_load_announcements_gen", "args": [username, password, id, part]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Announcement> messages = [];
+      data["result"].forEach((e)=> {
+        messages.add(Announcement(e["id"], this, e["text"], 
+                  DateTime.parse(e["date"])))
+      });
+      return messages;
+    }
+    return [];
+  }
+
+  Future<Announcement?> creator_send_announcement(text) async {
+    if (me==null) {return null; }
+    var request = {"command": "event_announcement_send", "args": [username, password, id, text]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return Announcement(data["result"]["id"], this, text, 
+                  DateTime.parse(data["result"]["date"]));
+    }
+    return null;
+  }
+
+
 
   Future<bool> creator_update(String new_name, String new_desc, DateTime new_time) async {
     if (me==null) {return false; }
@@ -283,6 +386,66 @@ class Event {
     return false;
   }
 
+
+  Future<List<Poll>> get_polls () async {
+    if (me==null) {return []; }
+    var request = {"command": "event_get_votes", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Poll> polls = [];
+      data["result"].forEach((e)=> {
+        polls.add(Poll(e["id"], e["title"], this))
+      });
+      return polls;
+    }
+    return [];
+  } 
+
+  Future<Poll?> creator_create_poll(String title) async {
+    if (me==null) { return null; }
+    var request = {"command": "vote_create", "args": [username, password, id, title]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return Poll(data["id"], title ,this);
+    }
+    return null;
+  }
+
+   Future<List<ListItem>> get_list_items () async {
+    if (me==null) {return []; }
+    var request = {"command": "event_list_add_item", "args": [username, password, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<ListItem> items = [];
+      data["result"].forEach((e)=> {
+        items.add(ListItem(e["id"], e["title"], this))
+      });
+      return items;
+    }
+    return [];
+  } 
+
+  Future<ListItem?> creator_list_add_item(String title) async {
+    if (me==null) { return null; }
+    var request = {"command": "event_list_load", "args": [username, password, id, title]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return ListItem(data["id"], title ,this);
+    }
+    return null;
+  }
+
+
+
+
 }
 
 abstract class Message {
@@ -292,6 +455,26 @@ abstract class Message {
   DateTime time;
   Message(this.id, this.text, this.author, this.time);
 }
+
+class Announcement {
+  int id;
+  Event eventid;
+  String text;
+  DateTime time;
+  Announcement(this.id, this.eventid,this.text, this.time);
+  Future<bool> creator_delete() async {
+  if (me==null) {return false; }
+  var request = {"command": "event_announcement_delete", "args": [username, password, id]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+    return data["result"];
+  }
+  return false;
+  }
+}
+
 
 class GroupMessage extends Message {
   Group group;
@@ -330,7 +513,13 @@ class EventMessage extends Message {
 Future<bool> login(String _username, String _password) async {
   var request = {"command": "user_get_by_name", "args": [_username, _password]};
   var url = Uri.http(api_settings.host, jsonEncode(request));
-  var response = await http.get(url);
+  var response;
+  try {
+    response = await http.get(url);
+  } catch (e)  {
+    return false;
+  }
+ 
   var data = jsonDecode(response.body);
   if (data["success"]) {
     if (data["result"]!=-1) {
@@ -437,13 +626,43 @@ Future<Group?> me_create_group(String name, String desc) async {
     return null;
 }
 
+String get_image_url(int imgID) { 
+  var request = {"command": "access_file", "args": [username, password, imgID]};
+  return api_settings.host + "/"+ jsonEncode(request);
+}
+
+Future<bool> delete_image(int id) async
+{
+  var request = {"command": "delete_file", "args": [username, password]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+      return data["result"];
+    }
+  return false;
+}
+
+Future<List<Event>> get_events_active_i_joined() async {
+    if (me==null) {return []; }
+    var request = {"command": "user_get_all_active_joined_events", "args": [username, password]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Event> events = [];
+      data["result"].forEach((e)=> {
+        events.add(Event(e["id"], 
+                  Group(e["groupid"], e["admin"], e["groupname"], e["groupdesc"]),
+                  me!.id, e["eventname"], e["description"], DateTime.parse(e["date"])))
+      });
+      return events;
+      }
+    return [];
+  }
 
 bool logged_in = false;
 String username = "";
 String password = "";
 
 User? me;
-
-class Awesome {
-  bool get isAwesome => true;
-}
