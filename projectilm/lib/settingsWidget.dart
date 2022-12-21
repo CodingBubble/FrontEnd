@@ -73,7 +73,7 @@ Widget generalSettings() {
             child: Container(
               child: Text("...",
                   style: TextStyle(
-                      color: textColor, fontSize: SecondfontOfWidget)),
+                      color: secondaryTextColor, fontSize: SecondfontOfWidget)),
             ),
             onPressed: () {},
           )
@@ -94,7 +94,7 @@ Widget themeSettings() {
           ElevatedButton(
               child: Text("...",
                   style: TextStyle(
-                      color: textColor, fontSize: SecondfontOfWidget)),
+                      color: secondaryTextColor, fontSize: SecondfontOfWidget)),
               onPressed: () {}),
           Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
           ElevatedButton(child: Text("..."), onPressed: () {}),
@@ -115,7 +115,7 @@ Widget securitySettings() {
           ElevatedButton(
               child: Text("...",
                   style: TextStyle(
-                      color: textColor, fontSize: SecondfontOfWidget)),
+                      color: primaryTextColor, fontSize: SecondfontOfWidget)),
               onPressed: () {}),
           Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
           ElevatedButton(child: Text("..."), onPressed: () {})

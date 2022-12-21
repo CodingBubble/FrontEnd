@@ -47,7 +47,7 @@ class _StateGroup extends State<GroupWidget> {
                 SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Text("Your Groups",
-                        style: TextStyle(color: textColor))),
+                        style: TextStyle(color: primaryTextColor))),
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                       icon: Icon(Icons.settings),
@@ -75,7 +75,8 @@ class _StateGroup extends State<GroupWidget> {
                       ),
                       child: chat("offizieller Chat"),
                       onPressed: () => {
-                        AppHandler("chatWidget", context, ["offizieller Chat"])
+                        AppHandler("chatWidget", context,
+                            ["Grouping", "offizieller Chat"])
                       },
                     ),
                   )
@@ -97,12 +98,12 @@ class _StateGroup extends State<GroupWidget> {
         children: [
           Text(ev.name,
               style: TextStyle(
-                color: textColor,
+                color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
               )),
           Text(ev.description,
               style: TextStyle(
-                  color: backgroundColor, fontSize: SecondfontOfWidget)),
+                  color: secondaryTextColor, fontSize: SecondfontOfWidget)),
         ],
       ),
       padding: constPadding,
@@ -136,7 +137,7 @@ class _StateGroup extends State<GroupWidget> {
       child: Text(
         name,
         style: TextStyle(
-          color: textColor,
+          color: primaryTextColor,
           fontSize: HeadfontOfWidget,
         ),
       ),

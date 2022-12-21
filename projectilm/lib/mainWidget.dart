@@ -113,7 +113,7 @@ class _mainWidgetState extends State<mainWidget> {
         children: [
           Text(g.name,
               style: TextStyle(
-                color: textColor,
+                color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
               )),
           Text(g.description,

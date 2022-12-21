@@ -3,7 +3,8 @@ import 'package:projectilm/projectillm_bridgelib.dart';
 //different colors
 
 const backgroundColor = Colors.white;
-const textColor = Color.fromARGB(255, 76, 76, 76);
+const primaryTextColor = Color.fromARGB(255, 76, 76, 76);
+const secondaryTextColor = Color.fromARGB(255, 0, 0, 0);
 const WidgetColor = Color.fromARGB(255, 150, 150, 150);
 // padding and margin
 
@@ -16,6 +17,4 @@ const discanceBetweenWidgets = 8.0;
 const HeadfontOfWidget = 30.0;
 const SecondfontOfWidget = 20.0;
 
-
 Group? current_group;
-

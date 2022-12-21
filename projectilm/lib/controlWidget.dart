@@ -15,14 +15,14 @@ class controlWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Grouping',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        backgroundColor: WidgetColor,
-      ),
-      home: //const logInWidget(title: "Grouping")
-          const mainWidget(title: "grouping"),
-    );
+        title: 'Grouping',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          backgroundColor: WidgetColor,
+        ),
+        home: const logInWidget(title: "Grouping")
+        //const mainWidget(title: "grouping"),
+        );
   }
 }
 
