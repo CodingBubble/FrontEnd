@@ -17,7 +17,7 @@ AppBar get_settings_app_bar(context) {
             AppHandler("mainWidget", context, const []);
           },
         ),
-        const Text("Einstellungen", style: TextStyle(color: backgroundColor))
+         Text("Einstellungen", style: TextStyle(color: backgroundColor))
       ],
     ),
     backgroundColor: widgetColor,

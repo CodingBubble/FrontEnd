@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/groupWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
@@ -27,6 +28,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         body: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
+              var settingCathegories = get_setting_category(update_color, context);
               return Material(
                 child: Column(
                   children: [
@@ -37,23 +39,32 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
               );
             },
-            itemCount: settingCathegories.length,
+            itemCount: get_setting_category(update_color, context).length,
           ),
         ),
       ),
     );
   }
+
+  void update_color(String mode)
+  {
+    set_color_variation(mode);
+    setState(() {});
+  }
 }
 
-List<Widget> settingCathegories = <Widget>[
-  themeSettings(),
-  generalSettings(),
-  // securitySettings()
-];
+List<Widget> get_setting_category(void Function(String mode) update_color, BuildContext context) {
+  return  <Widget>[
+    themeSettings(update_color),
+    generalSettings(context),
+      // securitySettings()
+  ];  
+}
 
-Widget generalSettings() {
+
+Widget generalSettings(BuildContext context) {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final TextEditingController password_controller = TextEditingController();
   return (Container(
       padding: constPadding,
       margin: constMargin,
@@ -62,7 +73,7 @@ Widget generalSettings() {
       child: Column(
         children: [
           //headline
-          const Text(
+         Text(
             "Account",
             style:
                 TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
@@ -74,6 +85,7 @@ Widget generalSettings() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
+                  controller: password_controller,
                   decoration: const InputDecoration(
                     hintText: 'Gebe dein neues Passwort ein',
                   ),
@@ -91,7 +103,14 @@ Widget generalSettings() {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
-                        // Process data.
+                       me_change_password(password_controller.text);
+                       
+                       password = password_controller.text;   
+                      () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString("password", password); 
+                       }; 
+                      AppHandler("mainWidget", context, []);       
                       }
                     },
                     child: const Text('Passwort ändern'),
@@ -105,7 +124,7 @@ Widget generalSettings() {
       )));
 }
 
-Widget themeSettings() {
+Widget themeSettings(void Function(String mode) update_color) {
   return (Container(
       padding: constPadding,
       margin: constMargin,
@@ -114,7 +133,7 @@ Widget themeSettings() {
       child: Column(
         children: [
           //headline
-          const Text(
+         Text(
             "Aussehen",
             style:
                 TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
@@ -126,21 +145,21 @@ Widget themeSettings() {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {update_color("light");},
                     iconSize: 50,
                     icon: const Icon(Icons.sunny, color: Colors.yellow)),
                 const Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {update_color("dark");},
                     iconSize: 50,
                     icon: const Icon(Icons.shield_moon)),
                 const Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {update_color("color");},
                     icon: const Icon(Icons.color_lens_outlined),
                     iconSize: 50,
                     color: Colors.brown),
@@ -162,7 +181,7 @@ Widget themeSettings() {
                     child: Container(
                       width: double.infinity,
                       child: Column(
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.all(discanceBetweenWidgets),
                           ),
