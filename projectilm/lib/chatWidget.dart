@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'mainWidget.dart';
@@ -38,33 +39,7 @@ class _stateChatWidget extends State<chatWidget> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: AppBar(
-            backgroundColor: WidgetColor,
-            title: Container(
-              child: Row(
-                children: [
-                  Builder(builder: (BuildContext context) {
-                    return (IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      color: backgroundColor,
-                      onPressed: () => {AppHandler("groupWidget", context, [])},
-                    )); // here to add the onPressed-command to search something
-                  }),
-                  Text(
-                    titleOfChat,
-                    style: TextStyle(
-                        color: primaryTextColor, fontSize: HeadfontOfWidget),
-                  ),
-                  Builder(builder: (BuildContext context) {
-                    return (IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () =>
-                          AppHandler("settingsWidget", context, []),
-                    ));
-                  })
-                ],
-              ),
-            )),
+        appBar: get_group_app_bar(context),
         body: Column(
           children: [
             // history of messages
