@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'global.dart';
@@ -23,42 +24,7 @@ class _StateGroup extends State<GroupWidget> {
       debugShowCheckedModeBanner: false,
       title: "Deine Gruppen",
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: backgroundColor,
-          title: Container(
-            child: Row(
-              children: [
-                Builder(builder: (BuildContext context) {
-                  return (IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: backgroundColor,
-                    onPressed: () => {
-                      AppHandler("mainWidget", context, []),
-                    },
-                  )); // here to add the onPressed-command to search something
-                }),
-                Builder(builder: (BuildContext context) {
-                  return (IconButton(
-                    icon: Icon(Icons.search),
-                    color: backgroundColor,
-                    onPressed: () => {},
-                  )); // here to add the onPressed-command to search something
-                }),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Text("Your Groups",
-                        style: TextStyle(color: primaryTextColor))),
-                Builder(builder: (BuildContext context) {
-                  return (IconButton(
-                      icon: Icon(Icons.settings),
-                      color: WidgetColor,
-                      onPressed: () =>
-                          {})); //here to add the onPressed-command to navigate to settings
-                })
-              ],
-            ),
-          ),
-        ),
+        appBar: get_group_app_bar(context),
         body: Column(
           children: [
             //first widget as official chat
