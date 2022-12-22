@@ -24,6 +24,7 @@ class _StateGroup extends State<GroupWidget> {
       debugShowCheckedModeBanner: false,
       title: "Deine Gruppen",
       home: Scaffold(
+        backgroundColor: backgroundColor,
         appBar: get_group_app_bar(context),
         body: Column(
           children: [
@@ -131,7 +132,7 @@ class _StateGroup extends State<GroupWidget> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            WidgetColor,
+                            widgetColor,
                           ),
                         ),
                         child: eventWidget(Events[index]),

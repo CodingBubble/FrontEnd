@@ -6,6 +6,7 @@ import 'package:projectilm/groupWidget.dart';
 import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
+import 'package:projectilm/app_bars/settings_app_bar.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({super.key, required this.title});
@@ -22,21 +23,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  AppHandler("mainWidget", context, const []);
-                },
-              ),
-              const Text("Einstellungen",
-                  style: TextStyle(color: backgroundColor))
-            ],
-          ),
-          backgroundColor: WidgetColor,
-        ),
+        appBar: get_settings_app_bar(context),
         body: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
@@ -71,7 +58,7 @@ Widget generalSettings() {
       padding: constPadding,
       margin: constMargin,
       width: double.infinity,
-      color: WidgetColor,
+      color: widgetColor,
       child: Column(
         children: [
           //headline
@@ -123,7 +110,7 @@ Widget themeSettings() {
       padding: constPadding,
       margin: constMargin,
       width: double.infinity,
-      color: WidgetColor,
+      color: widgetColor,
       child: Column(
         children: [
           //headline
@@ -202,7 +189,7 @@ Widget themeSettings() {
                           Text(
                             'Boxen',
                             style: TextStyle(
-                              color: WidgetColor,
+                              color: widgetColor,
                               fontSize: SecondfontOfWidget,
                             ),
                           ),

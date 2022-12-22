@@ -7,10 +7,9 @@ import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-AppBar get_group_app_bar (BuildContext context)
-{
+AppBar get_group_app_bar(BuildContext context) {
   return AppBar(
-    backgroundColor: backgroundColor,
+    backgroundColor: widgetColor,
     title: Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -18,7 +17,7 @@ AppBar get_group_app_bar (BuildContext context)
           Builder(builder: (BuildContext context) {
             return (IconButton(
               icon: Icon(Icons.arrow_back),
-              color: WidgetColor,
+              color: backgroundColor,
               onPressed: () => {
                 AppHandler("mainWidget", context, []),
               },
@@ -27,7 +26,7 @@ AppBar get_group_app_bar (BuildContext context)
           Builder(builder: (BuildContext context) {
             return (IconButton(
               icon: Icon(Icons.search),
-              color: WidgetColor,
+              color: backgroundColor,
               onPressed: () => {},
             )); // here to add the onPressed-command to search something
           }),
@@ -38,7 +37,7 @@ AppBar get_group_app_bar (BuildContext context)
           Builder(builder: (BuildContext context) {
             return (IconButton(
                 icon: Icon(Icons.settings),
-                color: WidgetColor,
+                color: backgroundColor,
                 onPressed: () =>
                     {})); //here to add the onPressed-command to navigate to settings
           })

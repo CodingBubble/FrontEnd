@@ -157,7 +157,7 @@ class _stateChatWidget extends State<chatWidget> {
               padding: const EdgeInsets.all(15),
               margin: const EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(
-                color: WidgetColor,
+                color: widgetColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(19),
                   topRight: Radius.circular(19),

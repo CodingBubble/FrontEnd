@@ -30,6 +30,7 @@ class _mainWidgetState extends State<mainWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: backgroundColor,
         appBar: get_user_app_bar(context),
         body: Scrollbar(
             child: ListView.builder(
@@ -44,7 +45,7 @@ class _mainWidgetState extends State<mainWidget> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                          WidgetColor,
+                          widgetColor,
                         ),
                       ),
                       child: groups(groups_glob[index]),

@@ -18,7 +18,7 @@ class controlWidget extends StatelessWidget {
         title: 'Grouping',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          backgroundColor: WidgetColor,
+          backgroundColor: widgetColor,
         ),
         home: const logInWidget(title: "Grouping")
         //const mainWidget(title: "grouping"),
