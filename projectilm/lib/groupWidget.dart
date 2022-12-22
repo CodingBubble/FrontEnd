@@ -31,7 +31,7 @@ class _StateGroup extends State<GroupWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.arrow_back),
-                    color: WidgetColor,
+                    color: backgroundColor,
                     onPressed: () => {
                       AppHandler("mainWidget", context, []),
                     },
@@ -51,9 +51,17 @@ class _StateGroup extends State<GroupWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                       icon: Icon(Icons.settings),
-                      color: WidgetColor,
+                      color: backgroundColor,
+                      onPressed: () => {
+                            AppHandler("settingsWidget", context, [])
+                          })); //here to add the onPressed-command to navigate to settings
+                }),
+                Builder(builder: (BuildContext context) {
+                  return (IconButton(
+                      icon: Icon(Icons.edit),
+                      color: backgroundColor,
                       onPressed: () =>
-                          {})); //here to add the onPressed-command to navigate to settings
+                          {})); //here to add the onPressed-command to navigate to Edit-possibilities
                 })
               ],
             ),

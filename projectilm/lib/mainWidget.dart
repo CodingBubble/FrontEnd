@@ -29,8 +29,9 @@ class _mainWidgetState extends State<mainWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: WidgetColor,
+        backgroundColor: backgroundColor,
         appBar: AppBar(
+          backgroundColor: WidgetColor,
           title: Container(
             child: Row(
               children: [
@@ -61,14 +62,13 @@ class _mainWidgetState extends State<mainWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                       icon: Icon(Icons.edit),
-                      color: WidgetColor,
+                      color: backgroundColor,
                       onPressed: () =>
                           {})); //here to add the onPressed-command to navigate to settings
                 })
               ],
             ),
           ),
-          backgroundColor: backgroundColor,
         ),
         body: Scrollbar(
             child: ListView.builder(
