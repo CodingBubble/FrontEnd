@@ -24,7 +24,7 @@ class _StateGroup extends State<GroupWidget> {
       title: "Deine Gruppen",
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: backgroundColor,
+          backgroundColor: WidgetColor,
           title: Container(
             child: Row(
               children: [
@@ -59,6 +59,7 @@ class _StateGroup extends State<GroupWidget> {
             ),
           ),
         ),
+        backgroundColor: backgroundColor,
         body: Column(
           children: [
             //first widget as official chat

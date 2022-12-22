@@ -29,6 +29,7 @@ class _mainWidgetState extends State<mainWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: WidgetColor,
         appBar: AppBar(
           title: Container(
             child: Row(
@@ -36,7 +37,7 @@ class _mainWidgetState extends State<mainWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.search),
-                    color: WidgetColor,
+                    color: backgroundColor,
                     onPressed: () => {},
                   )); // here to add the onPressed-command to search something
                 }),
@@ -52,7 +53,7 @@ class _mainWidgetState extends State<mainWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                       icon: Icon(Icons.settings),
-                      color: WidgetColor,
+                      color: backgroundColor,
                       onPressed: () => {
                             AppHandler("settingsWidget", context, [])
                           })); //here to add the onPressed-command to navigate to settings
