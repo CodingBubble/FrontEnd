@@ -13,6 +13,7 @@ AppBar get_group_app_bar (BuildContext context)
     backgroundColor: backgroundColor,
     title: Container(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Builder(builder: (BuildContext context) {
             return (IconButton(

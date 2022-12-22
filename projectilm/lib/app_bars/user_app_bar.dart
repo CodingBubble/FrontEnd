@@ -9,9 +9,10 @@ import 'package:projectilm/projectillm_bridgelib.dart';
 
 AppBar get_user_app_bar (BuildContext context)
 {
-  return AppBar(
+  return AppBar(    
           title: Container(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
