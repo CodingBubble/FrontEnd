@@ -31,7 +31,7 @@ class _StateGroup extends State<GroupWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.arrow_back),
-                    color: WidgetColor,
+                    color: backgroundColor,
                     onPressed: () => {
                       AppHandler("mainWidget", context, []),
                     },
@@ -40,7 +40,7 @@ class _StateGroup extends State<GroupWidget> {
                 Builder(builder: (BuildContext context) {
                   return (IconButton(
                     icon: Icon(Icons.search),
-                    color: WidgetColor,
+                    color: backgroundColor,
                     onPressed: () => {},
                   )); // here to add the onPressed-command to search something
                 }),
