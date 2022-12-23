@@ -71,11 +71,36 @@ class _StateGroup extends State<GroupWidget> {
           Text(ev.description,
               style: TextStyle(
                   color: secondaryTextColor, fontSize: SecondfontOfWidget)),
+          // Jakob musst hier die bridge und das BackEnd implimentieren
+          SizedBox(
+            width: double.infinity,
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      iconSize: 30,
+                      icon: Icon(Icons.check),
+                      color: Colors.green,
+                      onPressed: () => {/*code to insert here for Jakob*/},
+                    ),
+                    IconButton(
+                      iconSize: 30,
+                      icon: Icon(Icons.close),
+                      color: Colors.red,
+                      onPressed: () => {/*code to insert here for Jakob*/},
+                    ),
+                    // here to add the onPressed-command to se
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-      padding: constPadding,
       alignment: Alignment.center,
-      margin: constMargin,
       width: double.infinity,
     );
   }
@@ -116,8 +141,8 @@ class _StateGroup extends State<GroupWidget> {
   }
 
   Widget scrollEvents() {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.2,
         child: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
