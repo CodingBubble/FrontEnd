@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:projectilm/chatWidget.dart';
+import 'package:projectilm/groupChatWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainWidget.dart';
