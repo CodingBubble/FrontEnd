@@ -125,8 +125,10 @@ class _stateChatWidget extends State<chatWidget> {
     print("p2");
     if (me==null) {return; }
     if (current_group==null) {return; }
+    if (inputMessageController.text.trim()=="") {return; }
     print("sendmessage");
-    current_group!.send_message(inputMessageController.text).then((value) {
+
+    current_group!.send_message(inputMessageController.text.trim()).then((value) {
       if (value==null) {return; }
       inputMessageController.text = "";
       load_message_history();
