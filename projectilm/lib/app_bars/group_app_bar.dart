@@ -32,14 +32,15 @@ AppBar get_group_app_bar(BuildContext context) {
           }),
           SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
-              child: Text("Your Groups",
-                  style: TextStyle(color: primaryTextColor))),
+              child:
+                  Text("Gruppen", style: TextStyle(color: primaryTextColor))),
           Builder(builder: (BuildContext context) {
             return (IconButton(
                 icon: Icon(Icons.settings),
                 color: backgroundColor,
-                onPressed: () =>
-                    {})); //here to add the onPressed-command to navigate to settings
+                onPressed: () => {
+                      AppHandler("groupSettingsWidget", context, [])
+                    })); //here to add the onPressed-command to navigate to settings
           })
         ],
       ),

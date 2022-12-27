@@ -8,6 +8,7 @@ import 'global.dart';
 import 'login.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
+import 'groupSettingsWidget.dart';
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
@@ -68,6 +69,13 @@ class AppHandler extends controlWidget {
                 title: info[0],
                 titleOfChat: info[1],
               )));
+    }
+    if (widgetPath == "groupSettingsWidget") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const groupSettingsWidget(title: "Grouping"),
+        ),
+      );
     } else {
       print("ERROR: False route paramaeter");
     }
