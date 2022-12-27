@@ -9,6 +9,7 @@ import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/settings_app_bar.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/services.dart';
 
 class groupSettingsWidget extends StatefulWidget {
   const groupSettingsWidget({super.key, required this.title});
@@ -18,6 +19,8 @@ class groupSettingsWidget extends StatefulWidget {
   @override
   State<groupSettingsWidget> createState() => _groupSettingsWidgetState();
 }
+
+String invitationCode = "";
 
 class _groupSettingsWidgetState extends State<groupSettingsWidget> {
   set textEinstellungsCode(String textEinstellungsCode) {}
@@ -30,9 +33,9 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
         appBar: get_settings_app_bar(context),
         body: Scrollbar(
           child: ListView.builder(
-            itemCount: get_setting_category(context).length,
+            itemCount: get_setting_category(context, generateID).length,
             itemBuilder: (context, index) {
-              var settingCathegories = get_setting_category(context);
+              var settingCathegories = get_setting_category(context, generateID);
               return Material(
                 child: Column(
                   children: [
@@ -48,11 +51,23 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
       ),
     );
   }
+
+    void generateID() {
+      current_group!.admin_create_key().then((key){
+        invitationCode = key as String;
+        setState(() {});
+      });
+      
+    }
+    
+
+    
+  
 }
 
-List<Widget> get_setting_category(context) {
+List<Widget> get_setting_category(context, generateID) {
   return <Widget>[
-    themeSettings(),
+    themeSettings(generateID),
     configSettings(context)
     // securitySettings()
   ];
@@ -63,9 +78,25 @@ List<Widget> get_setting_category(context) {
  *  merci beaucoup
  */
 
+void get_values(TextEditingController t_controller, TextEditingController d_controller){
+   t_controller.text = current_group!.name;
+   d_controller.text = current_group!.description;
+}
+
+void update_values(TextEditingController t_controller, TextEditingController d_controller){
+  current_group!.admin_update(t_controller.text, d_controller.text).then((value) => {
+    if(!value){print("error while changing data")}
+  });
+
+}
+
 Widget configSettings(BuildContext context) {
   final GlobalKey<FormState> _formTitlteKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formTextKey = GlobalKey<FormState>();
+
+  final change_title_controller = TextEditingController(); 
+  final change_desc_controller = TextEditingController(); 
+  get_values(change_title_controller, change_desc_controller);
 
   return (Container(
       padding: constPadding,
@@ -92,6 +123,7 @@ Widget configSettings(BuildContext context) {
                       color: primaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
+                  controller: change_title_controller,
                   decoration: const InputDecoration(
                     hintText: 'Gebe einen neuen Gruppennamen ein',
                   ),
@@ -101,26 +133,6 @@ Widget configSettings(BuildContext context) {
                     }
                     return null;
                   },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
-                      if (_formTitlteKey.currentState!.validate()) {
-                        // me_change_password(password_controller.text);
-
-                        // password = password_controller.text;
-                        () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.setString("password", password);
-                        };
-                        AppHandler("mainWidget", context, []);
-                      }
-                    },
-                    child: const Text('Gruppennamen ändern'),
-                  ),
                 ),
               ],
             ),
@@ -138,6 +150,7 @@ Widget configSettings(BuildContext context) {
                       color: primaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
+                  controller: change_desc_controller,
                   decoration: const InputDecoration(
                     hintText: 'Gebe eine neue Gruppenbeschreibung ein',
                   ),
@@ -151,8 +164,8 @@ Widget configSettings(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Gruppenbeschreibung ändern'),
+                    onPressed: () {update_values(change_title_controller, change_desc_controller);},
+                    child: const Text('Gruppeneinstellungen ändern'),
                   ),
                 ),
               ],
@@ -162,16 +175,10 @@ Widget configSettings(BuildContext context) {
       )));
 }
 
-Widget themeSettings() {
-  late String invitationCode;
 
-  void generateID() {
-    var uuid = Uuid();
-    invitationCode = uuid.v4();
-  }
 
-  generateID();
-  print(invitationCode);
+Widget themeSettings(Function generateID) {
+ // print(invitationCode);
   return (Container(
     padding: constPadding,
     margin: constMargin,
@@ -192,7 +199,7 @@ Widget themeSettings() {
               const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
               Text(
                 invitationCode,
-                style: TextStyle(
+                 style: TextStyle(
                     color: primaryTextColor,
                     fontSize: SecondfontOfWidget * 0.75),
               ),
@@ -204,7 +211,7 @@ Widget themeSettings() {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {await Clipboard.setData(ClipboardData(text: invitationCode));},
                         child: const Text('Kopieren'),
                       ),
                     ),
@@ -214,10 +221,8 @@ Widget themeSettings() {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          // funtioniert nicht => muss mit setState gearbeitet werden => i dunno
-                          // url muss erstellt werden
-
-                          generateID();
+                          generateID();  
+                          print(invitationCode);
                         },
                         child: const Text('neu generieren'),
                       ),

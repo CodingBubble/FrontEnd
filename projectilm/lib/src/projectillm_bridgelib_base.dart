@@ -329,6 +329,10 @@ class Event {
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     if (data["success"]) {
+      if (data["result"]){
+        this.name = new_name;
+        this.description = description;
+      }
       return data["result"];
     }
     return false;
@@ -579,7 +583,7 @@ Future<List<Group>> me_get_groups() async {
   if (data["success"]) {
     List<Group> groups = [];
     data["result"].forEach((e)=> {
-      groups.add(Group(e["id"], e["admin"], e["description"], e["groupname"]))
+      groups.add(Group(e["id"], e["admin"], e["groupname"], e["description"]))
     });
     return groups;
   }
