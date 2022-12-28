@@ -1,14 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/groupWidget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'main.dart';
 import 'global.dart';
-import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/settings_app_bar.dart';
-import 'package:flutter/services.dart';
+
 
 class groupSettingsWidget extends StatefulWidget {
   const groupSettingsWidget({super.key, required this.title});
