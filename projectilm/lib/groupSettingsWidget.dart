@@ -8,7 +8,6 @@ import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/settings_app_bar.dart';
-import 'package:uuid/uuid.dart';
 import 'package:flutter/services.dart';
 
 class groupSettingsWidget extends StatefulWidget {
@@ -222,7 +221,6 @@ Widget themeSettings(Function generateID) {
                       child: ElevatedButton(
                         onPressed: () {
                           generateID();  
-                          print(invitationCode);
                         },
                         child: const Text('neu generieren'),
                       ),
