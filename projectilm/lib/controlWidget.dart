@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:projectilm/groupChatWidget.dart';
+import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainWidget.dart';
@@ -76,6 +77,10 @@ class AppHandler extends controlWidget {
           builder: (context) => const groupSettingsWidget(title: "Grouping"),
         ),
       );
+    }
+    if (widgetPath == "eventWidget") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => EventWidget(title: info[0])));
     } else {
       print("ERROR: False route paramaeter");
     }

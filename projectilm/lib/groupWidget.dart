@@ -71,7 +71,6 @@ class _StateGroup extends State<GroupWidget> {
           Text(ev.description,
               style: TextStyle(
                   color: secondaryTextColor, fontSize: SecondfontOfWidget)),
-          // Jakob musst hier die bridge und das BackEnd implimentieren
           SizedBox(
             width: double.infinity,
             child: Container(
@@ -161,7 +160,10 @@ class _StateGroup extends State<GroupWidget> {
                           ),
                         ),
                         child: eventWidget(Events[index]),
-                        onPressed: () => {},
+                        onPressed: () => {
+                          AppHandler(
+                              "eventWidget", context, [Events[index].name])
+                        },
                         // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                       ),
                     ),
