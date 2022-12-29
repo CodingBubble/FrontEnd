@@ -160,9 +160,9 @@ class _StateGroup extends State<GroupWidget> {
                           ),
                         ),
                         child: eventWidget(Events[index]),
-                        onPressed: () => {
-                          AppHandler(
-                              "eventWidget", context, [Events[index].name])
+                        onPressed: () {
+                          current_event = Events[index];
+                          AppHandler("eventWidget", context, [Events[index].name]);
                         },
                         // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                       ),

@@ -70,3 +70,4 @@ const HeadfontOfWidget = 30.0;
 const SecondfontOfWidget = 20.0;
 
 Group? current_group;
+Event? current_event;
