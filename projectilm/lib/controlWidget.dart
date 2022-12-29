@@ -80,7 +80,7 @@ class AppHandler extends controlWidget {
     }
     if (widgetPath == "eventWidget") {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => EventWidget(title: info[0])));
+          MaterialPageRoute(builder: (context) => EventWidget(state: info[0])));
     } else {
       print("ERROR: False route paramaeter");
     }
