@@ -37,6 +37,7 @@ class _stateChatWidget extends State<chatWidget> {
     super.initState();
     load_message_history();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -62,8 +63,8 @@ class _stateChatWidget extends State<chatWidget> {
                           Container(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
-                              child:
-                                  WidgetmessageDesign(messageshistory[messageshistory.length - index -1])),
+                              child: WidgetmessageDesign(messageshistory[
+                                  messageshistory.length - index - 1])),
                         ],
                       ),
                     );
@@ -105,36 +106,49 @@ class _stateChatWidget extends State<chatWidget> {
 
   // contains all messages of the chat
   // first element is message, second element decides weather is own message or not (my message = true, others message = false)
-  var messageshistory = [
-  ];
+  var messageshistory = [];
 
   Future load_message_history() async {
-    if (me==null) {print("me is null"); return; }
-    if (current_group==null) {print("cur group is null"); return; }
+    if (me == null) {
+      print("me is null");
+      return;
+    }
+    if (current_group == null) {
+      print("cur group is null");
+      return;
+    }
     current_group!.get_messages().then((msgs) {
       messageshistory = [];
       msgs.forEach((msg) {
-        messageshistory.add([msg.text, msg.author.id!=me!.id]);
+        messageshistory.add([msg.text, msg.author.id != me!.id]);
       });
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
   void send_message() async {
     print("p2");
-    if (me==null) {return; }
-    if (current_group==null) {return; }
-    if (inputMessageController.text.trim()=="") {return; }
+    if (me == null) {
+      return;
+    }
+    if (current_group == null) {
+      return;
+    }
+    if (inputMessageController.text.trim() == "") {
+      return;
+    }
     print("sendmessage");
 
-    current_group!.send_message(inputMessageController.text.trim()).then((value) {
-      if (value==null) {return; }
+    current_group!
+        .send_message(inputMessageController.text.trim())
+        .then((value) {
+      if (value == null) {
+        return;
+      }
       inputMessageController.text = "";
       load_message_history();
     });
   }
-
 
   var inputMessage = "";
   Widget WidgetmessageDesign(list) {
@@ -197,9 +211,6 @@ class _stateChatWidget extends State<chatWidget> {
     }
   }
 }
-
-
-
 
 /*
 
