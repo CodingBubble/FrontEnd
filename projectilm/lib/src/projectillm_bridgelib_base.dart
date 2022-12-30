@@ -421,14 +421,14 @@ class Event {
 
    Future<List<ListItem>> get_list_items () async {
     if (me==null) {return []; }
-    var request = {"command": "event_list_add_item", "args": [username, password, id]};
+    var request = {"command": "event_list_load", "args": [username, password, id]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     if (data["success"]) {
       List<ListItem> items = [];
       data["result"].forEach((e)=> {
-        items.add(ListItem(e["id"], e["title"], this))
+        items.add(ListItem(e["id"], e["title"], this, e["user_bring"]))
       });
       return items;
     }
@@ -437,12 +437,12 @@ class Event {
 
   Future<ListItem?> creator_list_add_item(String title) async {
     if (me==null) { return null; }
-    var request = {"command": "event_list_load", "args": [username, password, id, title]};
+    var request = {"command": "event_list_add_item", "args": [username, password, id, title]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     if (data["success"]) {
-      return ListItem(data["id"], title ,this);
+      return ListItem(data["result"]["id"], title ,this, data["result"]["user_bring"]);
     }
     return null;
   }

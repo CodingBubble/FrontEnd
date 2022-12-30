@@ -11,7 +11,8 @@ class ListItem {
   int id;
   String title;
   Event parent;
-  ListItem(this.id, this.title, this.parent);
+  String bringer;
+  ListItem(this.id, this.title, this.parent, this.bringer);
 
 
   Future<bool> bring_me() async {

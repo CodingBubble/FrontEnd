@@ -13,7 +13,7 @@ import 'groupSettingsWidget.dart';
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
