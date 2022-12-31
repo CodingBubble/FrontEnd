@@ -45,7 +45,7 @@ class Poll {
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     if (data["success"]) {
-      return VoteOption(data["id"], title ,this);
+      return VoteOption(data["result"]["id"], title ,this);
     }
     return null;
   }

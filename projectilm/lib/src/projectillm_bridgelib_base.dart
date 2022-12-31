@@ -393,7 +393,7 @@ class Event {
 
   Future<List<Poll>> get_polls () async {
     if (me==null) {return []; }
-    var request = {"command": "event_get_votes", "args": [username, password, id]};
+    var request = {"command": "event_load_votes", "args": [username, password, id]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
     var response = await http.get(url);
     var data = jsonDecode(response.body);
@@ -414,7 +414,7 @@ class Event {
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     if (data["success"]) {
-      return Poll(data["id"], title ,this);
+      return Poll(data["result"]["id"], title ,this);
     }
     return null;
   }

@@ -5,6 +5,8 @@ import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
 
+import 'src/projectillm_bridgelib_vote.dart';
+
 class EventWidget extends StatefulWidget {
   final int state;
   const EventWidget({super.key, required this.state});
@@ -26,7 +28,10 @@ class _EventWidget extends State<EventWidget> {
         break;
       case 2:
         load_list_items();
-        break;  
+        break; 
+      case 3:
+        load_poll_history();
+        break;
       case 4:
         load_members();
         break;
@@ -87,14 +92,16 @@ class _EventWidget extends State<EventWidget> {
         )
       ),
       body: new Center(
-        child: get_body(state, context, send_message, send_announcement, create_list_item, bring_list_item, unbring_list_item)
+        child: get_body(state, context, send_message, send_announcement, create_list_item, bring_list_item, 
+                      unbring_list_item, delete_list_item, create_poll, delete_poll, create_voteoption, 
+                      delete_voteoption, vote_for, unvote_for)
         )
       ),
 
     );
   }
 
-  Future load_members() async {
+  void load_members() {
     if (me == null) {
       print("me is null");
       return;
@@ -112,7 +119,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  Future load_message_history() async {
+  void load_message_history() {
     if (me == null) {
       print("me is null");
       return;
@@ -130,7 +137,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void send_message() async {
+  void send_message() {
     if (me == null) {
       return;
     }
@@ -149,7 +156,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  Future load_list_items() async {
+  void load_list_items() {
     if (me == null) {
       print("me is null");
       return;
@@ -167,7 +174,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void create_list_item() async {
+  void create_list_item() {
     if (me == null) {
       return;
     }
@@ -186,7 +193,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void bring_list_item(ListItem item) async {
+  void bring_list_item(ListItem item) {
     if (me == null) {
       return;
     }
@@ -195,7 +202,7 @@ class _EventWidget extends State<EventWidget> {
     }});
   }
 
-  void unbring_list_item(ListItem item) async {
+  void unbring_list_item(ListItem item) {
     if (me == null) {
       return;
     }
@@ -204,7 +211,13 @@ class _EventWidget extends State<EventWidget> {
     }});
   }
 
-  Future load_announcement_history() async {
+  void delete_list_item(ListItem item) {
+     item.creator_delete().then((value) { if(value){
+      load_list_items();
+    }});
+  }
+
+  void load_announcement_history() {
     if (me == null) {
       print("me is null");
       return;
@@ -222,7 +235,7 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void send_announcement() async {
+  void send_announcement() {
     if (me == null) {
       return;
     }
@@ -241,10 +254,119 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
+  void load_poll_history()  async {
+     if (me == null) {
+      print("me is null");
+      return;
+    }
+    if (current_event == null) {
+      print("cur event is null");
+      return;
+    }
+    event_data_list = [];
+    var polls = await current_event!.get_polls();
+    for (Poll poll in polls) {
+      var my_opts = await poll.get_my_voted_options();
+      var options = await poll.get_options();
+      var vote_nums = [];
+      for (var o in options)
+      {
+        vote_nums.add(await o.get_vote_count());
+      }
+      var count = await poll.get_vote_count();
+      event_data_list.add([poll.title, poll, count, options, vote_nums, my_opts]);
+    }
+    setState(() {});
+  }
+
+  void create_poll() {
+
+    if (me == null) {
+      return;
+    }
+    if (current_event == null) {
+      return;
+    }
+    if (inputMessageController.text.trim() == "") {
+      return;
+    }
+    current_event!.creator_create_poll(inputMessageController.text.trim()).then((value) {
+      if (value == null) {
+        return;
+      }
+      inputMessageController.text = "";
+      load_poll_history();
+    });
+  }
+  
+  void delete_poll(Poll p) {
+    if (me == null) {
+      return;
+    }
+    p.creator_delete().then((value) {
+      if (!value) {
+        return;
+      }
+      load_poll_history();
+    });
+  }
+
+  void create_voteoption(Poll p, TextEditingController c) {
+    if (me == null) {
+      return;
+    }
+    if (c.text.trim() == "") {
+      return;
+    }
+    p!.creator_create_option(c.text.trim()).then((value) {
+      if (value == null) {
+        return;
+      }
+      c.text = "";
+      load_poll_history();
+    });
+  }
+  
+  void delete_voteoption(VoteOption p) {
+    if (me == null) {
+      return;
+    }
+    p.creator_delete().then((value) {
+        if (!value) {
+          return;
+        }
+        load_poll_history();
+    });
+  }
+
+  void vote_for(VoteOption p) {
+    if(me==null) {return;}
+    p.vote_for().then((value) {
+      if (!value) {
+          return;
+        }
+      load_poll_history();
+    });
+  }
+
+  void unvote_for(VoteOption p) {
+    if(me==null) {return;}
+    p.unvote_for().then((value) {
+      if (!value) {
+          return;
+        }
+      load_poll_history();
+    });
+  }
 }
 
 var inputMessageController = TextEditingController();
-Widget get_body(int i, BuildContext context, Function() send_message, Function() send_announcement, void Function() create_list_item, void Function(ListItem item) bring_list_item, void Function(ListItem item) unbring_list_item){
+Widget get_body(int i, BuildContext context, Function() send_message, Function() send_announcement, 
+                 void Function() create_list_item, void Function(ListItem item) bring_list_item,
+                 void Function(ListItem item) unbring_list_item, void Function(ListItem item) delete_list_item, 
+                 void Function() create_poll, void Function(Poll p) delete_poll, 
+                 void Function(Poll,TextEditingController) create_voteoption, void Function(VoteOption p) delete_voteoption,
+                 void Function(VoteOption p) vote_for, void Function(VoteOption p) unvote_for){
   switch (i) {
     case 0:
     ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
@@ -378,7 +500,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                               padding: EdgeInsets.all(discanceBetweenWidgets)),
                           Container(
                               width: MediaQuery.of(context).size.width * 0.9, 
-                              child: ListData(event_data_list[event_data_list.length - index - 1], bring_list_item, unbring_list_item)),
+                              child: ListData(event_data_list[index], bring_list_item, unbring_list_item, delete_list_item)),
                         ],
                       ),
                     );
@@ -406,7 +528,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                     ),
                     IconButton(
                         onPressed: () => {create_list_item()},
-                        icon: Icon(Icons.arrow_circle_up_outlined))
+                        icon: Icon(Icons.add))
                   ],
                 )),
               ),
@@ -418,7 +540,66 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
       }
       return c; 
     case 3:
-      return Container();
+     ///////////////////////////// EVENT POLLS ///////////////////////////////
+       var c = Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      child: Column(
+                        children: [
+                          new Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.9, 
+                              child: PollData(event_data_list[index], create_voteoption, delete_voteoption, delete_poll, vote_for, unvote_for, context)),
+                          new Padding(
+                            padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
+                        ],
+                          
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Container(
+                  child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextFormField(
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: const InputDecoration(
+                          hintText: "Neue Umfrage",
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => {create_poll()},
+                        icon: Icon(Icons.add_box))
+                  ],
+                )),
+              ),
+            ),
+          ]
+      );
+      if (current_event!.creator_id != me!.id) {
+        c.children.removeAt(1);
+      }
+      return c;
+      
     case 4:
     ///////////////////// EVENT MEMBERS ///////////////////////////////////////
       return Container(
@@ -452,14 +633,19 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
 
 
 
-Widget ListData(item, add_me, remove_me) {
+Widget ListData(item, add_me, remove_me, delete_item) {
   var icon = Icon(Icons.circle, color:secondaryTextColor);
+  Widget del_button = Container();
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_item(item[1])});
+  }
   if (item[1].bringer != "")
   {
     icon = Icon(Icons.check, color:variationColor);
   }
   return Container(    
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(icon: icon, onPressed: () {
             if (item[1].bringer == "") {
@@ -474,7 +660,8 @@ Widget ListData(item, add_me, remove_me) {
               Text(item[0], style: TextStyle(color: primaryTextColor)),
               Text(item[1].bringer, style: TextStyle(color: secondaryTextColor)),
             ],
-          )
+          ),
+          del_button
         ],
     )   
   );
@@ -499,7 +686,93 @@ Widget AnnouncentsData (message) {
     );
 }
 
+Widget PollData(item, add_item, remove_item, delete_this, vote, unvote, context) {
+  final controller = TextEditingController();
+  Widget del_button = Container();
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_this(item[1])}
+    );
+  }
+  return Container(  
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
+              Text(item[0], style: TextStyle(color: primaryTextColor, decoration: TextDecoration.underline)),
+              del_button,
+            ],
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Material(
+                child: VoteOptionData(item[3][index], item[4][index], 
+                    item[5], remove_item, vote, unvote, context)
+              ); 
+            },
+            itemCount: item[3].length,
+          ),
+          Row(
+                children: [
+                  IconButton(
+                    onPressed: () => {add_item(item[1], controller)},
+                    icon: Icon(Icons.add_box)
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: TextFormField(
+                        controller: controller,
+                        keyboardType: TextInputType.text,
+                        decoration: const InputDecoration(
+                          hintText: "Neue Option",
+                        ),
+                      ),
+                  )
+                ],
+          )
+        ])    
+  );
+}
 
+bool voted_for(List<VoteOption> l, VoteOption o)
+{
+  for (var o1 in l)
+  {
+    if (o.id == o1.id)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts, delete, vote, unvote, context){
+  Widget del_button = Container();
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.remove, color: variationColor), onPressed: ()=>{delete(data)});
+  }
+  Widget vote_btn = IconButton(onPressed: () => vote(data), icon: Icon(Icons.check_box_outline_blank), color: primaryTextColor);
+  if ( voted_for(my_opts, data))
+  {
+     vote_btn = IconButton(onPressed: () => unvote(data), icon: Icon(Icons.check_box), color: primaryTextColor);
+  }
+  
+    return Container(    
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(num.toString(), style: TextStyle(color: secondaryTextColor)),
+          Text(data.title, style: TextStyle(color: primaryTextColor)),
+          Row(children: [
+            vote_btn, 
+            del_button,
+          ],)
+        ],
+    )   
+  );
+}
 
 
 var event_data_list = [];
