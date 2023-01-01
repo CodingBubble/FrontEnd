@@ -38,13 +38,6 @@ AppBar get_user_app_bar(BuildContext context) {
                       AppHandler("settingsWidget", context, [])
                     })); //here to add the onPressed-command to navigate to settings
           }),
-          Builder(builder: (BuildContext context) {
-            return (IconButton(
-                icon: Icon(Icons.edit),
-                color: backgroundColor,
-                onPressed: () =>
-                    {})); //here to add the onPressed-command to navigate to settings
-          })
         ],
       ),
     ),

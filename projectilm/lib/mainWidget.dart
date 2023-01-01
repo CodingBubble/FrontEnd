@@ -62,6 +62,16 @@ class _mainWidgetState extends State<mainWidget> {
           },
           itemCount: groups_glob.length,
         )),
+
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            AppHandler("create_group", context, []);
+          },
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add_circle),
+        ),
+      
       ),
     );
   }

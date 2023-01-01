@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:projectilm/create_event.dart';
+import 'package:projectilm/create_group.dart';
 import 'package:projectilm/groupChatWidget.dart';
 import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
@@ -82,11 +83,18 @@ class AppHandler extends controlWidget {
     else if (widgetPath == "eventWidget") {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => EventWidget(state: info[0])));
-    } else if (widgetPath == "event_create") {
+    } 
+    else if (widgetPath == "create_event") {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => Event_Create())
       );
-    } else {
+    } 
+    else if (widgetPath == "create_group") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => Group_Create())
+      );
+    } 
+    else {
       print("ERROR: False route paramaeter");
     }
 

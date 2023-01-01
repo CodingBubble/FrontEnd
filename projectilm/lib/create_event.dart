@@ -3,6 +3,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
+import 'alert_fnc.dart';
 import 'global.dart';
 
 
@@ -38,7 +39,7 @@ class _StateEvent_Create extends State<Event_Create> {
               child: TextFormField(
                 controller: desc_controller,
                 keyboardType: TextInputType.name,
-                decoration: InputDecoration(hintText: 'Desc'),
+                decoration: InputDecoration(hintText: 'Beschreibung'),
               ),
             ),
           ),
@@ -49,7 +50,7 @@ class _StateEvent_Create extends State<Event_Create> {
                   foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 ),
                 onPressed: () { 
-                  DatePicker.showDatePicker(context,
+                  DatePicker.showDateTimePicker(context,
                           showTitleActions: true,
                           minTime: DateTime.now(),
                           maxTime: DateTime.now().add(Duration(days: 365)), onChanged: (date) {
@@ -68,7 +69,7 @@ class _StateEvent_Create extends State<Event_Create> {
   {
     if(me==null) {return; }
     var val = await current_group!.create_event(name_controller.text, desc_controller.text, t);
-    if(val==null){return; }
+    if(val==null){showAlertDialog(context, "Fehler", "Event konnte nicht erstellt werden."); return; }
     current_event = val;
     AppHandler("eventWidget", context, [0]);
   }

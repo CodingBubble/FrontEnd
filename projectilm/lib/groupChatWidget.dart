@@ -52,7 +52,9 @@ class _stateChatWidget extends State<chatWidget> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.8,
               child: Scrollbar(
+                
                 child: ListView.builder(
+                  reverse: true,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
@@ -63,8 +65,7 @@ class _stateChatWidget extends State<chatWidget> {
                           Container(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(messageshistory[
-                                  messageshistory.length - index - 1])),
+                              child: WidgetmessageDesign(messageshistory[index])),
                         ],
                       ),
                     );

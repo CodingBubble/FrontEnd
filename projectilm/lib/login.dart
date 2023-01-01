@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'alert_fnc.dart';
 import 'global.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'package:projectilm/controlWidget.dart';
@@ -58,7 +59,7 @@ class logInForms extends StatelessWidget {
     login(username_controller.text, password_controller.text)
         .then((bool k) async {
       if (!k) {
-        print("Login failed!!!!");
+        showAlertDialog(con, "Fehler", "Benutzername oder Passwort ungültig");
         return;
       }
       print("Logged In");

@@ -377,6 +377,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
               height: MediaQuery.of(context).size.height * 0.8,
               child: Scrollbar(
                 child: ListView.builder(
+                  reverse: true,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
@@ -386,7 +387,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                               padding: EdgeInsets.all(discanceBetweenWidgets)),
                           Container(
                               width: MediaQuery.of(context).size.width * 0.9, 
-                              child: AnnouncentsData(event_data_list[event_data_list.length - index - 1])),
+                              child: AnnouncentsData(event_data_list[index])),
                         ],
                       ),
                     );
@@ -435,6 +436,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
               height: MediaQuery.of(context).size.height * 0.8,
               child: Scrollbar(
                 child: ListView.builder(
+                  reverse: true,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
@@ -445,8 +447,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                           Container(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(event_data_list[
-                                  event_data_list.length - index - 1])),
+                              child: WidgetmessageDesign(event_data_list[index])),
                         ],
                       ),
                     );

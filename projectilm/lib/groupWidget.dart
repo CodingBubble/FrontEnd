@@ -57,7 +57,7 @@ class _StateGroup extends State<GroupWidget> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            AppHandler("event_create", context, []);
+            AppHandler("create_event", context, []);
           },
           backgroundColor: Colors.green,
           child: const Icon(Icons.add_circle),

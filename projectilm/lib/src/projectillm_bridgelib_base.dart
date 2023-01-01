@@ -590,16 +590,17 @@ Future<List<Group>> me_get_groups() async {
   return [];
 }
 
-Future<bool> me_use_invitation_code(String code) async {
-  if (me==null) {return false; }
+Future<Group?> me_use_invitation_code(String code) async {
+  if (me==null) {return null; }
   var request = {"command": "user_use_invitation_code", "args": [username, password, code]};
   var url = Uri.http(api_settings.host, jsonEncode(request));
   var response = await http.get(url);
   var data = jsonDecode(response.body);
   if (data["success"]) {
-    return data["result"];
+    if (data["result"].isEmpty) {return null;}
+    return Group(data["result"]["id"], data["result"]["admin"], data["result"]["groupname"], data["result"]["description"]);
   }
-  return false;
+  return null;
 }
 
 Future<bool> me_change_password(String newPassword) async {
