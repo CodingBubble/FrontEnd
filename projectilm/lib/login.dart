@@ -36,7 +36,7 @@ class logInForms extends StatelessWidget {
           child: Form(
             child: TextFormField(
               controller: password_controller,
-              keyboardType: TextInputType.visiblePassword,
+              keyboardType: TextInputType.visiblePassword, 
               decoration: InputDecoration(hintText: 'Passwort'),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:projectilm/create_event.dart';
 import 'package:projectilm/groupChatWidget.dart';
 import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
@@ -43,47 +44,53 @@ class AppHandler extends controlWidget {
         ),
       );
     }
-    if (widgetPath == "groupWidget") {
+    else if (widgetPath == "groupWidget") {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const GroupWidget(title: "Grouping"),
         ),
       );
     }
-    if (widgetPath == "logInWidget") {
+    else if (widgetPath == "logInWidget") {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const logInWidget(title: "Grouping"),
         ),
       );
     }
-    if (widgetPath == "settingsWidget") {
+    else if (widgetPath == "settingsWidget") {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const SettingsWidget(title: "Grouping"),
         ),
       );
     }
-    if (widgetPath == "chatWidget") {
+    else if (widgetPath == "chatWidget") {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => chatWidget(
                 title: info[0],
                 titleOfChat: info[1],
               )));
     }
-    if (widgetPath == "groupSettingsWidget") {
+    else if (widgetPath == "groupSettingsWidget") {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const groupSettingsWidget(title: "Grouping"),
         ),
       );
     }
-    if (widgetPath == "eventWidget") {
+    else if (widgetPath == "eventWidget") {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => EventWidget(state: info[0])));
+    } else if (widgetPath == "event_create") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => Event_Create())
+      );
     } else {
       print("ERROR: False route paramaeter");
     }
+
+
   }
 
   void printSomething() {

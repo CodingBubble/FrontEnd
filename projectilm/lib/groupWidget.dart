@@ -22,7 +22,7 @@ class _StateGroup extends State<GroupWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Deine Gruppen",
+      title: "Deine Gruppe",
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_group_app_bar(context),
@@ -54,6 +54,13 @@ class _StateGroup extends State<GroupWidget> {
             new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
             scrollEvents()
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            AppHandler("event_create", context, []);
+          },
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add_circle),
         ),
       ),
     );
@@ -109,18 +116,14 @@ class _StateGroup extends State<GroupWidget> {
   void loadEvents() {
     //TODO: make Login used by me
 
-    login("Jakob", "Test1234").then((value) => {
-          if (!value)
-            {print("Error logging in as Jakob")}
-          else
-            {
-              current_group?.get_events_active().then((events) {
-                setState(() {
-                  Events = events;
-                });
-              })
-            }
-        });
+    if (me==null) {return;}
+  
+    current_group?.get_events_active().then((events) {
+      setState(() {
+        Events = events;
+      });
+    });
+  
   }
 
   Widget chat(name) {
@@ -140,8 +143,9 @@ class _StateGroup extends State<GroupWidget> {
   }
 
   Widget scrollEvents() {
-    return Container(
-        height: MediaQuery.of(context).size.height * 0.2,
+    return Expanded(flex: 1,
+         child: Container(
+        constraints: BoxConstraints.expand(),
         child: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
@@ -173,6 +177,6 @@ class _StateGroup extends State<GroupWidget> {
             },
             itemCount: Events.length,
           ),
-        ));
+        )));
   }
 }
