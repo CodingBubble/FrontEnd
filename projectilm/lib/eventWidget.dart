@@ -43,7 +43,7 @@ class _EventWidget extends State<EventWidget> {
     void t()=>{};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Dein Event",
+     // title: "Dein Event",
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_event_app_bar(context, current_event!.name),
@@ -53,6 +53,13 @@ class _EventWidget extends State<EventWidget> {
         child: new ListView(
           children: <Widget> [
             Container(height:  MediaQuery.of(context).size.height * 0.1),
+            new ListTile(
+              title: new Icon(
+                Icons.home,
+                color: primaryTextColor
+              ),
+              onTap: () {AppHandler("eventWidget", context, [-1]);},
+            ),
             new ListTile(
               title: new Icon(
                 Icons.speaker,

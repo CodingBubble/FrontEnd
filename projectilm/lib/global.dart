@@ -12,7 +12,7 @@ const color_modes = {
   },
 
    "dark" : {
-    "background_color":  Colors.white,
+    "background_color":  Color.fromARGB(255, 52, 52, 52),
     "primaryTextColor": Color.fromARGB(255, 191, 191, 191),
     "secondaryTextColor": Color.fromARGB(255, 250, 250, 250),
     "widgetColor": Color.fromARGB(255, 39, 39, 39),

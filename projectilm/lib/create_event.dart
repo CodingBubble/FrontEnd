@@ -16,6 +16,10 @@ class Event_Create extends StatefulWidget {
 class _StateEvent_Create extends State<Event_Create> {
   final TextEditingController name_controller = TextEditingController();
   final TextEditingController desc_controller = TextEditingController();
+
+
+  DateTime? cur_date = null;
+
   @override
   Widget build(BuildContext context) {
      return Scaffold(
@@ -39,36 +43,50 @@ class _StateEvent_Create extends State<Event_Create> {
               child: TextFormField(
                 controller: desc_controller,
                 keyboardType: TextInputType.name,
-                decoration: InputDecoration(hintText: 'Beschreibung'),
+                decoration: InputDecoration(hintText: 'Ort'),
               ),
             ),
           ),
+          
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child:Row(
+                children: [
+                   IconButton(
+                    icon: Icon(Icons.calendar_month),
+                    onPressed: () { 
+                      DatePicker.showDateTimePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime.now(),
+                              maxTime: DateTime.now().add(Duration(days: 365)), onChanged: (date) {
+                          }, onConfirm: (date) {
+                            cur_date=date; setState(() {});
+                          }, currentTime: DateTime.now(), locale: LocaleType.de);
+                    },
+                  ),
+                  Text(cur_date.toString())
+                ],
+              )
+            ),
+
+
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                ),
                 onPressed: () { 
-                  DatePicker.showDateTimePicker(context,
-                          showTitleActions: true,
-                          minTime: DateTime.now(),
-                          maxTime: DateTime.now().add(Duration(days: 365)), onChanged: (date) {
-                      }, onConfirm: (date) {
-                        create_event(date);
-                      }, currentTime: DateTime.now(), locale: LocaleType.de);
+                  create_event();
                 },
-                child: Text('Erstellen'),
+                child: Text('Event erstellen'),
               )),
         ],
       )
     );
   }
 
-  void create_event (DateTime t) async
+  void create_event () async
   {
-    if(me==null) {return; }
-    var val = await current_group!.create_event(name_controller.text, desc_controller.text, t);
+    if(me==null || cur_date==null) {return; }
+    var val = await current_group!.create_event(name_controller.text, desc_controller.text, cur_date!);
     if(val==null){showAlertDialog(context, "Fehler", "Event konnte nicht erstellt werden."); return; }
     current_event = val;
     AppHandler("eventWidget", context, [0]);
