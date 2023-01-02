@@ -115,10 +115,47 @@ Widget generalSettings(BuildContext context) {
                       AppHandler("mainWidget", context, []);       
                       }
                     },
-                    
                     child: const Text('Passwort ändern'),
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  child: ElevatedButton(
+                    onPressed: () {   
+                       username = "";
+                       password = ""; 
+                       me=null;
+                        () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove("username");
+                        prefs.remove("password");
+                       }; 
+                      AppHandler("loginInWidget", context, []);       
+                    },
+                    child: const Text('Abmelden'),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  child: ElevatedButton(
+                    onPressed: () {   
+                       username = "";
+                       password = ""; 
+                       me=null;
+                        () async {
+                        await me_delete();
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove("username");
+                        prefs.remove("password");
+                       }; 
+                      AppHandler("loginInWidget", context, []);       
+                    },
+                    child: const Text('Account Löschen'),
+                  ),
+                ),
+
               ],
             ),
           ),

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:projectilm/create_event.dart';
 import 'package:projectilm/create_group.dart';
 import 'package:projectilm/groupChatWidget.dart';
 import 'package:projectilm/eventWidget.dart';
+import 'package:projectilm/register.dart';
 import 'package:projectilm/settingsWidget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
-import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
 import 'groupSettingsWidget.dart';
 
@@ -56,6 +54,13 @@ class AppHandler extends controlWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const logInWidget(title: "Grouping"),
+        ),
+      );
+    }
+    else if (widgetPath == "register") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const RegisterWidget()
         ),
       );
     }
