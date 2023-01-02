@@ -130,7 +130,7 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_messages().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
-        event_data_list.add([msg.text, msg.author.id != me!.id]);
+        event_data_list.add([msg.text, msg.author.id != me!.id, msg.author.username]);
       });
       setState(() {});
     });
@@ -619,7 +619,7 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,Bui
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Icon(icon, color: primaryTextColor, size: MediaQuery.sizeOf(context).width*0.14),
+              Icon(icon, color: primaryTextColor, size: min(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height)*0.14),
               Container( 
                 width: MediaQuery.sizeOf(context).width * 0.65,
                 child: Column(
@@ -798,6 +798,7 @@ var inputMessage = "";
 Widget WidgetmessageDesign(list) {
   var message = list[0];
   var _me = list[1];
+  var author = list[2];
   var wColor;
   var bubbleCorner;
   if (_me == true) {
@@ -844,11 +845,21 @@ Widget WidgetmessageDesign(list) {
                 bottomLeft: Radius.circular(19),
               ),
             ),
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-            ),
-          ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  message,
+                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ],
+            )),
         ),
       ],
     ));
