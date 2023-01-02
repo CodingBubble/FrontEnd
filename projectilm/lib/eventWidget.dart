@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
-
+import 'package:intl/intl.dart';
 import 'src/projectillm_bridgelib_vote.dart';
 
 class EventWidget extends StatefulWidget {
@@ -14,12 +16,24 @@ class EventWidget extends StatefulWidget {
   State<EventWidget> createState() => _EventWidget(state);
 }
 
+String lastChat = "";
+String lastAnnouncement = "";
+List<String> list_items = ["", ""];
+final DateFormat formatter = DateFormat('dd. MM. yyyy HH:mm');
+bool joined_event = false;
+
 class _EventWidget extends State<EventWidget> {
   int state;
   _EventWidget(this.state);
   void initState() {
     super.initState();
+    update_joined();
     switch (state) {
+      case -1:
+        get_last_announcement();
+        get_last_chat();
+        get_last_listitems();
+        break;
       case 0:
         load_announcement_history();
         break;
@@ -43,91 +57,76 @@ class _EventWidget extends State<EventWidget> {
     void t()=>{};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Dein Event",
+     // title: "Dein Event",
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_event_app_bar(context, current_event!.name),
-        drawer: new Drawer(
-        backgroundColor: widgetColor,
-        width: MediaQuery.of(context).size.width * 0.2,
-        child: new ListView(
-          children: <Widget> [
-            Container(height:  MediaQuery.of(context).size.height * 0.1),
-            new ListTile(
-              title: new Icon(
-                Icons.speaker,
-                color: primaryTextColor
-              ),
-              onTap: () {AppHandler("eventWidget", context, [0]);},
-            ),
-            new ListTile(
-              title: new Icon(
-                Icons.chat,
-                color: primaryTextColor
-              ),
-              onTap: () {AppHandler("eventWidget", context, [1]);},
-            ),
-            new ListTile(
-              title: new Icon(
-                Icons.list,
-                color: primaryTextColor
-              ),
-              onTap: () {AppHandler("eventWidget", context, [2]);},
-            ),
-            new ListTile(
-              title: new Icon(
-                Icons.where_to_vote,
-                color: primaryTextColor
-              ),
-              onTap: () {AppHandler("eventWidget", context, [3]);},
-            ),
-            new ListTile(
-              title: new Icon(
-                Icons.people,
-                color: primaryTextColor
-              ),
-              onTap: () {AppHandler("eventWidget", context, [4]);},
-            ),
-          ],
-        )
-      ),
-      body: new Center(
-        child: get_body(state, context, send_message, send_announcement, create_list_item, bring_list_item, 
-                      unbring_list_item, delete_list_item, create_poll, delete_poll, create_voteoption, 
-                      delete_voteoption, vote_for, unvote_for)
-        )
-      ),
-
+        appBar: get_event_app_bar(context, toggle_join),
+        body: get_body(state, context, send_message, send_announcement, create_list_item, bring_list_item, 
+                        unbring_list_item, delete_list_item, create_poll, delete_poll, create_voteoption, 
+                        delete_voteoption, vote_for, unvote_for)
+        ),
     );
   }
 
+  void update_joined() {
+    current_event!.am_member().then((value) { joined_event=value; setState(() { }); });
+  }
+
+  void toggle_join() {
+    if (joined_event){
+      current_event!.leave();
+    } else {
+      current_event!.join();
+    }
+    setState(() {});
+  }
+
+  void get_last_chat() {
+    current_event!.get_messages_gen(0).then((value) {
+        if (value.length > 0) { 
+          lastChat = value[0].text.substring(0, min(value[0].text.length, 50)); 
+          setState(() {});
+          }
+      }
+    );
+  }
+
+  void get_last_announcement() {
+    current_event!.get_announcements_gen(0).then((value) {
+        if (value.length > 0) { 
+          lastAnnouncement = value[0].text.substring(0, min(value[0].text.length, 50)); 
+          setState(() {});
+          }
+      }
+    );
+  }
+
+  void get_last_listitems()
+  {
+    current_event!.get_list_items().then((msgs) {
+      list_items = ["", ""];
+      msgs.forEach((msg) {
+        if (msg.bringer=="")
+        {
+          list_items.add(msg.title);
+        }
+      });
+      list_items = list_items.reversed.toList();
+      setState(() {});
+    });
+  }
+
   void load_members() {
-    if (me == null) {
-      print("me is null");
-      return;
-    }
-    if (current_event == null) {
-      print("cur event is null");
-      return;
-    }
     current_event!.get_members().then((mbrs) {
       event_data_list = [];
       mbrs.forEach((mbr) {
-        event_data_list.add([mbr.username]);
+        event_data_list.add([mbr.username, mbr]);
       });
       setState(() {});
     });
   }
 
   void load_message_history() {
-    if (me == null) {
-      print("me is null");
-      return;
-    }
-    if (current_event == null) {
-      print("cur event is null");
-      return;
-    }
     current_event!.get_messages().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
@@ -138,12 +137,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void send_message() {
-    if (me == null) {
-      return;
-    }
-    if (current_event == null) {
-      return;
-    }
     if (inputMessageController.text.trim() == "") {
       return;
     }
@@ -157,14 +150,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void load_list_items() {
-    if (me == null) {
-      print("me is null");
-      return;
-    }
-    if (current_event == null) {
-      print("cur event is null");
-      return;
-    }
     current_event!.get_list_items().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
@@ -175,12 +160,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void create_list_item() {
-    if (me == null) {
-      return;
-    }
-    if (current_event == null) {
-      return;
-    }
     if (inputMessageController.text.trim() == "") {
       return;
     }
@@ -194,18 +173,12 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void bring_list_item(ListItem item) {
-    if (me == null) {
-      return;
-    }
     item.bring_me().then((value) { if(value){
       load_list_items();
     }});
   }
 
   void unbring_list_item(ListItem item) {
-    if (me == null) {
-      return;
-    }
     item.unbring_me().then((value) { if(value){
       load_list_items();
     }});
@@ -218,14 +191,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void load_announcement_history() {
-    if (me == null) {
-      print("me is null");
-      return;
-    }
-    if (current_event == null) {
-      print("cur event is null");
-      return;
-    }
     current_event!.get_announcements().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
@@ -236,12 +201,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void send_announcement() {
-    if (me == null) {
-      return;
-    }
-    if (current_event == null) {
-      return;
-    }
     if (inputMessageController.text.trim() == "") {
       return;
     }
@@ -255,14 +214,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void load_poll_history()  async {
-     if (me == null) {
-      print("me is null");
-      return;
-    }
-    if (current_event == null) {
-      print("cur event is null");
-      return;
-    }
     event_data_list = [];
     var polls = await current_event!.get_polls();
     for (Poll poll in polls) {
@@ -280,13 +231,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void create_poll() {
-
-    if (me == null) {
-      return;
-    }
-    if (current_event == null) {
-      return;
-    }
     if (inputMessageController.text.trim() == "") {
       return;
     }
@@ -294,15 +238,13 @@ class _EventWidget extends State<EventWidget> {
       if (value == null) {
         return;
       }
+      current_event!.creator_send_announcement("Es wurde eine neue Umfrage erstellt: " + inputMessageController.text.trim());
       inputMessageController.text = "";
       load_poll_history();
     });
   }
   
   void delete_poll(Poll p) {
-    if (me == null) {
-      return;
-    }
     p.creator_delete().then((value) {
       if (!value) {
         return;
@@ -312,9 +254,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void create_voteoption(Poll p, TextEditingController c) {
-    if (me == null) {
-      return;
-    }
     if (c.text.trim() == "") {
       return;
     }
@@ -340,7 +279,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void vote_for(VoteOption p) {
-    if(me==null) {return;}
     p.vote_for().then((value) {
       if (!value) {
           return;
@@ -350,7 +288,6 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void unvote_for(VoteOption p) {
-    if(me==null) {return;}
     p.unvote_for().then((value) {
       if (!value) {
           return;
@@ -368,6 +305,27 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                  void Function(Poll,TextEditingController) create_voteoption, void Function(VoteOption p) delete_voteoption,
                  void Function(VoteOption p) vote_for, void Function(VoteOption p) unvote_for){
   switch (i) {
+
+    case -1:
+      return SingleChildScrollView (
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text("Ort:  " + current_event!.description, style: TextStyle(color: primaryTextColor, fontSize: 20),),
+            Text("Zeit: " + formatter.format(current_event!.time.toLocal()), style: TextStyle(color: primaryTextColor, fontSize: 20),),
+            Column(
+              children: [
+                get_home_item("Ankündigungen", Icons.info_outline,         0, lastAnnouncement,                 context),
+                get_home_item("Chat",          Icons.chat_bubble_outline,  1, lastChat,                         context),
+                get_home_item("Einkaufsliste", Icons.list_alt_outlined,    2, list_items[0]+"\n"+list_items[1], context),
+                get_home_item("Umfragen",      Icons.how_to_vote_outlined, 3, "",                               context),
+              //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
+              ]
+            ),
+          ],
+        )
+      );
+
     case 0:
     ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
       var c = Column(
@@ -634,6 +592,36 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
 
 
 
+Widget get_home_item(String text, IconData icon, int keyD, String additional,BuildContext context)
+{
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal:0.0),
+      child: Container(
+        height: MediaQuery.sizeOf(context).height*0.18,
+        child: TextButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(icon, color: primaryTextColor, size: MediaQuery.sizeOf(context).width*0.14),
+              Container( 
+                width: MediaQuery.sizeOf(context).width * 0.65,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(text, style: TextStyle(color: primaryTextColor, fontSize: 19)),
+                    Text(additional, style: TextStyle(color: secondaryTextColor, fontSize: 14))
+                  ],
+                )
+              )
+            ]
+          ),
+          onPressed: ()=>AppHandler("eventWidget", context, [keyD]),
+        )
+      )
+  );
+}
+
 Widget ListData(item, add_me, remove_me, delete_item) {
   var icon = Icon(Icons.circle, color:secondaryTextColor);
   Widget del_button = Container();
@@ -669,10 +657,14 @@ Widget ListData(item, add_me, remove_me, delete_item) {
 }
 
 Widget MemberData(member) {
+  IconData icon = Icons.person;
+  if (member[1].id==current_event!.creator_id){
+    icon = Icons.star;
+  }
    return Container(    
         child: Row(
           children: [
-          Icon(Icons.person, color:secondaryTextColor),
+          Icon(icon, color:secondaryTextColor),
           Text(member[0], style: TextStyle(color: primaryTextColor))
           ],
       )   

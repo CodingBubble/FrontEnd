@@ -378,6 +378,18 @@ class Event {
     return false;
   }
 
+  Future<bool> am_member() async {
+    if (me==null) {return false; }
+    var request = {"command": "event_is_member", "args": [me!.id, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return data["result"];
+    }
+    return false;
+  }
+
   Future<bool> leave() async {
     if (me==null) {return false; }
     var request = {"command": "event_leave", "args": [username, password, id]};
