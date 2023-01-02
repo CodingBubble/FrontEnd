@@ -89,7 +89,7 @@ class _StateEvent_Create extends State<Event_Create> {
     var val = await current_group!.create_event(name_controller.text, desc_controller.text, cur_date!);
     if(val==null){showAlertDialog(context, "Fehler", "Event konnte nicht erstellt werden."); return; }
     current_event = val;
-    AppHandler("eventWidget", context, [0]);
+    AppHandler("eventWidget", context, [-1]);
   }
 }
 

@@ -9,6 +9,8 @@ const color_modes = {
     "secondaryTextColor": Color.fromARGB(255, 0, 0, 0),
     "widgetColor": Color.fromARGB(255, 150, 150, 150),
     "variationColor": Color.fromARGB(255, 45, 92, 147),
+    "positiveColor": Color.fromARGB(255, 0, 176, 0),
+    "negativeColor": Color.fromARGB(255, 255, 0, 0),
   },
 
    "dark" : {
@@ -17,6 +19,8 @@ const color_modes = {
     "secondaryTextColor": Color.fromARGB(255, 250, 250, 250),
     "widgetColor": Color.fromARGB(255, 39, 39, 39),
     "variationColor": Color.fromARGB(255, 95, 138, 184),
+    "positiveColor": Color.fromARGB(255, 0, 132, 194),
+    "negativeColor": Color.fromARGB(255, 50, 1, 1),
   },
 
   
@@ -26,6 +30,8 @@ const color_modes = {
     "secondaryTextColor": Color.fromARGB(255, 185, 185, 185),
     "widgetColor": Color.fromARGB(255, 0, 99, 212),
     "variationColor": Color.fromARGB(255, 78, 168, 0),
+    "positiveColor": Color.fromARGB(255, 0, 85, 21),
+    "negativeColor": Color.fromARGB(255, 168, 0, 0),
   },
   
 };
@@ -36,6 +42,9 @@ Color primaryTextColor = color_modes["light"]!["primaryTextColor"]!;
 Color secondaryTextColor = color_modes["light"]!["secondaryTextColor"]!;
 Color widgetColor = color_modes["light"]!["widgetColor"]!;
 Color variationColor = color_modes["light"]!["variationColor"]!;
+Color positiveColor = color_modes["light"]!["positiveColor"]!;
+Color negativeColor = color_modes["light"]!["negativeColor"]!;
+
 
 Future set_color_variation(String mode) async
 {
@@ -44,6 +53,8 @@ Future set_color_variation(String mode) async
   secondaryTextColor = color_modes[mode]!["secondaryTextColor"]!;
   widgetColor = color_modes[mode]!["widgetColor"]!;
   variationColor = color_modes[mode]!["variationColor"]!;
+  positiveColor = color_modes[mode]!["positiveColor"]!;
+  negativeColor = color_modes[mode]!["negativeColor"]!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString("mode", mode);
 }

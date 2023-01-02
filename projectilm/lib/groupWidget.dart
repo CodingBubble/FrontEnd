@@ -66,7 +66,7 @@ class _StateGroup extends State<GroupWidget> {
     );
   }
 
-  Widget eventWidget(Event ev) {
+  Widget eventWidget(Event ev, int index) {
     return Container(
       child: Column(
         children: [
@@ -88,14 +88,8 @@ class _StateGroup extends State<GroupWidget> {
                   children: [
                     IconButton(
                       iconSize: 30,
-                      icon: Icon(Icons.check),
-                      color: Colors.green,
-                      onPressed: () => {/*code to insert here for Jakob*/},
-                    ),
-                    IconButton(
-                      iconSize: 30,
-                      icon: Icon(Icons.close),
-                      color: Colors.red,
+                      icon: Icon(get_icon(index)),
+                      color: get_color(index),
                       onPressed: () => {/*code to insert here for Jakob*/},
                     ),
                     // here to add the onPressed-command to se
@@ -113,18 +107,31 @@ class _StateGroup extends State<GroupWidget> {
 
   List<Event> Events = <Event>[];
 
+  List<bool> Joined = <bool>[];
+
+  IconData get_icon(evid) => Joined[evid] ? Icons.check:Icons.close;
+  
+
+  Color get_color(evid) => Joined[evid] ? positiveColor:negativeColor;
+  
+
+
   void loadEvents() {
     //TODO: make Login used by me
-
     if (me==null) {return;}
-  
-    current_group?.get_events_active().then((events) {
+    current_group?.get_events_active().then((events) async {
+      Joined = [];
+      for(var event in events)
+      {
+        Joined.add(await event.am_member());
+      }
       setState(() {
         Events = events;
       });
     });
-  
   }
+
+
 
   Widget chat(name) {
     return Container(
@@ -163,10 +170,10 @@ class _StateGroup extends State<GroupWidget> {
                             widgetColor,
                           ),
                         ),
-                        child: eventWidget(Events[index]),
+                        child: eventWidget(Events[index], index),
                         onPressed: () {
                           current_event = Events[index];
-                          AppHandler("eventWidget", context, [0]);
+                          AppHandler("eventWidget", context, [-1]);
                         },
                         // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                       ),
