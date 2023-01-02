@@ -65,7 +65,8 @@ class _stateChatWidget extends State<chatWidget> {
                           Container(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(messageshistory[index])),
+                              child:
+                                  WidgetmessageDesign(messageshistory[index])),
                         ],
                       ),
                     );
@@ -158,6 +159,7 @@ class _stateChatWidget extends State<chatWidget> {
   Widget WidgetmessageDesign(list) {
     var message = list[0];
     var _me = list[1];
+    var author = "GiggaNigga"; //list[2];
     var wColor;
     var bubbleCorner;
     if (_me == true) {
@@ -168,21 +170,34 @@ class _stateChatWidget extends State<chatWidget> {
         children: [
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(19),
-                  topLeft: Radius.circular(19),
-                  bottomRight: Radius.circular(19),
+                padding: const EdgeInsets.all(15),
+                margin: const EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(19),
+                    topLeft: Radius.circular(19),
+                    bottomRight: Radius.circular(19),
+                  ),
                 ),
-              ),
-              child: Text(
-                message,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
-              ),
-            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      author,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      message,
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ],
+                )),
           ),
         ],
       ));
@@ -194,21 +209,31 @@ class _stateChatWidget extends State<chatWidget> {
         children: [
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: widgetColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(19),
-                  topRight: Radius.circular(19),
-                  bottomLeft: Radius.circular(19),
+                padding: const EdgeInsets.all(15),
+                margin: const EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                  color: widgetColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(19),
+                    topRight: Radius.circular(19),
+                    bottomLeft: Radius.circular(19),
+                  ),
                 ),
-              ),
-              child: Text(
-                message,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
-              ),
-            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      author,
+                      style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      message,
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ],
+                )),
           ),
         ],
       ));
