@@ -38,7 +38,7 @@ class _StateGroup extends State<GroupWidget> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red),
+                            MaterialStateProperty.all<Color>(negativeColor),
                       ),
                       child: chat("offizieller Chat"),
                       onPressed: () => {
@@ -59,7 +59,7 @@ class _StateGroup extends State<GroupWidget> {
           onPressed: () {
             AppHandler("create_event", context, []);
           },
-          backgroundColor: Colors.green,
+          backgroundColor: positiveColor,
           child: const Icon(Icons.add_circle),
         ),
       ),
@@ -157,6 +157,7 @@ class _StateGroup extends State<GroupWidget> {
           child: ListView.builder(
             itemBuilder: (context, index) {
               return Material(
+                color: backgroundColor,
                 child: Column(
                   children: [
                     new Padding(

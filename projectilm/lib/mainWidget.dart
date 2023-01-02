@@ -22,6 +22,7 @@ class _mainWidgetState extends State<mainWidget> {
 
   void initState() {
     super.initState();
+    setState(() { });
     loadGroups();
   }
 
@@ -33,29 +34,33 @@ class _mainWidgetState extends State<mainWidget> {
         backgroundColor: backgroundColor,
         appBar: get_user_app_bar(context),
         body: Scrollbar(
-            child: ListView.builder(
+          child: ListView.builder(
           itemBuilder: (context, index) {
             return Material(
+              color: backgroundColor,
               child: Column(
                 children: [
-                  new Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-                  Container(
-                    width: MediaQuery.of(context).size.width *
-                        0.9, // the distance to the margin of display
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          widgetColor,
+                  Padding(
+                    padding: EdgeInsets.all(discanceBetweenWidgets), 
+                    child: Container(
+                      color: backgroundColor,
+                      width: MediaQuery.of(context).size.width * 0.9, // the distance to the margin of display
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            widgetColor,
+                          ),
                         ),
+                        child: groups(groups_glob[index]),
+                        onPressed: () {
+                          current_group = groups_glob[index];
+                          AppHandler("groupWidget", context, []);
+                        },
+                        // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                       ),
-                      child: groups(groups_glob[index]),
-                      onPressed: () {
-                        current_group = groups_glob[index];
-                        AppHandler("groupWidget", context, []);
-                      },
-                      // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                     ),
                   ),
+                  
                 ],
               ),
             );
@@ -68,7 +73,7 @@ class _mainWidgetState extends State<mainWidget> {
           onPressed: () {
             AppHandler("create_group", context, []);
           },
-          backgroundColor: Colors.green,
+          backgroundColor: positiveColor,
           child: const Icon(Icons.add_circle),
         ),
       
@@ -91,7 +96,7 @@ class _mainWidgetState extends State<mainWidget> {
               )),
           Text(g.description,
               style: TextStyle(
-                  color: backgroundColor, fontSize: SecondfontOfWidget)),
+                  color: secondaryTextColor, fontSize: SecondfontOfWidget)),
         ],
       ),
       padding: constPadding,

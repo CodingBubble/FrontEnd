@@ -339,6 +339,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -364,16 +365,19 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Schreibe eine Rundnachricht",
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Rundnachricht",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle: TextStyle(color: variationColor),
+                          ),
                         ),
                       ),
-                    ),
                     IconButton(
                         onPressed: () => {send_announcement()},
-                        icon: Icon(Icons.send))
+                        icon: Icon(Icons.send, color: secondaryTextColor))
                   ],
                 )),
               ),
@@ -398,6 +402,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -425,16 +430,19 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Schreibe eine Nachricht",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
                     IconButton(
                         onPressed: () => {send_message()},
-                        icon: Icon(Icons.send))
+                        icon: Icon(Icons.send, color: secondaryTextColor))
                   ],
                 )),
               ),
@@ -453,6 +461,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -478,16 +487,19 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Neuer Eintrag",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
                     IconButton(
                         onPressed: () => {create_list_item()},
-                        icon: Icon(Icons.add))
+                        icon: Icon(Icons.add, color: secondaryTextColor))
                   ],
                 )),
               ),
@@ -510,6 +522,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -538,16 +551,19 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Neue Umfrage",
+                        decoration: InputDecoration(
+                          hintText: "Neue Frage",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
                     IconButton(
                         onPressed: () => {create_poll()},
-                        icon: Icon(Icons.add_box))
+                        icon: Icon(Icons.add_box, color: secondaryTextColor))
                   ],
                 )),
               ),
@@ -569,6 +585,7 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Material(
+                color: backgroundColor,
                 child: Column(
                   children: [
                     new Padding(
@@ -609,8 +626,8 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,Bui
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(text, style: TextStyle(color: primaryTextColor, fontSize: 19)),
-                    Text(additional, style: TextStyle(color: secondaryTextColor, fontSize: 14))
+                    Text(text, style: TextStyle(color: secondaryTextColor, fontSize: 19)),
+                    Text(additional, style: TextStyle(color: primaryTextColor, fontSize: 14))
                   ],
                 )
               )
@@ -626,7 +643,7 @@ Widget ListData(item, add_me, remove_me, delete_item) {
   var icon = Icon(Icons.circle, color:secondaryTextColor);
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id){
-    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_item(item[1])});
+    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: positiveColor), onPressed: ()=>{delete_item(item[1])});
   }
   if (item[1].bringer != "")
   {
@@ -674,7 +691,7 @@ Widget MemberData(member) {
 Widget AnnouncentsData (message) {
    return Container(
         child: Text(message[0], 
-          style: TextStyle(color: primaryTextColor),
+          style: TextStyle(color: secondaryTextColor),
         )
     );
 }
@@ -686,14 +703,13 @@ Widget PollData(item, add_item, remove_item, delete_this, vote, unvote, context)
     del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_this(item[1])}
     );
   }
-  return Container(  
-      child: Column(
+  var c=  Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
-              Text(item[0], style: TextStyle(color: primaryTextColor, decoration: TextDecoration.underline)),
+              Text(item[0], style: TextStyle(color: secondaryTextColor, decoration: TextDecoration.underline, fontSize: 16)),
               del_button,
             ],
           ),
@@ -701,6 +717,7 @@ Widget PollData(item, add_item, remove_item, delete_this, vote, unvote, context)
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Material(
+                color: backgroundColor,
                 child: VoteOptionData(item[3][index], item[4][index], 
                     item[5], remove_item, vote, unvote, context)
               ); 
@@ -711,22 +728,29 @@ Widget PollData(item, add_item, remove_item, delete_this, vote, unvote, context)
                 children: [
                   IconButton(
                     onPressed: () => {add_item(item[1], controller)},
-                    icon: Icon(Icons.add_box)
+                    icon: Icon(Icons.add_box, color: secondaryTextColor)
                   ),
                   Container(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: TextFormField(
                         controller: controller,
+                        style: TextStyle(color: secondaryTextColor),
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Neue Option",
+                          hintStyle: TextStyle(color: secondaryTextColor),
+                          floatingLabelStyle: TextStyle(color: primaryTextColor),
                         ),
                       ),
                   )
                 ],
           )
-        ])    
+        ]    
   );
+  if (current_event!.creator_id!=me!.id){
+    c.children.removeAt(2);
+  }
+  return Container(child: c);
 }
 
 bool voted_for(List<VoteOption> l, VoteOption o)
@@ -746,10 +770,10 @@ Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts, delete
   if (current_event!.creator_id == me!.id){
     del_button = IconButton(icon: Icon(Icons.remove, color: variationColor), onPressed: ()=>{delete(data)});
   }
-  Widget vote_btn = IconButton(onPressed: () => vote(data), icon: Icon(Icons.check_box_outline_blank), color: primaryTextColor);
+  Widget vote_btn = IconButton(onPressed: () => vote(data), icon: Icon(Icons.check_box_outline_blank), color: secondaryTextColor);
   if ( voted_for(my_opts, data))
   {
-     vote_btn = IconButton(onPressed: () => unvote(data), icon: Icon(Icons.check_box), color: primaryTextColor);
+     vote_btn = IconButton(onPressed: () => unvote(data), icon: Icon(Icons.check_box), color: positiveColor);
   }
   
     return Container(    

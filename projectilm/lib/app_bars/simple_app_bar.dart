@@ -7,17 +7,18 @@ import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-AppBar get_settings_app_bar(context) {
+AppBar get_simple_app_bar(BuildContext context, title) {
   return AppBar(
+    automaticallyImplyLeading: false,
     title: Row(
       children: [
         IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color:secondaryTextColor),
           onPressed: () {
-            AppHandler("mainWidget", context, const []);
+            Navigator.pop(context);
           },
         ),
-         Text("Einstellungen", style: TextStyle(color: backgroundColor))
+         Text(title, style: TextStyle(color: primaryTextColor))
       ],
     ),
     backgroundColor: widgetColor,

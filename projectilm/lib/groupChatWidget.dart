@@ -52,12 +52,12 @@ class _stateChatWidget extends State<chatWidget> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.8,
               child: Scrollbar(
-                
                 child: ListView.builder(
                   reverse: true,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -80,21 +80,24 @@ class _stateChatWidget extends State<chatWidget> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Container(
-                    child: Row(
+                  child: Row(
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Schreibe eine Nachricht",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
                     IconButton(
                         onPressed: () => {send_message()},
-                        icon: Icon(Icons.send))
+                        icon: Icon(Icons.send, color: secondaryTextColor))
                   ],
                 )),
               ),

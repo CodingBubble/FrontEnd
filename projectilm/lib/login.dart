@@ -19,40 +19,54 @@ class logInForms extends StatelessWidget {
   final TextEditingController password_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Form(
-            child: TextFormField(
-              controller: username_controller,
-              keyboardType: TextInputType.name,
-              decoration: InputDecoration(hintText: 'Name'),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Form(
-            child: TextFormField(
-              controller: password_controller,
-              keyboardType: TextInputType.visiblePassword, 
-              decoration: InputDecoration(hintText: 'Passwort'),
-            ),
-          ),
-        ),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      return Container( 
+        color: backgroundColor,
+        child: Column (
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Form(
+                child: TextFormField(
+                  style: TextStyle(color: primaryTextColor),
+                  controller: username_controller,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    hintStyle: TextStyle(color: primaryTextColor),
+                    floatingLabelStyle: TextStyle(color: variationColor),
+                  ),
+                ),
               ),
-              onPressed: () => evt_login(context),
-              child: Text('Einloggen'),
-            )),
-      ],
-    );
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Form(
+                child: TextFormField(
+                  style: TextStyle(color: primaryTextColor),
+                  controller: password_controller,
+                  keyboardType: TextInputType.visiblePassword, 
+                  decoration: InputDecoration(
+                    hintText: 'Passwort',
+                    hintStyle: TextStyle(color: primaryTextColor),
+                    floatingLabelStyle: TextStyle(color: variationColor),
+                  ),
+                  
+                ),
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () => evt_login(context),
+                  child: Text('Einloggen'),
+                )),
+          ],
+        )
+      ); 
   }
 
   void evt_login(con) {
