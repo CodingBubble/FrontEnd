@@ -19,7 +19,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join) {
             child: IconButton(
               // go back button
               onPressed: () => {Navigator.pop(context)},
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back, color:secondaryTextColor),
             ),
           ),
           Container(
@@ -33,14 +33,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join) {
             child: IconButton(
                 onPressed: () =>
                     {AppHandler("eventWidget", context, [4])},
-                icon: Icon(Icons.group)),
+                icon: Icon(Icons.group, color:secondaryTextColor)),
           ),
           Container(
               width: MediaQuery.of(context).size.width * 0.15,
               child: IconButton(
                   // button for settings
                   onPressed: () => {AppHandler("eventSettings", context, [])},
-                  icon: Icon(Icons.settings))),
+                  icon: Icon(Icons.settings, color:secondaryTextColor))),
         ],
       ));
 }

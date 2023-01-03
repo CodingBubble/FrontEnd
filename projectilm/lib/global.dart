@@ -9,8 +9,8 @@ const color_modes = {
     "secondaryTextColor": Color.fromARGB(255, 0, 0, 0),
     "widgetColor": Color.fromARGB(255, 150, 150, 150),
     "variationColor": Color.fromARGB(255, 45, 92, 147),
-    "positiveColor": Color.fromARGB(255, 0, 176, 0),
-    "negativeColor": Color.fromARGB(255, 255, 0, 0),
+    "positiveColor": Color.fromARGB(255, 0, 121, 242),
+    "negativeColor": Color.fromARGB(255, 165, 0, 0),
   },
 
    "dark" : {
@@ -19,19 +19,19 @@ const color_modes = {
     "secondaryTextColor": Color.fromARGB(255, 250, 250, 250),
     "widgetColor": Color.fromARGB(255, 39, 39, 39),
     "variationColor": Color.fromARGB(255, 95, 138, 184),
-    "positiveColor": Color.fromARGB(255, 0, 132, 194),
-    "negativeColor": Color.fromARGB(255, 50, 1, 1),
+    "positiveColor": Color.fromARGB(255, 9, 139, 0),
+    "negativeColor": Color.fromARGB(255, 214, 4, 4),
   },
 
   
    "color" : {
-    "background_color":  Colors.white,
-    "primaryTextColor": Color.fromARGB(255, 232, 232, 232),
-    "secondaryTextColor": Color.fromARGB(255, 185, 185, 185),
-    "widgetColor": Color.fromARGB(255, 0, 99, 212),
-    "variationColor": Color.fromARGB(255, 78, 168, 0),
-    "positiveColor": Color.fromARGB(255, 0, 85, 21),
-    "negativeColor": Color.fromARGB(255, 168, 0, 0),
+    "background_color":  Color.fromARGB(255, 0, 85, 182),
+    "primaryTextColor": Color.fromARGB(255, 188, 188, 188),
+    "secondaryTextColor": Color.fromARGB(255, 240, 240, 240),
+    "widgetColor": Color.fromARGB(255, 0, 31, 108),
+    "variationColor": Color.fromARGB(255, 0, 110, 0),
+    "positiveColor": Color.fromARGB(255, 255, 145, 0),
+    "negativeColor": Color.fromARGB(255, 157, 0, 50),
   },
   
 };

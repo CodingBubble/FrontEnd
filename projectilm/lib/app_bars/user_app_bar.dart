@@ -16,7 +16,7 @@ AppBar get_user_app_bar(BuildContext context) {
         children: [
           Builder(builder: (BuildContext context) {
             return (IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.search, color:secondaryTextColor),
               color: backgroundColor,
               onPressed: () => {},
             )); // here to add the onPressed-command to search something
@@ -24,15 +24,18 @@ AppBar get_user_app_bar(BuildContext context) {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: TextFormField(
+              style: TextStyle(color:secondaryTextColor),
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Suche",
+                hintStyle: TextStyle(color: primaryTextColor),
+                floatingLabelStyle: TextStyle(color: variationColor),
               ),
             ),
           ),
           Builder(builder: (BuildContext context) {
             return (IconButton(
-                icon: Icon(Icons.settings),
+                icon: Icon(Icons.settings, color:secondaryTextColor),
                 color: backgroundColor,
                 onPressed: () => {
                       AppHandler("settingsWidget", context, [])

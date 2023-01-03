@@ -5,16 +5,15 @@ import 'global.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'package:projectilm/controlWidget.dart';
 
-class logInWidget extends StatefulWidget {
-  const logInWidget({super.key, required this.title});
-  final String title;
+class RegisterWidget extends StatefulWidget {
+  const RegisterWidget({super.key});
 
   @override
-  State<logInWidget> createState() => _logInWidget();
+  State<RegisterWidget> createState() => register_state();
 }
 
-class logInForms extends StatelessWidget {
-  logInForms({super.key});
+class load_register extends StatelessWidget {
+  load_register({super.key});
   final TextEditingController username_controller = TextEditingController();
   final TextEditingController password_controller = TextEditingController();
   @override
@@ -61,7 +60,7 @@ class logInForms extends StatelessWidget {
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                   ),
-                  onPressed: () => evt_login(context),
+                  onPressed: () => evt_register(context),
                   child: Text('Einloggen'),
                 )
               ),
@@ -72,19 +71,21 @@ class logInForms extends StatelessWidget {
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () => AppHandler("register", context, []),
-                  child: Text('Noch keinen Account?'),
+                  child: Text('Ich habe bereits einen Account'),
                 )
               )
+
+              
           ],
         )
       ); 
   }
 
-  void evt_login(con) {
-    login(username_controller.text, password_controller.text)
+  void evt_register(con) {
+    register(username_controller.text, password_controller.text)
         .then((bool k) async {
       if (!k) {
-        showAlertDialog(con, "Fehler", "Benutzername oder Passwort ungültig");
+        showAlertDialog(con, "Fehler", "Account konnte nicht erstellt werden");
         return;
       }
       print("Logged In");
@@ -96,32 +97,20 @@ class logInForms extends StatelessWidget {
   }
 }
 
-class _logInWidget extends State<logInWidget> {
+class register_state extends State<RegisterWidget> {
   @override
   Widget build(BuildContext context) {
-    login_from_storage();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widgetColor,
         title: const Center(
-          child: Text('Anmeldung'),
+          child: Text('Account erstellen'),
         ),
       ),
-      body: logInForms(),
+      body: load_register(),
     );
   }
 
-  Future login_from_storage() async {
-    final prefs = await SharedPreferences.getInstance();
-    String username = await prefs.getString("username") ?? "";
-    String password = await prefs.getString("password") ?? "";
-    login(username, password).then((value) {
-      if (!value) {
-        return;
-      }
-      AppHandler("mainWidget", context, []);
-    });
-  }
 
   // buttons and others
 

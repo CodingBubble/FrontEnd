@@ -57,6 +57,7 @@ class _stateChatWidget extends State<chatWidget> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Material(
+                      color: backgroundColor,
                       child: Column(
                         children: [
                           new Padding(
@@ -80,21 +81,24 @@ class _stateChatWidget extends State<chatWidget> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Container(
-                    child: Row(
+                  child: Row(
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Schreibe eine Nachricht",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
                     IconButton(
                         onPressed: () => {send_message()},
-                        icon: Icon(Icons.send))
+                        icon: Icon(Icons.send, color: secondaryTextColor))
                   ],
                 )),
               ),
@@ -121,7 +125,7 @@ class _stateChatWidget extends State<chatWidget> {
     current_group!.get_messages().then((msgs) {
       messageshistory = [];
       msgs.forEach((msg) {
-        messageshistory.add([msg.text, msg.author.id != me!.id]);
+        messageshistory.add([msg.text, msg.author.id != me!.id, msg.author.username]);
       });
       setState(() {});
     });
@@ -155,7 +159,7 @@ class _stateChatWidget extends State<chatWidget> {
   Widget WidgetmessageDesign(list) {
     var message = list[0];
     var _me = list[1];
-    var author = "GiggaNigga"; //list[2];
+    var author = list[2];
     var wColor;
     var bubbleCorner;
     if (_me == true) {

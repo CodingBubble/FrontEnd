@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:projectilm/app_bars/group_app_bar.dart';
+import 'package:projectilm/app_bars/simple_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'alert_fnc.dart';
@@ -16,44 +18,55 @@ class Event_Create extends StatefulWidget {
 class _StateEvent_Create extends State<Event_Create> {
   final TextEditingController name_controller = TextEditingController();
   final TextEditingController desc_controller = TextEditingController();
+  final DateFormat formatter = DateFormat('dd. MM. yyyy HH:mm');
 
-
-  DateTime? cur_date = null;
+  DateTime cur_date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
      return Scaffold(
-      appBar: get_group_app_bar(context),
+      backgroundColor: backgroundColor,
+      appBar: get_simple_app_bar(context, "Event erstellen"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Form(
               child: TextFormField(
+                style: TextStyle(color: primaryTextColor),
                 controller: name_controller,
                 keyboardType: TextInputType.name,
-                decoration: InputDecoration(hintText: 'Titel'),
+                decoration: InputDecoration(
+                  hintText: 'Titel',
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
+                ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Form(
               child: TextFormField(
+                style: TextStyle(color: primaryTextColor),
                 controller: desc_controller,
                 keyboardType: TextInputType.name,
-                decoration: InputDecoration(hintText: 'Ort'),
+                decoration: InputDecoration(
+                  hintText: 'Ort',
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
+                ),
               ),
             ),
           ),
           
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child:Row(
                 children: [
                    IconButton(
-                    icon: Icon(Icons.calendar_month),
+                    icon: Icon(Icons.calendar_month, color: secondaryTextColor),
                     onPressed: () { 
                       DatePicker.showDateTimePicker(context,
                               showTitleActions: true,
@@ -64,19 +77,19 @@ class _StateEvent_Create extends State<Event_Create> {
                           }, currentTime: DateTime.now(), locale: LocaleType.de);
                     },
                   ),
-                  Text(cur_date.toString())
+                  Text(formatter.format(cur_date), style: TextStyle(color: primaryTextColor),)
                 ],
               )
             ),
 
 
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: TextButton(
                 onPressed: () { 
                   create_event();
                 },
-                child: Text('Event erstellen'),
+                child: Text('Event erstellen', style: new TextStyle(color: variationColor)),
               )),
         ],
       )

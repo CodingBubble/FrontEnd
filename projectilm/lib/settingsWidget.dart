@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
-import 'package:projectilm/app_bars/settings_app_bar.dart';
+import 'package:projectilm/app_bars/simple_app_bar.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({super.key, required this.title});
@@ -24,12 +24,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: get_settings_app_bar(context),
+        backgroundColor: backgroundColor,
+        appBar: get_simple_app_bar(context, "Einstellungen"),
         body: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
               var settingCathegories = get_setting_category(update_color, context);
               return Material(
+                color: backgroundColor,
                 child: Column(
                   children: [
                     SizedBox(
@@ -85,9 +87,12 @@ Widget generalSettings(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
+                   style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Gebe dein neues Passwort ein',
+                    hintStyle: TextStyle(color: primaryTextColor),
+                    floatingLabelStyle: TextStyle(color: variationColor),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -99,14 +104,11 @@ Widget generalSettings(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
+                    onPressed: () {   
                       if (_formKey.currentState!.validate()) {
                        me_change_password(password_controller.text);
-                       
                        password = password_controller.text;   
-                      () async {
+                        () async {
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setString("password", password); 
                        }; 
@@ -116,6 +118,44 @@ Widget generalSettings(BuildContext context) {
                     child: const Text('Passwort ändern'),
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  child: ElevatedButton(
+                    onPressed: () {   
+                       username = "";
+                       password = ""; 
+                       me=null;
+                        () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove("username");
+                        prefs.remove("password");
+                       }; 
+                      AppHandler("loginInWidget", context, []);       
+                    },
+                    child: const Text('Abmelden'),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  child: ElevatedButton(
+                    onPressed: () {   
+                       username = "";
+                       password = ""; 
+                       me=null;
+                        () async {
+                        await me_delete();
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove("username");
+                        prefs.remove("password");
+                       }; 
+                      AppHandler("loginInWidget", context, []);       
+                    },
+                    child: const Text('Account Löschen'),
+                  ),
+                ),
+
               ],
             ),
           ),

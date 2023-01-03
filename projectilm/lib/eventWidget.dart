@@ -141,7 +141,7 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_messages().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
-        event_data_list.add([msg.text, msg.author.id != me!.id]);
+        event_data_list.add([msg.text, msg.author.id != me!.id, msg.author.username]);
       });
       setState(() {});
     });
@@ -369,6 +369,7 @@ Widget get_body(
       ));
 
     case 0:
+<<<<<<< HEAD
       ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
       var c = Column(children: [
         Container(
@@ -420,12 +421,72 @@ Widget get_body(
           ),
         ),
       ]);
+=======
+    ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
+      var c = Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Scrollbar(
+                child: ListView.builder(
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          new Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets)),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.9, 
+                              child: AnnouncentsData(event_data_list[index])),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Container(
+                    child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Rundnachricht",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle: TextStyle(color: variationColor),
+                          ),
+                        ),
+                      ),
+                    IconButton(
+                        onPressed: () => {send_announcement()},
+                        icon: Icon(Icons.send, color: secondaryTextColor))
+                  ],
+                )),
+              ),
+            ),
+          ]
+      );
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
       return c;
     case 1:
       /////////////////////// EVENT CHAT WIDGET ///////////////////////////////
+<<<<<<< HEAD
       return Column(children: [
         // history of messages
         Container(
@@ -470,6 +531,92 @@ Widget get_body(
                       hintText: "Schreibe eine Nachricht",
                     ),
                   ),
+=======
+      return Column(
+          children: [
+            // history of messages
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Scrollbar(
+                child: ListView.builder(
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          new Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets)),
+                          Container(
+                              width: MediaQuery.of(context).size.width *
+                                  0.9, // the distance to the margin of display
+                              child: WidgetmessageDesign(event_data_list[index])),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+                ),
+              ),
+            ),
+            // button to enter a message to the chat
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Container(
+                    child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "Schreibe eine Nachricht",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => {send_message()},
+                        icon: Icon(Icons.send, color: secondaryTextColor))
+                  ],
+                )),
+              ),
+            ),
+          ]
+      );
+    case 2:
+       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
+      var c = Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          new Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets)),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.9, 
+                              child: ListData(event_data_list[index], bring_list_item, unbring_list_item, delete_list_item)),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
                 ),
                 IconButton(
                     onPressed: () => {send_message()}, icon: Icon(Icons.send))
@@ -506,6 +653,7 @@ Widget get_body(
               },
               itemCount: event_data_list.length,
             ),
+<<<<<<< HEAD
           ),
         ),
         Align(
@@ -533,11 +681,43 @@ Widget get_body(
           ),
         ),
       ]);
+=======
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Container(
+                    child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "Neuer Eintrag",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => {create_list_item()},
+                        icon: Icon(Icons.add, color: secondaryTextColor))
+                  ],
+                )),
+              ),
+            ),
+          ]
+      );
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
       return c;
     case 3:
+<<<<<<< HEAD
       ///////////////////////////// EVENT POLLS ///////////////////////////////
       var c = Column(children: [
         Container(
@@ -596,6 +776,67 @@ Widget get_body(
           ),
         ),
       ]);
+=======
+     ///////////////////////////// EVENT POLLS ///////////////////////////////
+       var c = Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          new Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.9, 
+                              child: PollData(event_data_list[index], create_voteoption, delete_voteoption, delete_poll, vote_for, unvote_for, context)),
+                          new Padding(
+                            padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
+                        ],
+                          
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Container(
+                  child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "Neue Frage",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => {create_poll()},
+                        icon: Icon(Icons.add_box, color: secondaryTextColor))
+                  ],
+                )),
+              ),
+            ),
+          ]
+      );
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
@@ -611,6 +852,7 @@ Widget get_body(
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Material(
+                color: backgroundColor,
                 child: Column(
                   children: [
                     new Padding(
@@ -637,6 +879,7 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
   return Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
       child: Container(
+<<<<<<< HEAD
           height: MediaQuery.of(context).size.height * 0.18,
           child: TextButton(
             child: Row(
@@ -662,15 +905,45 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
                 ]),
             onPressed: () => AppHandler("eventWidget", context, [keyD]),
           )));
+=======
+        height: MediaQuery.sizeOf(context).height*0.18,
+        child: TextButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(icon, color: primaryTextColor, size: min(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height)*0.14),
+              Container( 
+                width: MediaQuery.sizeOf(context).width * 0.65,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(text, style: TextStyle(color: secondaryTextColor, fontSize: 19)),
+                    Text(additional, style: TextStyle(color: primaryTextColor, fontSize: 14))
+                  ],
+                )
+              )
+            ]
+          ),
+          onPressed: ()=>AppHandler("eventWidget", context, [keyD]),
+        )
+      )
+  );
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
 }
 
 Widget ListData(item, add_me, remove_me, delete_item) {
   var icon = Icon(Icons.circle, color: secondaryTextColor);
   Widget del_button = Container();
+<<<<<<< HEAD
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
         icon: Icon(Icons.delete_forever_outlined, color: variationColor),
         onPressed: () => {delete_item(item[1])});
+=======
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: positiveColor), onPressed: ()=>{delete_item(item[1])});
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
   }
   if (item[1].bringer != "") {
     icon = Icon(Icons.check, color: variationColor);
@@ -713,18 +986,28 @@ Widget MemberData(member) {
   ));
 }
 
+<<<<<<< HEAD
 Widget AnnouncentsData(message) {
   return Container(
       child: Text(
     message[0],
     style: TextStyle(color: primaryTextColor),
   ));
+=======
+Widget AnnouncentsData (message) {
+   return Container(
+        child: Text(message[0], 
+          style: TextStyle(color: secondaryTextColor),
+        )
+    );
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
 }
 
 Widget PollData(
     item, add_item, remove_item, delete_this, vote, unvote, context) {
   final controller = TextEditingController();
   Widget del_button = Container();
+<<<<<<< HEAD
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
         icon: Icon(Icons.delete_forever_outlined, color: variationColor),
@@ -769,6 +1052,60 @@ Widget PollData(
       ],
     )
   ]));
+=======
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_this(item[1])}
+    );
+  }
+  var c=  Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
+              Text(item[0], style: TextStyle(color: secondaryTextColor, decoration: TextDecoration.underline, fontSize: 16)),
+              del_button,
+            ],
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Material(
+                color: backgroundColor,
+                child: VoteOptionData(item[3][index], item[4][index], 
+                    item[5], remove_item, vote, unvote, context)
+              ); 
+            },
+            itemCount: item[3].length,
+          ),
+          Row(
+                children: [
+                  IconButton(
+                    onPressed: () => {add_item(item[1], controller)},
+                    icon: Icon(Icons.add_box, color: secondaryTextColor)
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: TextFormField(
+                        controller: controller,
+                        style: TextStyle(color: secondaryTextColor),
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "Neue Option",
+                          hintStyle: TextStyle(color: secondaryTextColor),
+                          floatingLabelStyle: TextStyle(color: primaryTextColor),
+                        ),
+                      ),
+                  )
+                ],
+          )
+        ]    
+  );
+  if (current_event!.creator_id!=me!.id){
+    c.children.removeAt(2);
+  }
+  return Container(child: c);
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
 }
 
 bool voted_for(List<VoteOption> l, VoteOption o) {
@@ -783,6 +1120,7 @@ bool voted_for(List<VoteOption> l, VoteOption o) {
 Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
     delete, vote, unvote, context) {
   Widget del_button = Container();
+<<<<<<< HEAD
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
         icon: Icon(Icons.remove, color: variationColor),
@@ -800,6 +1138,18 @@ Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
   }
 
   return Container(
+=======
+  if (current_event!.creator_id == me!.id){
+    del_button = IconButton(icon: Icon(Icons.remove, color: variationColor), onPressed: ()=>{delete(data)});
+  }
+  Widget vote_btn = IconButton(onPressed: () => vote(data), icon: Icon(Icons.check_box_outline_blank), color: secondaryTextColor);
+  if ( voted_for(my_opts, data))
+  {
+     vote_btn = IconButton(onPressed: () => unvote(data), icon: Icon(Icons.check_box), color: positiveColor);
+  }
+  
+    return Container(    
+>>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
       child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -821,6 +1171,7 @@ var inputMessage = "";
 Widget WidgetmessageDesign(list) {
   var message = list[0];
   var _me = list[1];
+  var author = list[2];
   var wColor;
   var bubbleCorner;
   if (_me == true) {
@@ -867,11 +1218,21 @@ Widget WidgetmessageDesign(list) {
                 bottomLeft: Radius.circular(19),
               ),
             ),
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-            ),
-          ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  message,
+                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ],
+            )),
         ),
       ],
     ));

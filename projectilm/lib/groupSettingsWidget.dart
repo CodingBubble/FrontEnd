@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_bars/simple_app_bar.dart';
 import 'global.dart';
-import 'package:projectilm/app_bars/settings_app_bar.dart';
-
 
 class groupSettingsWidget extends StatefulWidget {
   const groupSettingsWidget({super.key, required this.title});
@@ -23,13 +22,15 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: get_settings_app_bar(context),
+        backgroundColor: backgroundColor,
+        appBar: get_simple_app_bar(context, "Gruppeneinstellungen"),
         body: Scrollbar(
           child: ListView.builder(
             itemCount: get_setting_category(context, generateID).length,
             itemBuilder: (context, index) {
               var settingCathegories = get_setting_category(context, generateID);
               return Material(
+                color: backgroundColor,
                 child: Column(
                   children: [
                     SizedBox(
@@ -116,9 +117,12 @@ Widget configSettings(BuildContext context) {
                       color: primaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
+                  style: TextStyle(color: primaryTextColor),
                   controller: change_title_controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Gebe einen neuen Gruppennamen ein',
+                    hintStyle: TextStyle(color: primaryTextColor),
+                    floatingLabelStyle: TextStyle(color: variationColor),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -143,9 +147,12 @@ Widget configSettings(BuildContext context) {
                       color: primaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
+                   style: TextStyle(color: primaryTextColor),
                   controller: change_desc_controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Gebe eine neue Gruppenbeschreibung ein',
+                    hintStyle: TextStyle(color: primaryTextColor),
+                    floatingLabelStyle: TextStyle(color: variationColor),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
