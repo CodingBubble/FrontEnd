@@ -42,7 +42,7 @@ class _EventWidget extends State<EventWidget> {
         break;
       case 2:
         load_list_items();
-        break; 
+        break;
       case 3:
         load_poll_history();
         break;
@@ -54,26 +54,40 @@ class _EventWidget extends State<EventWidget> {
 
   @override
   Widget build(BuildContext context) {
-    void t()=>{};
+    void t() => {};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-     // title: "Dein Event",
+      // title: "Dein Event",
       home: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: get_event_app_bar(context, toggle_join),
-        body: get_body(state, context, send_message, send_announcement, create_list_item, bring_list_item, 
-                        unbring_list_item, delete_list_item, create_poll, delete_poll, create_voteoption, 
-                        delete_voteoption, vote_for, unvote_for)
-        ),
+          backgroundColor: backgroundColor,
+          appBar: get_event_app_bar(context, toggle_join),
+          body: get_body(
+              state,
+              context,
+              send_message,
+              send_announcement,
+              create_list_item,
+              bring_list_item,
+              unbring_list_item,
+              delete_list_item,
+              create_poll,
+              delete_poll,
+              create_voteoption,
+              delete_voteoption,
+              vote_for,
+              unvote_for)),
     );
   }
 
   void update_joined() {
-    current_event!.am_member().then((value) { joined_event=value; setState(() { }); });
+    current_event!.am_member().then((value) {
+      joined_event = value;
+      setState(() {});
+    });
   }
 
   void toggle_join() {
-    if (joined_event){
+    if (joined_event) {
       current_event!.leave();
     } else {
       current_event!.join();
@@ -83,31 +97,28 @@ class _EventWidget extends State<EventWidget> {
 
   void get_last_chat() {
     current_event!.get_messages_gen(0).then((value) {
-        if (value.length > 0) { 
-          lastChat = value[0].text.substring(0, min(value[0].text.length, 50)); 
-          setState(() {});
-          }
+      if (value.length > 0) {
+        lastChat = value[0].text.substring(0, min(value[0].text.length, 50));
+        setState(() {});
       }
-    );
+    });
   }
 
   void get_last_announcement() {
     current_event!.get_announcements_gen(0).then((value) {
-        if (value.length > 0) { 
-          lastAnnouncement = value[0].text.substring(0, min(value[0].text.length, 50)); 
-          setState(() {});
-          }
+      if (value.length > 0) {
+        lastAnnouncement =
+            value[0].text.substring(0, min(value[0].text.length, 50));
+        setState(() {});
       }
-    );
+    });
   }
 
-  void get_last_listitems()
-  {
+  void get_last_listitems() {
     current_event!.get_list_items().then((msgs) {
       list_items = ["", ""];
       msgs.forEach((msg) {
-        if (msg.bringer=="")
-        {
+        if (msg.bringer == "") {
           list_items.add(msg.title);
         }
       });
@@ -140,7 +151,9 @@ class _EventWidget extends State<EventWidget> {
     if (inputMessageController.text.trim() == "") {
       return;
     }
-    current_event!.send_message(inputMessageController.text.trim()).then((value) {
+    current_event!
+        .send_message(inputMessageController.text.trim())
+        .then((value) {
       if (value == null) {
         return;
       }
@@ -163,7 +176,9 @@ class _EventWidget extends State<EventWidget> {
     if (inputMessageController.text.trim() == "") {
       return;
     }
-    current_event!.creator_list_add_item(inputMessageController.text.trim()).then((value) {
+    current_event!
+        .creator_list_add_item(inputMessageController.text.trim())
+        .then((value) {
       if (value == null) {
         return;
       }
@@ -173,21 +188,27 @@ class _EventWidget extends State<EventWidget> {
   }
 
   void bring_list_item(ListItem item) {
-    item.bring_me().then((value) { if(value){
-      load_list_items();
-    }});
+    item.bring_me().then((value) {
+      if (value) {
+        load_list_items();
+      }
+    });
   }
 
   void unbring_list_item(ListItem item) {
-    item.unbring_me().then((value) { if(value){
-      load_list_items();
-    }});
+    item.unbring_me().then((value) {
+      if (value) {
+        load_list_items();
+      }
+    });
   }
 
   void delete_list_item(ListItem item) {
-     item.creator_delete().then((value) { if(value){
-      load_list_items();
-    }});
+    item.creator_delete().then((value) {
+      if (value) {
+        load_list_items();
+      }
+    });
   }
 
   void load_announcement_history() {
@@ -204,7 +225,9 @@ class _EventWidget extends State<EventWidget> {
     if (inputMessageController.text.trim() == "") {
       return;
     }
-    current_event!.creator_send_announcement(inputMessageController.text.trim()).then((value) {
+    current_event!
+        .creator_send_announcement(inputMessageController.text.trim())
+        .then((value) {
       if (value == null) {
         return;
       }
@@ -213,19 +236,19 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void load_poll_history()  async {
+  void load_poll_history() async {
     event_data_list = [];
     var polls = await current_event!.get_polls();
     for (Poll poll in polls) {
       var my_opts = await poll.get_my_voted_options();
       var options = await poll.get_options();
       var vote_nums = [];
-      for (var o in options)
-      {
+      for (var o in options) {
         vote_nums.add(await o.get_vote_count());
       }
       var count = await poll.get_vote_count();
-      event_data_list.add([poll.title, poll, count, options, vote_nums, my_opts]);
+      event_data_list
+          .add([poll.title, poll, count, options, vote_nums, my_opts]);
     }
     setState(() {});
   }
@@ -234,16 +257,20 @@ class _EventWidget extends State<EventWidget> {
     if (inputMessageController.text.trim() == "") {
       return;
     }
-    current_event!.creator_create_poll(inputMessageController.text.trim()).then((value) {
+    current_event!
+        .creator_create_poll(inputMessageController.text.trim())
+        .then((value) {
       if (value == null) {
         return;
       }
-      current_event!.creator_send_announcement("Es wurde eine neue Umfrage erstellt: " + inputMessageController.text.trim());
+      current_event!.creator_send_announcement(
+          "Es wurde eine neue Umfrage erstellt: " +
+              inputMessageController.text.trim());
       inputMessageController.text = "";
       load_poll_history();
     });
   }
-  
+
   void delete_poll(Poll p) {
     p.creator_delete().then((value) {
       if (!value) {
@@ -265,24 +292,24 @@ class _EventWidget extends State<EventWidget> {
       load_poll_history();
     });
   }
-  
+
   void delete_voteoption(VoteOption p) {
     if (me == null) {
       return;
     }
     p.creator_delete().then((value) {
-        if (!value) {
-          return;
-        }
-        load_poll_history();
+      if (!value) {
+        return;
+      }
+      load_poll_history();
     });
   }
 
   void vote_for(VoteOption p) {
     p.vote_for().then((value) {
       if (!value) {
-          return;
-        }
+        return;
+      }
       load_poll_history();
     });
   }
@@ -290,277 +317,292 @@ class _EventWidget extends State<EventWidget> {
   void unvote_for(VoteOption p) {
     p.unvote_for().then((value) {
       if (!value) {
-          return;
-        }
+        return;
+      }
       load_poll_history();
     });
   }
 }
 
 var inputMessageController = TextEditingController();
-Widget get_body(int i, BuildContext context, Function() send_message, Function() send_announcement, 
-                 void Function() create_list_item, void Function(ListItem item) bring_list_item,
-                 void Function(ListItem item) unbring_list_item, void Function(ListItem item) delete_list_item, 
-                 void Function() create_poll, void Function(Poll p) delete_poll, 
-                 void Function(Poll,TextEditingController) create_voteoption, void Function(VoteOption p) delete_voteoption,
-                 void Function(VoteOption p) vote_for, void Function(VoteOption p) unvote_for){
+Widget get_body(
+    int i,
+    BuildContext context,
+    Function() send_message,
+    Function() send_announcement,
+    void Function() create_list_item,
+    void Function(ListItem item) bring_list_item,
+    void Function(ListItem item) unbring_list_item,
+    void Function(ListItem item) delete_list_item,
+    void Function() create_poll,
+    void Function(Poll p) delete_poll,
+    void Function(Poll, TextEditingController) create_voteoption,
+    void Function(VoteOption p) delete_voteoption,
+    void Function(VoteOption p) vote_for,
+    void Function(VoteOption p) unvote_for) {
   switch (i) {
-
     case -1:
-      return SingleChildScrollView (
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text("Ort:  " + current_event!.description, style: TextStyle(color: primaryTextColor, fontSize: 20),),
-            Text("Zeit: " + formatter.format(current_event!.time.toLocal()), style: TextStyle(color: primaryTextColor, fontSize: 20),),
-            Column(
-              children: [
-                get_home_item("Ankündigungen", Icons.info_outline,         0, lastAnnouncement,                 context),
-                get_home_item("Chat",          Icons.chat_bubble_outline,  1, lastChat,                         context),
-                get_home_item("Einkaufsliste", Icons.list_alt_outlined,    2, list_items[0]+"\n"+list_items[1], context),
-                get_home_item("Umfragen",      Icons.how_to_vote_outlined, 3, "",                               context),
-              //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
-              ]
-            ),
-          ],
-        )
-      );
+      return SingleChildScrollView(
+          child: Column(
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            "Ort:  " + current_event!.description,
+            style: TextStyle(color: primaryTextColor, fontSize: 20),
+          ),
+          Text(
+            "Zeit: " + formatter.format(current_event!.time.toLocal()),
+            style: TextStyle(color: primaryTextColor, fontSize: 20),
+          ),
+          Column(children: [
+            get_home_item("Ankündigungen", Icons.info_outline, 0,
+                lastAnnouncement, context),
+            get_home_item(
+                "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
+            get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
+                list_items[0] + "\n" + list_items[1], context),
+            get_home_item(
+                "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
+            //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
+          ]),
+        ],
+      ));
 
     case 0:
-    ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
-      var c = Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      child: Column(
-                        children: [
-                          new Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.9, 
-                              child: AnnouncentsData(event_data_list[index])),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: event_data_list.length,
-                ),
-              ),
+      ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
+      var c = Column(children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Scrollbar(
+            child: ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Material(
+                  child: Column(
+                    children: [
+                      new Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets)),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: AnnouncentsData(event_data_list[index])),
+                    ],
+                  ),
+                );
+              },
+              itemCount: event_data_list.length,
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Schreibe eine Rundnachricht",
-                        ),
-                      ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Container(
+                child: Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextFormField(
+                    controller: inputMessageController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Schreibe eine Rundnachricht",
                     ),
-                    IconButton(
-                        onPressed: () => {send_announcement()},
-                        icon: Icon(Icons.send))
-                  ],
-                )),
-              ),
-            ),
-          ]
-      );
-      if (current_event!.creator_id != me!.id) {
-        c.children.removeAt(1);
-      }
-      return c; 
-    case 1:
-      /////////////////////// EVENT CHAT WIDGET ///////////////////////////////
-      return Column(
-          children: [
-            // history of messages
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      child: Column(
-                        children: [
-                          new Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          Container(
-                              width: MediaQuery.of(context).size.width *
-                                  0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(event_data_list[index])),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: event_data_list.length,
+                  ),
                 ),
-              ),
-            ),
-            // button to enter a message to the chat
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Schreibe eine Nachricht",
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () => {send_message()},
-                        icon: Icon(Icons.send))
-                  ],
-                )),
-              ),
-            ),
-          ]
-      );
-    case 2:
-       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
-      var c = Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      child: Column(
-                        children: [
-                          new Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.9, 
-                              child: ListData(event_data_list[index], bring_list_item, unbring_list_item, delete_list_item)),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: event_data_list.length,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Neuer Eintrag",
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () => {create_list_item()},
-                        icon: Icon(Icons.add))
-                  ],
-                )),
-              ),
-            ),
-          ]
-      );
-      if (current_event!.creator_id != me!.id) {
-        c.children.removeAt(1);
-      }
-      return c; 
-    case 3:
-     ///////////////////////////// EVENT POLLS ///////////////////////////////
-       var c = Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      child: Column(
-                        children: [
-                          new Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.9, 
-                              child: PollData(event_data_list[index], create_voteoption, delete_voteoption, delete_poll, vote_for, unvote_for, context)),
-                          new Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
-                        ],
-                          
-                      ),
-                    );
-                  },
-                  itemCount: event_data_list.length,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                  child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Neue Umfrage",
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () => {create_poll()},
-                        icon: Icon(Icons.add_box))
-                  ],
-                )),
-              ),
-            ),
-          ]
-      );
+                IconButton(
+                    onPressed: () => {send_announcement()},
+                    icon: Icon(Icons.send))
+              ],
+            )),
+          ),
+        ),
+      ]);
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
       return c;
-      
+    case 1:
+      /////////////////////// EVENT CHAT WIDGET ///////////////////////////////
+      return Column(children: [
+        // history of messages
+        Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Scrollbar(
+            child: ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Material(
+                  child: Column(
+                    children: [
+                      new Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets)),
+                      Container(
+                          width: MediaQuery.of(context).size.width *
+                              0.9, // the distance to the margin of display
+                          child: WidgetmessageDesign(event_data_list[index])),
+                    ],
+                  ),
+                );
+              },
+              itemCount: event_data_list.length,
+            ),
+          ),
+        ),
+        // button to enter a message to the chat
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Container(
+                child: Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextFormField(
+                    controller: inputMessageController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Schreibe eine Nachricht",
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () => {send_message()}, icon: Icon(Icons.send))
+              ],
+            )),
+          ),
+        ),
+      ]);
+    case 2:
+      ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
+      var c = Column(children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Scrollbar(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Material(
+                  child: Column(
+                    children: [
+                      new Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets)),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: ListData(
+                              event_data_list[index],
+                              bring_list_item,
+                              unbring_list_item,
+                              delete_list_item)),
+                    ],
+                  ),
+                );
+              },
+              itemCount: event_data_list.length,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Container(
+                child: Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextFormField(
+                    controller: inputMessageController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Neuer Eintrag",
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () => {create_list_item()},
+                    icon: Icon(Icons.add))
+              ],
+            )),
+          ),
+        ),
+      ]);
+      if (current_event!.creator_id != me!.id) {
+        c.children.removeAt(1);
+      }
+      return c;
+    case 3:
+      ///////////////////////////// EVENT POLLS ///////////////////////////////
+      var c = Column(children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Scrollbar(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Material(
+                  child: Column(
+                    children: [
+                      new Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: PollData(
+                              event_data_list[index],
+                              create_voteoption,
+                              delete_voteoption,
+                              delete_poll,
+                              vote_for,
+                              unvote_for,
+                              context)),
+                      new Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
+                    ],
+                  ),
+                );
+              },
+              itemCount: event_data_list.length,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Container(
+                child: Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextFormField(
+                    controller: inputMessageController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      hintText: "Neue Umfrage",
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () => {create_poll()}, icon: Icon(Icons.add_box))
+              ],
+            )),
+          ),
+        ),
+      ]);
+      if (current_event!.creator_id != me!.id) {
+        c.children.removeAt(1);
+      }
+      return c;
+
     case 4:
-    ///////////////////// EVENT MEMBERS ///////////////////////////////////////
+      ///////////////////// EVENT MEMBERS ///////////////////////////////////////
       return Container(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.8,
@@ -590,183 +632,188 @@ Widget get_body(int i, BuildContext context, Function() send_message, Function()
   return Container();
 }
 
-
-
-Widget get_home_item(String text, IconData icon, int keyD, String additional,BuildContext context)
-{
+Widget get_home_item(String text, IconData icon, int keyD, String additional,
+    BuildContext context) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal:0.0),
+      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
       child: Container(
-        height: MediaQuery.sizeOf(context).height*0.18,
-        child: TextButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(icon, color: primaryTextColor, size: MediaQuery.sizeOf(context).width*0.14),
-              Container( 
-                width: MediaQuery.sizeOf(context).width * 0.65,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(text, style: TextStyle(color: primaryTextColor, fontSize: 19)),
-                    Text(additional, style: TextStyle(color: secondaryTextColor, fontSize: 14))
-                  ],
-                )
-              )
-            ]
-          ),
-          onPressed: ()=>AppHandler("eventWidget", context, [keyD]),
-        )
-      )
-  );
+          height: MediaQuery.of(context).size.height * 0.18,
+          child: TextButton(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(icon,
+                      color: primaryTextColor,
+                      size: MediaQuery.of(context).size.width * 0.14),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.65,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(text,
+                              style: TextStyle(
+                                  color: primaryTextColor, fontSize: 19)),
+                          Text(additional,
+                              style: TextStyle(
+                                  color: secondaryTextColor, fontSize: 14))
+                        ],
+                      ))
+                ]),
+            onPressed: () => AppHandler("eventWidget", context, [keyD]),
+          )));
 }
 
 Widget ListData(item, add_me, remove_me, delete_item) {
-  var icon = Icon(Icons.circle, color:secondaryTextColor);
+  var icon = Icon(Icons.circle, color: secondaryTextColor);
   Widget del_button = Container();
-  if (current_event!.creator_id == me!.id){
-    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_item(item[1])});
+  if (current_event!.creator_id == me!.id) {
+    del_button = IconButton(
+        icon: Icon(Icons.delete_forever_outlined, color: variationColor),
+        onPressed: () => {delete_item(item[1])});
   }
-  if (item[1].bringer != "")
-  {
-    icon = Icon(Icons.check, color:variationColor);
+  if (item[1].bringer != "") {
+    icon = Icon(Icons.check, color: variationColor);
   }
-  return Container(    
+  return Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(icon: icon, onPressed: () {
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      IconButton(
+          icon: icon,
+          onPressed: () {
             if (item[1].bringer == "") {
               add_me(item[1]);
-            } 
-            else if (item[1].bringer == me!.username) {
+            } else if (item[1].bringer == me!.username) {
               remove_me(item[1]);
             }
           }),
-          Column(
-            children: [
-              Text(item[0], style: TextStyle(color: primaryTextColor)),
-              Text(item[1].bringer, style: TextStyle(color: secondaryTextColor)),
-            ],
-          ),
-          del_button
+      Column(
+        children: [
+          Text(item[0], style: TextStyle(color: primaryTextColor)),
+          Text(item[1].bringer, style: TextStyle(color: secondaryTextColor)),
         ],
-    )   
-  );
+      ),
+      del_button
+    ],
+  ));
 }
 
 Widget MemberData(member) {
   IconData icon = Icons.person;
-  if (member[1].id==current_event!.creator_id){
+  if (member[1].id == current_event!.creator_id) {
     icon = Icons.star;
   }
-   return Container(    
-        child: Row(
-          children: [
-          Icon(icon, color:secondaryTextColor),
-          Text(member[0], style: TextStyle(color: primaryTextColor))
-          ],
-      )   
-    );
+  return Container(
+      child: Row(
+    children: [
+      Icon(icon, color: secondaryTextColor),
+      Text(member[0], style: TextStyle(color: primaryTextColor))
+    ],
+  ));
 }
 
-Widget AnnouncentsData (message) {
-   return Container(
-        child: Text(message[0], 
-          style: TextStyle(color: primaryTextColor),
-        )
-    );
+Widget AnnouncentsData(message) {
+  return Container(
+      child: Text(
+    message[0],
+    style: TextStyle(color: primaryTextColor),
+  ));
 }
 
-Widget PollData(item, add_item, remove_item, delete_this, vote, unvote, context) {
+Widget PollData(
+    item, add_item, remove_item, delete_this, vote, unvote, context) {
   final controller = TextEditingController();
   Widget del_button = Container();
-  if (current_event!.creator_id == me!.id){
-    del_button = IconButton(icon: Icon(Icons.delete_forever_outlined, color: variationColor), onPressed: ()=>{delete_this(item[1])}
-    );
+  if (current_event!.creator_id == me!.id) {
+    del_button = IconButton(
+        icon: Icon(Icons.delete_forever_outlined, color: variationColor),
+        onPressed: () => {delete_this(item[1])});
   }
-  return Container(  
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
-              Text(item[0], style: TextStyle(color: primaryTextColor, decoration: TextDecoration.underline)),
-              del_button,
-            ],
+  return Container(
+      child: Column(children: [
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
+        Text(item[0],
+            style: TextStyle(
+                color: primaryTextColor, decoration: TextDecoration.underline)),
+        del_button,
+      ],
+    ),
+    ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Material(
+            child: VoteOptionData(item[3][index], item[4][index], item[5],
+                remove_item, vote, unvote, context));
+      },
+      itemCount: item[3].length,
+    ),
+    Row(
+      children: [
+        IconButton(
+            onPressed: () => {add_item(item[1], controller)},
+            icon: Icon(Icons.add_box)),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: TextFormField(
+            controller: controller,
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+              hintText: "Neue Option",
+            ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Material(
-                child: VoteOptionData(item[3][index], item[4][index], 
-                    item[5], remove_item, vote, unvote, context)
-              ); 
-            },
-            itemCount: item[3].length,
-          ),
-          Row(
-                children: [
-                  IconButton(
-                    onPressed: () => {add_item(item[1], controller)},
-                    icon: Icon(Icons.add_box)
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: TextFormField(
-                        controller: controller,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Neue Option",
-                        ),
-                      ),
-                  )
-                ],
-          )
-        ])    
-  );
+        )
+      ],
+    )
+  ]));
 }
 
-bool voted_for(List<VoteOption> l, VoteOption o)
-{
-  for (var o1 in l)
-  {
-    if (o.id == o1.id)
-    {
+bool voted_for(List<VoteOption> l, VoteOption o) {
+  for (var o1 in l) {
+    if (o.id == o1.id) {
       return true;
     }
   }
   return false;
 }
 
-Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts, delete, vote, unvote, context){
+Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
+    delete, vote, unvote, context) {
   Widget del_button = Container();
-  if (current_event!.creator_id == me!.id){
-    del_button = IconButton(icon: Icon(Icons.remove, color: variationColor), onPressed: ()=>{delete(data)});
+  if (current_event!.creator_id == me!.id) {
+    del_button = IconButton(
+        icon: Icon(Icons.remove, color: variationColor),
+        onPressed: () => {delete(data)});
   }
-  Widget vote_btn = IconButton(onPressed: () => vote(data), icon: Icon(Icons.check_box_outline_blank), color: primaryTextColor);
-  if ( voted_for(my_opts, data))
-  {
-     vote_btn = IconButton(onPressed: () => unvote(data), icon: Icon(Icons.check_box), color: primaryTextColor);
+  Widget vote_btn = IconButton(
+      onPressed: () => vote(data),
+      icon: Icon(Icons.check_box_outline_blank),
+      color: primaryTextColor);
+  if (voted_for(my_opts, data)) {
+    vote_btn = IconButton(
+        onPressed: () => unvote(data),
+        icon: Icon(Icons.check_box),
+        color: primaryTextColor);
   }
-  
-    return Container(    
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(num.toString(), style: TextStyle(color: secondaryTextColor)),
-          Text(data.title, style: TextStyle(color: primaryTextColor)),
-          Row(children: [
-            vote_btn, 
-            del_button,
-          ],)
-        ],
-    )   
-  );
-}
 
+  return Container(
+      child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(num.toString(), style: TextStyle(color: secondaryTextColor)),
+      Text(data.title, style: TextStyle(color: primaryTextColor)),
+      Row(
+        children: [
+          vote_btn,
+          del_button,
+        ],
+      )
+    ],
+  ));
+}
 
 var event_data_list = [];
 
@@ -830,4 +877,3 @@ Widget WidgetmessageDesign(list) {
     ));
   }
 }
-
