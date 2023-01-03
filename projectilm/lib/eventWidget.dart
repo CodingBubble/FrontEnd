@@ -284,7 +284,7 @@ class _EventWidget extends State<EventWidget> {
     if (c.text.trim() == "") {
       return;
     }
-    p!.creator_create_option(c.text.trim()).then((value) {
+    p.creator_create_option(c.text.trim()).then((value) {
       if (value == null) {
         return;
       }
@@ -492,39 +492,6 @@ Widget get_body(
           ]
       );
     case 2:
-       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
-      var c = Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      color: backgroundColor,
-                      child: Column(
-                        children: [
-                          new Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.9, 
-                              child: ListData(event_data_list[index], bring_list_item, unbring_list_item, delete_list_item)),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: event_data_list.length,
-                ),
-                IconButton(
-                    onPressed: () => {send_message()}, icon: Icon(Icons.send))
-              ],
-            )),
-          ),
-        ),
-      ]);
-    case 2:
       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
       var c = Column(children: [
         Container(
@@ -552,73 +519,6 @@ Widget get_body(
               },
               itemCount: event_data_list.length,
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: "Neuer Eintrag",
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () => {create_list_item()},
-                        icon: Icon(Icons.add, color: secondaryTextColor))
-                  ],
-                )),
-              ),
-            ),
-          ]
-      );
-      if (current_event!.creator_id != me!.id) {
-        c.children.removeAt(1);
-      }
-      return c;
-    case 3:
-<<<<<<< HEAD
-      ///////////////////////////// EVENT POLLS ///////////////////////////////
-      var c = Column(children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Scrollbar(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Material(
-                  child: Column(
-                    children: [
-                      new Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: PollData(
-                              event_data_list[index],
-                              create_voteoption,
-                              delete_voteoption,
-                              delete_poll,
-                              vote_for,
-                              unvote_for,
-                              context)),
-                      new Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
-                    ],
-                  ),
-                );
-              },
-              itemCount: event_data_list.length,
-            ),
           ),
         ),
         Align(
@@ -631,21 +531,29 @@ Widget get_body(
                 Container(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: TextFormField(
+                    style: TextStyle(color: primaryTextColor),
                     controller: inputMessageController,
                     keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                      hintText: "Neue Umfrage",
+                    decoration: InputDecoration(
+                      hintText: "Neuer Eintrag",
+                      hintStyle: TextStyle(color: primaryTextColor),
+                      floatingLabelStyle: TextStyle(color: variationColor),
                     ),
                   ),
                 ),
                 IconButton(
-                    onPressed: () => {create_poll()}, icon: Icon(Icons.add_box))
+                    onPressed: () => {create_list_item()},
+                    icon: Icon(Icons.add, color: secondaryTextColor))
               ],
             )),
           ),
         ),
       ]);
-=======
+      if (current_event!.creator_id != me!.id) {
+        c.children.removeAt(1);
+      }
+      return c;
+    case 3:
      ///////////////////////////// EVENT POLLS ///////////////////////////////
        var c = Column(
           children: [
@@ -705,7 +613,6 @@ Widget get_body(
             ),
           ]
       );
->>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
@@ -820,21 +727,12 @@ Widget MemberData(member) {
   ));
 }
 
-<<<<<<< HEAD
 Widget AnnouncentsData(message) {
   return Container(
       child: Text(
     message[0],
     style: TextStyle(color: primaryTextColor),
   ));
-=======
-Widget AnnouncentsData (message) {
-   return Container(
-        child: Text(message[0], 
-          style: TextStyle(color: secondaryTextColor),
-        )
-    );
->>>>>>> 08066677ffd7d5286cb645d21ca6e9414df09dd5
 }
 
 Widget PollData(
