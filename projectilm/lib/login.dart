@@ -102,6 +102,7 @@ class _logInWidget extends State<logInWidget> {
     login_from_storage();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: widgetColor,
         title: const Center(
           child: Text('Anmeldung'),

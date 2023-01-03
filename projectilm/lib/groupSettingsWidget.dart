@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projectilm/alert_fnc.dart';
+import 'package:projectilm/controlWidget.dart';
 import 'app_bars/simple_app_bar.dart';
 import 'global.dart';
 
@@ -166,6 +168,16 @@ Widget configSettings(BuildContext context) {
                   child: ElevatedButton(
                     onPressed: () {update_values(change_title_controller, change_desc_controller);},
                     child: const Text('Gruppeneinstellungen ändern'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: ElevatedButton(
+                    onPressed: () {current_group!.admin_delete().then((value) {
+                      if(!value) {showAlertDialog(context, "Fehler", "Gruppe konnte nicht gelöscht werden"); return;}
+                      AppHandler("mainWidget", context, []);
+                    });},
+                    child: const Text('Gruppe Löschen'),
                   ),
                 ),
               ],

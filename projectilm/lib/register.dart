@@ -102,6 +102,7 @@ class register_state extends State<RegisterWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: widgetColor,
         title: const Center(
           child: Text('Account erstellen'),
