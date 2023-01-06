@@ -736,16 +736,24 @@ Widget ListData(item, add_me, remove_me, delete_item) {
 
 Widget MemberData(member) {
   IconData icon = Icons.person;
+  Color iconColor = secondaryTextColor;
   if (member[1].id == current_event!.creator_id) {
-    icon = Icons.star;
+    icon = Icons.star_rounded;
+    iconColor = Colors.yellow;
   }
-  return Container(
+  return Padding(padding: constPadding, child: Container(
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(16.0),
+    color: widgetColor,
+    ),padding: const EdgeInsets.only(left: 10),
       child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      Icon(icon, color: secondaryTextColor),
-      Text(member[0], style: TextStyle(color: primaryTextColor))
+      Icon(icon, color: iconColor),
+      Padding(padding: EdgeInsets.only(right: 5)),
+      Text(member[0], style: TextStyle(color: primaryTextColor)),
     ],
-  ));
+  )));
 }
 
 Widget AnnouncentsData(message) {
