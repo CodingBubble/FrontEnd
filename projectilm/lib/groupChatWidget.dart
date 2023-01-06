@@ -1,12 +1,18 @@
+import 'dart:ffi';
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:projectilm/app_bars/group_app_bar.dart';
+import 'package:projectilm/app_bars/simple_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'mainWidget.dart';
 import 'global.dart';
 import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class chatWidget extends StatefulWidget {
   const chatWidget({
@@ -27,6 +33,8 @@ class chatWidget extends StatefulWidget {
 class _stateChatWidget extends State<chatWidget> {
   final inputMessageController =
       TextEditingController(); // variable contains the message, the user can write in the chat
+  final ImagePicker picker = ImagePicker();
+
   _stateChatWidget(titleOfChat, this.info) {
     this.titleOfChat = titleOfChat;
   }
@@ -38,13 +46,20 @@ class _stateChatWidget extends State<chatWidget> {
     load_message_history();
   }
 
+  Future getImage() async {
+    var img = await picker.pickImage(source: ImageSource.gallery);
+    var uploaded = await current_group!.upload_image(File(img!.path));
+    await current_group!.send_message(image_signalizer+uploaded.toString());
+    load_message_history();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_group_app_bar(context),
+        appBar: get_simple_app_bar(context, "Gruppenchat"),
         body: Column(
           children: [
             // history of messages
@@ -83,8 +98,14 @@ class _stateChatWidget extends State<chatWidget> {
                 child: Container(
                   child: Row(
                   children: [
+                    IconButton(
+                      icon:  Icon(Icons.image),
+                      onPressed: () {
+                        getImage();
+                      },
+                    ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       child: TextFormField(
                         style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
@@ -107,6 +128,8 @@ class _stateChatWidget extends State<chatWidget> {
         ),
       ),
     );
+
+
   }
 
   // contains all messages of the chat
@@ -157,11 +180,20 @@ class _stateChatWidget extends State<chatWidget> {
 
   var inputMessage = "";
   Widget WidgetmessageDesign(list) {
-    var message = list[0];
+    String message = list[0];
     var _me = list[1];
     var author = list[2];
     var wColor;
     var bubbleCorner;
+
+    Widget MessageInp = Text(message, style: const TextStyle(color: Colors.white, fontSize: 15),);
+    if(message.startsWith(image_signalizer))
+    {
+      int id = int.parse(message.substring(image_signalizer.length));
+      MessageInp = Padding(padding: const EdgeInsets.only(top: 10), child: Image.network(get_image_url(id)));
+    }
+
+
     if (_me == true) {
       return Container(
           child: Row(
@@ -192,10 +224,7 @@ class _stateChatWidget extends State<chatWidget> {
                       ),
                       textAlign: TextAlign.right,
                     ),
-                    Text(
-                      message,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
-                    ),
+                    MessageInp
                   ],
                 )),
           ),
@@ -203,6 +232,9 @@ class _stateChatWidget extends State<chatWidget> {
       ));
     } else {
       return Container(
+
+
+        
           child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,10 +260,7 @@ class _stateChatWidget extends State<chatWidget> {
                       style: TextStyle(color: secondaryTextColor, fontSize: 10),
                       textAlign: TextAlign.left,
                     ),
-                    Text(
-                      message,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
-                    ),
+                    MessageInp
                   ],
                 )),
           ),
@@ -240,6 +269,8 @@ class _stateChatWidget extends State<chatWidget> {
     }
   }
 }
+
+
 
 /*
 

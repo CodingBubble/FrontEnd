@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/alert_fnc.dart';
 import 'package:projectilm/controlWidget.dart';
+import 'package:projectilm/projectillm_bridgelib.dart';
 import 'app_bars/simple_app_bar.dart';
 import 'global.dart';
 
@@ -16,10 +17,23 @@ class groupMembersWidget extends StatefulWidget {
 
 String invitationCode = "";
 
-List<String> Member = ["Jakob", "Felix", "Fieser Schliecher", "Deine MUM"];
+List<User> Member = [];
 
 class _groupMembersWidget extends State<groupMembersWidget> {
   set textEinstellungsCode(String textEinstellungsCode) {}
+  @override
+  void initState() {
+    super.initState();
+    get_members();
+  }
+
+  void get_members(){
+    current_group!.get_members().then((value) { 
+        Member = value;
+        setState(() { });
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +63,8 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                             child: 
                                 Column(
                                   children: [
-                                    get_memberBlock(Member[index])                          
+                                    get_memberBlock(Member[index], get_members)                          
                                 ],)
-
                             ),
                       ],
                     ),
@@ -65,7 +78,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
     );
   }  
   
-  SizedBox get_memberBlock(member){
+  SizedBox get_memberBlock(member, reload_list){
     return SizedBox(
       
       child: Padding(
@@ -79,10 +92,10 @@ class _groupMembersWidget extends State<groupMembersWidget> {
           child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(member, style: TextStyle(color: primaryTextColor),),
+              Text(member.username, style: TextStyle(color: primaryTextColor),),
               IconButton(
-                onPressed: ()=>{}, 
-                icon: const Icon(Icons.person_remove_rounded),
+                onPressed: () async {await current_group!.admin_kick_user(member); reload_list();},
+                icon: Icon(Icons.person_remove_rounded),
                 color: primaryTextColor,
                 ), 
             ],
