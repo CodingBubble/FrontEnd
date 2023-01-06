@@ -619,7 +619,7 @@ Widget get_body(
                         controller: inputMessageController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: "Neue Frage",
+                          hintText: "Neue Umfrage",
                           hintStyle: TextStyle(color: primaryTextColor),
                           floatingLabelStyle: TextStyle(color: variationColor),
                         ),

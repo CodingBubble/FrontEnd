@@ -106,7 +106,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
           ),
         )
     ));
-    } 
+  } 
 }
 
 

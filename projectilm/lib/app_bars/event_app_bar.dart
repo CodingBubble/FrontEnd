@@ -39,7 +39,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join) {
               width: MediaQuery.of(context).size.width * 0.15,
               child: IconButton(
                   // button for settings
-                  onPressed: () => {AppHandler("eventSettings", context, [])},
+                  onPressed: () => {AppHandler("eventSettingsWidget", context, [])},
                   icon: Icon(Icons.settings, color:secondaryTextColor))),
         ],
       ));
