@@ -41,7 +41,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                     color: backgroundColor,
                     child: Column(
                       children: [
-                        new Padding(
+                        Padding(
                             padding: EdgeInsets.all(discanceBetweenWidgets)),
                         Container(
                             width: MediaQuery.of(context).size.width *
@@ -72,17 +72,17 @@ class _groupMembersWidget extends State<groupMembersWidget> {
         padding: constPadding,
         
         child: Container(
-           decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.circular(16.0),
+           decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
               color: widgetColor,
-            ),padding: EdgeInsets.only(left: 10),
+            ),padding: const EdgeInsets.only(left: 10),
           child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(member, style: TextStyle(color: primaryTextColor),),
               IconButton(
                 onPressed: ()=>{}, 
-                icon: Icon(Icons.person_remove_rounded),
+                icon: const Icon(Icons.person_remove_rounded),
                 color: primaryTextColor,
                 ), 
             ],
