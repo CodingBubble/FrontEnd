@@ -94,7 +94,11 @@ class _groupMembersWidget extends State<groupMembersWidget> {
             children: [
               Text(member.username, style: TextStyle(color: primaryTextColor),),
               IconButton(
-                onPressed: () async {await current_group!.admin_kick_user(member); reload_list();},
+                onPressed: () async {
+                  await current_group!.admin_kick_user(member);
+                  reload_list();
+                  current_group!.send_message("Der Benutzer " + member.name+ " wurde aus der Gruppe entfernt");
+                },
                 icon: Icon(Icons.person_remove_rounded),
                 color: primaryTextColor,
                 ), 

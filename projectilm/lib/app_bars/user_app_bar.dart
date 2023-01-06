@@ -7,20 +7,13 @@ import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-AppBar get_user_app_bar(BuildContext context) {
+AppBar get_user_app_bar(BuildContext context, Function onSearch) {
   return AppBar(
     backgroundColor: widgetColor,
     title: Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Builder(builder: (BuildContext context) {
-            return (IconButton(
-              icon: Icon(Icons.search, color:secondaryTextColor),
-              color: backgroundColor,
-              onPressed: () => {},
-            )); // here to add the onPressed-command to search something
-          }),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: TextFormField(
@@ -31,6 +24,7 @@ AppBar get_user_app_bar(BuildContext context) {
                 hintStyle: TextStyle(color: primaryTextColor),
                 floatingLabelStyle: TextStyle(color: variationColor),
               ),
+              onChanged: (value) => onSearch(value),
             ),
           ),
           Builder(builder: (BuildContext context) {

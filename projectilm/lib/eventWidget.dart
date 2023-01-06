@@ -522,6 +522,7 @@ Widget get_body(
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Material(
+                  color: backgroundColor,
                   child: Column(
                     children: [
                       new Padding(
@@ -710,7 +711,7 @@ Widget ListData(item, add_me, remove_me, delete_item) {
     icon = Icon(Icons.check, color: variationColor);
   }
   return Container(
-      child: Row(
+    child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       IconButton(

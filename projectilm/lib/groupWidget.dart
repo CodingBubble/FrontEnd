@@ -25,7 +25,7 @@ class _StateGroup extends State<GroupWidget> {
       title: "Deine Gruppe",
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_group_app_bar(context),
+        appBar: get_group_app_bar(context, searchFilter),
         body: Column(
           children: [
             //first widget as official chat
@@ -106,8 +106,23 @@ class _StateGroup extends State<GroupWidget> {
   }
 
   List<Event> Events = <Event>[];
-
+  List<Event> Events_actual = <Event>[];
   List<bool> Joined = <bool>[];
+
+
+  void searchFilter(String s)
+  {
+    Events = [...Events_actual];
+    Events_actual.forEach((element) {
+      if (!element.name.toLowerCase().contains(s.toLowerCase()) &&
+          !element.description.toLowerCase().contains(s.toLowerCase()) )
+      {
+        Events.remove(element);
+      }
+    });
+    setState(() {});
+  }
+
 
   IconData get_icon(evid) => Joined[evid] ? Icons.check:Icons.close;
   
@@ -127,6 +142,7 @@ class _StateGroup extends State<GroupWidget> {
       }
       setState(() {
         Events = events;
+        Events_actual = events;
       });
     });
   }
