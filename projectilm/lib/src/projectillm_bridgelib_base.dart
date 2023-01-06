@@ -193,15 +193,19 @@ class Group {
   }
 
   Future<int> upload_image(File imageFile) async {
-    var req = {"command": "upload", "args": [username, password]};
-    var url = Uri.http(api_settings.img_host, "?$username&$password&$id");
-    var request = new http.MultipartRequest("POST", url);
+    var url = Uri.http(api_settings.img_host, "upload_file");
+    print(url);
+    var request = http.MultipartRequest("POST", url);
+    request.fields["username"]=username;
+    request.fields["password"]=password;
+    request.fields["id"]=id.toString();
     var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var multipartFile = new http.MultipartFile('image', stream, length, filename: "image");
+    var multipartFile = http.MultipartFile('image', stream, length, filename: "image");
     request.files.add(multipartFile);
     var response = await request.send();
     String body=await response.stream.bytesToString();
+    print(body);
     var data = jsonDecode(body);
     if (data["success"]) {
       return data["id"];
@@ -645,7 +649,7 @@ Future<Group?> me_create_group(String name, String desc) async {
 
 String get_image_url(int imgID) { 
   var request = {"command": "access_file", "args": [username, password, imgID]};
-  return api_settings.host + "/"+ jsonEncode(request);
+  return "http://" + api_settings.host + "/"+ jsonEncode(request);
 }
 
 Future<bool> delete_image(int id) async
@@ -681,5 +685,7 @@ Future<List<Event>> get_events_active_i_joined() async {
 bool logged_in = false;
 String username = "";
 String password = "";
+const String image_signalizer =  "!-[]{}qimage_id:";
+
 
 User? me;

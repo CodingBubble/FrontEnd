@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
@@ -24,6 +26,7 @@ bool joined_event = false;
 
 class _EventWidget extends State<EventWidget> {
   int state;
+  final ImagePicker picker = ImagePicker();
   _EventWidget(this.state);
   void initState() {
     super.initState();
@@ -75,7 +78,9 @@ class _EventWidget extends State<EventWidget> {
               create_voteoption,
               delete_voteoption,
               vote_for,
-              unvote_for)),
+              unvote_for,
+              getImage
+          )),
     );
   }
 
@@ -322,6 +327,14 @@ class _EventWidget extends State<EventWidget> {
       load_poll_history();
     });
   }
+
+  Future getImage() async {
+    var img = await picker.pickImage(source: ImageSource.gallery);
+    var uploaded = await current_group!.upload_image(File(img!.path));
+    await current_event!.send_message(image_signalizer+uploaded.toString());
+    load_message_history();
+  }
+
 }
 
 var inputMessageController = TextEditingController();
@@ -339,7 +352,8 @@ Widget get_body(
     void Function(Poll, TextEditingController) create_voteoption,
     void Function(VoteOption p) delete_voteoption,
     void Function(VoteOption p) vote_for,
-    void Function(VoteOption p) unvote_for) {
+    void Function(VoteOption p) unvote_for, 
+    Future Function() getImage) {
   switch (i) {
     case -1:
       return SingleChildScrollView(
@@ -469,8 +483,14 @@ Widget get_body(
                 child: Container(
                     child: Row(
                   children: [
+                    IconButton(
+                      icon:  Icon(Icons.image),
+                      onPressed: () {
+                        getImage();
+                      },
+                    ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.7,
                       child: TextFormField(
                         style: TextStyle(color: primaryTextColor),
                         controller: inputMessageController,
@@ -839,6 +859,14 @@ Widget WidgetmessageDesign(list) {
   var author = list[2];
   var wColor;
   var bubbleCorner;
+  Widget MessageInp = Text(message, style: const TextStyle(color: Colors.white, fontSize: 15),);
+  if(message.startsWith(image_signalizer))
+  {
+    int id = int.parse(message.substring(image_signalizer.length));
+    MessageInp = Padding(padding: const EdgeInsets.only(top: 10), child: Image.network(get_image_url(id)));
+  }
+
+
   if (_me == true) {
     return Container(
         child: Row(
@@ -847,57 +875,67 @@ Widget WidgetmessageDesign(list) {
       children: [
         Flexible(
           child: Container(
-            padding: const EdgeInsets.all(15),
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(19),
-                topLeft: Radius.circular(19),
-                bottomRight: Radius.circular(19),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(bottom: 5),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(19),
+                  topLeft: Radius.circular(19),
+                  bottomRight: Radius.circular(19),
+                ),
               ),
-            ),
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-            ),
-          ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    author,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  MessageInp
+                ],
+              )),
         ),
       ],
     ));
   } else {
     return Container(
+
+
+      
         child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
           child: Container(
-            padding: const EdgeInsets.all(15),
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: widgetColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(19),
-                topRight: Radius.circular(19),
-                bottomLeft: Radius.circular(19),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(bottom: 5),
+              decoration: BoxDecoration(
+                color: widgetColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(19),
+                  topRight: Radius.circular(19),
+                  bottomLeft: Radius.circular(19),
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  author,
-                  style: TextStyle(color: secondaryTextColor, fontSize: 10),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  message,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ],
-            )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    author,
+                    style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                    textAlign: TextAlign.left,
+                  ),
+                  MessageInp
+                ],
+              )),
         ),
       ],
     ));
