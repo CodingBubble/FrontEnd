@@ -9,6 +9,7 @@ import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
 import 'package:intl/intl.dart';
+import 'app_bars/simple_app_bar.dart';
 import 'src/projectillm_bridgelib_vote.dart';
 
 class EventWidget extends StatefulWidget {
@@ -57,13 +58,18 @@ class _EventWidget extends State<EventWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    var AppBar = get_simple_app_bar(context, "");
+    if (state==-1) {
+      AppBar = get_event_app_bar(context, toggle_join);
+    }
     void t() => {};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // title: "Dein Event",
       home: Scaffold(
           backgroundColor: backgroundColor,
-          appBar: get_event_app_bar(context, toggle_join),
+          appBar: AppBar,
           body: get_body(
               state,
               context,

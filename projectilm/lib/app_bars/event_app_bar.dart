@@ -18,7 +18,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join) {
             width: MediaQuery.of(context).size.width * 0.15,
             child: IconButton(
               // go back button
-              onPressed: () => {Navigator.pop(context)},
+              onPressed: () => {AppHandler("groupWidget", context ,[])},
               icon: Icon(Icons.arrow_back, color:secondaryTextColor),
             ),
           ),
