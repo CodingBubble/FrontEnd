@@ -22,6 +22,13 @@ AppBar get_group_app_bar(BuildContext context) {
               AppHandler("mainWidget", context, []),
             },
           ),
+          IconButton(
+            icon: Icon(Icons.groups, color:secondaryTextColor),
+            color: backgroundColor,
+            onPressed: () => {
+              AppHandler("groupMembersWidget", context, []),
+            },
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: TextFormField(
