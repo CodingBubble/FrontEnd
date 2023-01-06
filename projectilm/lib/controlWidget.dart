@@ -10,6 +10,7 @@ import 'global.dart';
 import 'login.dart';
 import 'groupWidget.dart';
 import 'groupSettingsWidget.dart';
+import 'groupMembersWidget.dart';
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
@@ -68,6 +69,13 @@ class AppHandler extends controlWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const SettingsWidget(title: "Grouping"),
+        ),
+      );
+    }
+    else if (widgetPath == "groupMembersWidget") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const groupMembersWidget(title: "Grouping"),
         ),
       );
     }
