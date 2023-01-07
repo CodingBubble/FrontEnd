@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
+import 'package:projectilm/src/projectillm_bridgelib_splid.dart';
 import 'api_settings.dart' as api_settings;
 import 'dart:convert';
 import 'projectillm_bridgelib_vote.dart';
@@ -12,7 +13,15 @@ class User {
   String username;
   bool is_me;
   User (this.id, this.username, {this.is_me:false});
+  @override
+  int get hashCode => id;
 }
+
+List order(User u1, User u2)
+{
+  return u1.id < u2.id ? [u1, u2] : [u2, u1];
+}
+
 
 class Group {
   int id;
@@ -213,7 +222,66 @@ class Group {
     return -1;
   }
 
+  Future<Transaction?> create_transaction(String title, User from, User to, double balance) async {
+    if (me==null) { return null; }
+    var request = {"command": "transaction_create", "args": [username, password,from.id, to.id, balance, title, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      return Transaction(data["result"]["id"], title, from, to, balance);
+    }
+    return null;
+  }
 
+  Future<List<Transaction>> get_all_transactions() async {
+  if (me==null) {return []; }
+  var request = {"command": "transactions_get_in", "args": [username, password, id]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+    List<Transaction> transactions = [];
+    data["result"].forEach((e)=> {
+      transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+    });
+    return transactions;
+    }
+  return [];
+}
+
+  Future<List<Transaction>> get_transactions_of(User u) async {
+    if (me==null) {return []; }
+    var request = {"command": "transactions_get_of_in", "args": [username, password, u.id, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body); 
+    if (data["success"]) {
+      List<Transaction> transactions = [];
+      data["result"].forEach((e)=> {
+        transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+      });
+      return transactions;
+      }
+    return [];
+  }
+
+  Future<List<Transaction>> get_my_transactions_between(User u1, User u2) async {
+    if (me==null) {return []; }
+    var request = {"command": "transactions_get_between_in", "args": [username, password, u1.id, u2.id, id]};
+    var url = Uri.http(api_settings.host, jsonEncode(request));
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    if (data["success"]) {
+      List<Transaction> transactions = [];
+      List o = order(u1, u2);
+      data["result"].forEach((e)=> {
+        transactions.add(Transaction(e["id"], e["title"], o[0], o[1], e["balance"]))
+      });
+      return transactions;
+      }
+    return [];
+  }
 
 }
 
@@ -462,10 +530,6 @@ class Event {
     }
     return null;
   }
-
-
-
-
 }
 
 abstract class Message {
@@ -494,7 +558,6 @@ class Announcement {
   return false;
   }
 }
-
 
 class GroupMessage extends Message {
   Group group;
@@ -539,7 +602,6 @@ Future<bool> login(String _username, String _password) async {
   } catch (e)  {
     return false;
   }
- 
   var data = jsonDecode(response.body);
   if (data["success"]) {
     if (data["result"]!=-1) {
@@ -681,6 +743,40 @@ Future<List<Event>> get_events_active_i_joined() async {
       }
     return [];
   }
+
+Future<List<Transaction>> get_my_transactions() async {
+  if (me==null) {return []; }
+  var request = {"command": "transactions_get_of", "args": [username, password]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+    List<Transaction> transactions = [];
+    data["result"].forEach((e)=> {
+      transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+    });
+    return transactions;
+    }
+  return [];
+}
+
+Future<List<Transaction>> get_my_transactions_with(User l) async {
+  if (me==null) {return []; }
+  var request = {"command": "transactions_get_between", "args": [username, password, l.id]};
+  var url = Uri.http(api_settings.host, jsonEncode(request));
+  var response = await http.get(url);
+  var data = jsonDecode(response.body);
+  if (data["success"]) {
+    List<Transaction> transactions = [];
+    List o = order(me!, l);
+    data["result"].forEach((e)=> {
+      transactions.add(Transaction(e["id"], e["title"], o[0], o[1], e["balance"]))
+    });
+    return transactions;
+    }
+  return [];
+}
+
 
 bool logged_in = false;
 String username = "";
