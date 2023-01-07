@@ -243,7 +243,11 @@ class Group {
   if (data["success"]) {
     List<Transaction> transactions = [];
     data["result"].forEach((e)=> {
-      transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+      transactions.add(Transaction(e["id"], e["title"], 
+                                  User(e["userid1"], e["username1"]), 
+                                  User(e["userid2"], e["username2"]), 
+                                  double.parse(e["balance"].toString())
+      ))
     });
     return transactions;
     }
@@ -259,14 +263,14 @@ class Group {
     if (data["success"]) {
       List<Transaction> transactions = [];
       data["result"].forEach((e)=> {
-        transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+        transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), double.parse(e["balance"].toString())))
       });
       return transactions;
       }
     return [];
   }
 
-  Future<List<Transaction>> get_my_transactions_between(User u1, User u2) async {
+  Future<List<Transaction>> get_transactions_between(User u1, User u2) async {
     if (me==null) {return []; }
     var request = {"command": "transactions_get_between_in", "args": [username, password, u1.id, u2.id, id]};
     var url = Uri.http(api_settings.host, jsonEncode(request));
@@ -276,7 +280,7 @@ class Group {
       List<Transaction> transactions = [];
       List o = order(u1, u2);
       data["result"].forEach((e)=> {
-        transactions.add(Transaction(e["id"], e["title"], o[0], o[1], e["balance"]))
+        transactions.add(Transaction(e["id"], e["title"], o[0], o[1], double.parse(e["balance"].toString())))
       });
       return transactions;
       }

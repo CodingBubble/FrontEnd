@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:projectilm/create_event.dart';
 import 'package:projectilm/create_group.dart';
+import 'package:projectilm/create_transaction.dart';
 import 'package:projectilm/groupChatWidget.dart';
 import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/register.dart';
 import 'package:projectilm/settingsWidget.dart';
+import 'package:projectilm/splid_info_group.dart';
 import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
@@ -113,6 +115,16 @@ class AppHandler extends controlWidget {
     else if (widgetPath == "create_group") {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => Group_Create())
+      );
+    } 
+    else if (widgetPath == "splid_info_group") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => transactionsWidget())
+      );
+    } 
+    else if (widgetPath == "create_transaction") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => Transaction_Create())
       );
     } 
     else {

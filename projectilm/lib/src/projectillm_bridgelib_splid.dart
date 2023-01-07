@@ -37,13 +37,13 @@ class Transaction {
 
 
 
-Map<User, double> get_group_balances(List<Transaction> l)
+Map<int, double> get_group_balances(List<Transaction> l)
 {
-  Map<User, double> balances = <User, double>{};
+  Map<int, double> balances = <int, double>{};
   for (Transaction t in l)
   {
-    balances[t.from] = (balances[t.from]??0) + t.balance;
-    balances[t.to] = (balances[t.to]??0) - t.balance;
+    balances[t.from.id] = (balances[t.from.id]??0) + t.balance;
+    balances[t.to.id] = (balances[t.to.id]??0) - t.balance;
   }
   return balances;
 }

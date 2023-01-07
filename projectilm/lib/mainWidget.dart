@@ -17,6 +17,10 @@ class mainWidget extends StatefulWidget {
   State<mainWidget> createState() => _mainWidgetState();
 }
 
+List<Group> groups_glob = <Group>[];
+List<Group> groups_actual = <Group>[];
+
+
 class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -102,9 +106,6 @@ class _mainWidgetState extends State<mainWidget> {
       width: double.infinity,
     );
   }
-
-  List<Group> groups_glob = <Group>[];
-  List<Group> groups_actual = <Group>[];
   void loadGroups() {
     me_get_groups().then((groups) {
       setState(() {

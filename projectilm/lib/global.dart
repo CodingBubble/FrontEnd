@@ -82,3 +82,5 @@ const SecondfontOfWidget = 20.0;
 
 Group? current_group;
 Event? current_event;
+
+Group? current_transaction_group;
