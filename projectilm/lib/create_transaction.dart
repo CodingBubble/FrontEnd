@@ -40,6 +40,9 @@ class _StateTransaction_Create extends State<Transaction_Create> {
   }
 
   Future reload_user_options() async {
+    if (current_transaction_group==null) {
+      current_transaction_group = groups_actual[0];
+    }
     dropdown_users = [
       DropdownMenuItem(child: Text("Alle", style: TextStyle(color: primaryTextColor)),value: null),
       DropdownMenuItem(child: Text("Ich", style: TextStyle(color: primaryTextColor)),value: me),

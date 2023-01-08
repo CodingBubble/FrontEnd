@@ -152,7 +152,7 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_messages().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
-        event_data_list.add([msg.text, msg.author.id != me!.id, msg.author.username]);
+        event_data_list.add([msg.text, msg.author.id == me!.id, msg.author.username]);
       });
       setState(() {});
     });
@@ -885,8 +885,8 @@ Widget WidgetmessageDesign(list) {
   if (_me == true) {
     return Container(
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
           child: Container(
@@ -897,12 +897,12 @@ Widget WidgetmessageDesign(list) {
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(19),
                   topLeft: Radius.circular(19),
-                  bottomRight: Radius.circular(19),
+                  bottomLeft: Radius.circular(19),
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     author,
@@ -924,8 +924,8 @@ Widget WidgetmessageDesign(list) {
 
       
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Flexible(
           child: Container(
@@ -936,11 +936,11 @@ Widget WidgetmessageDesign(list) {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(19),
                   topRight: Radius.circular(19),
-                  bottomLeft: Radius.circular(19),
+                  bottomRight: Radius.circular(19),
                 ),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(

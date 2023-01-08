@@ -90,7 +90,7 @@ class _StateGroup extends State<GroupWidget> {
                       iconSize: 30,
                       icon: Icon(get_icon(index)),
                       color: get_color(index),
-                      onPressed: () => {/*code to insert here for Jakob*/},
+                      onPressed: () => { toggle_join(index)  },
                     ),
                     // here to add the onPressed-command to se
                   ],
@@ -103,6 +103,15 @@ class _StateGroup extends State<GroupWidget> {
       alignment: Alignment.center,
       width: double.infinity,
     );
+  }
+
+  void toggle_join(int i) {
+    if (Joined[i]) {
+      Events[i].leave();
+    } else {
+      Events[i].join();
+    }
+    setState(() {});
   }
 
   List<Event> Events = <Event>[];
