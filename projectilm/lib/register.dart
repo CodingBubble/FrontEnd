@@ -18,9 +18,9 @@ class load_register extends StatelessWidget {
   final TextEditingController password_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-      return Container( 
+    return Container(
         color: backgroundColor,
-        child: Column (
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -44,13 +44,12 @@ class load_register extends StatelessWidget {
                 child: TextFormField(
                   style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
-                  keyboardType: TextInputType.visiblePassword, 
+                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     hintText: 'Passwort',
                     hintStyle: TextStyle(color: primaryTextColor),
                     floatingLabelStyle: TextStyle(color: variationColor),
                   ),
-                  
                 ),
               ),
             ),
@@ -58,27 +57,24 @@ class load_register extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () => evt_register(context),
                   child: Text('Einloggen'),
-                )
-              ),
-              Padding(
+                )),
+            Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
                   ),
-                  onPressed: () => AppHandler("register", context, []),
+                  onPressed: () => AppHandler("logInWidget", context, []),
                   child: Text('Ich habe bereits einen Account'),
-                )
-              )
-
-              
+                ))
           ],
-        )
-      ); 
+        ));
   }
 
   void evt_register(con) {
@@ -111,7 +107,6 @@ class register_state extends State<RegisterWidget> {
       body: load_register(),
     );
   }
-
 
   // buttons and others
 
