@@ -13,7 +13,6 @@ import 'src/projectillm_bridgelib_base.dart';
 import 'groupWidget.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class chatWidget extends StatefulWidget {
   const chatWidget({
     super.key,
@@ -49,7 +48,7 @@ class _stateChatWidget extends State<chatWidget> {
   Future getImage() async {
     var img = await picker.pickImage(source: ImageSource.gallery);
     var uploaded = await current_group!.upload_image(File(img!.path));
-    await current_group!.send_message(image_signalizer+uploaded.toString());
+    await current_group!.send_message(image_signalizer + uploaded.toString());
     load_message_history();
   }
 
@@ -96,10 +95,10 @@ class _stateChatWidget extends State<chatWidget> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Container(
-                  child: Row(
+                    child: Row(
                   children: [
                     IconButton(
-                      icon:  Icon(Icons.image),
+                      icon: Icon(Icons.image),
                       onPressed: () {
                         getImage();
                       },
@@ -128,8 +127,6 @@ class _stateChatWidget extends State<chatWidget> {
         ),
       ),
     );
-
-
   }
 
   // contains all messages of the chat
@@ -148,7 +145,8 @@ class _stateChatWidget extends State<chatWidget> {
     current_group!.get_messages().then((msgs) {
       messageshistory = [];
       msgs.forEach((msg) {
-        messageshistory.add([msg.text, msg.author.id != me!.id, msg.author.username]);
+        messageshistory
+            .add([msg.text, msg.author.id == me!.id, msg.author.username]);
       });
       setState(() {});
     });
@@ -186,19 +184,22 @@ class _stateChatWidget extends State<chatWidget> {
     var wColor;
     var bubbleCorner;
 
-    Widget MessageInp = Text(message, style: const TextStyle(color: Colors.white, fontSize: 15),);
-    if(message.startsWith(image_signalizer))
-    {
+    Widget MessageInp = Text(
+      message,
+      style: const TextStyle(color: Colors.white, fontSize: 15),
+    );
+    if (message.startsWith(image_signalizer)) {
       int id = int.parse(message.substring(image_signalizer.length));
-      MessageInp = Padding(padding: const EdgeInsets.only(top: 10), child: Image.network(get_image_url(id)));
+      MessageInp = Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Image.network(get_image_url(id)));
     }
-
 
     if (_me == true) {
       return Container(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
             child: Container(
@@ -209,7 +210,7 @@ class _stateChatWidget extends State<chatWidget> {
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(19),
                     topLeft: Radius.circular(19),
-                    bottomRight: Radius.circular(19),
+                    bottomLeft: Radius.circular(19),
                   ),
                 ),
                 child: Column(
@@ -219,7 +220,7 @@ class _stateChatWidget extends State<chatWidget> {
                     Text(
                       author,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: widgetColor,
                         fontSize: 10,
                       ),
                       textAlign: TextAlign.right,
@@ -232,12 +233,9 @@ class _stateChatWidget extends State<chatWidget> {
       ));
     } else {
       return Container(
-
-
-        
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Flexible(
             child: Container(
@@ -248,7 +246,7 @@ class _stateChatWidget extends State<chatWidget> {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(19),
                     topRight: Radius.circular(19),
-                    bottomLeft: Radius.circular(19),
+                    bottomRight: Radius.circular(19),
                   ),
                 ),
                 child: Column(
