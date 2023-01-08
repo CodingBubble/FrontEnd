@@ -97,11 +97,11 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void toggle_join() {
+  void toggle_join() async {
     if (joined_event) {
-      current_event!.leave();
+      await current_event!.leave();
     } else {
-      current_event!.join();
+      await current_event!.join();
     }
     setState(() {});
   }

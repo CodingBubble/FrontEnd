@@ -105,11 +105,11 @@ class _StateGroup extends State<GroupWidget> {
     );
   }
 
-  void toggle_join(int i) {
+  void toggle_join(int i) async {
     if (Joined[i]) {
-      Events[i].leave();
+      await Events[i].leave();
     } else {
-      Events[i].join();
+      await Events[i].join();
     }
     setState(() {});
   }
