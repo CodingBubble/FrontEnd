@@ -130,8 +130,8 @@ Widget generalSettings(BuildContext context) {
                         final prefs = await SharedPreferences.getInstance();
                         prefs.remove("username");
                         prefs.remove("password");
-                       }; 
-                      AppHandler("loginInWidget", context, []);       
+                        AppHandler("logInWidget", context, []);       
+                       }(); 
                     },
                     child: const Text('Abmelden'),
                   ),
@@ -149,8 +149,8 @@ Widget generalSettings(BuildContext context) {
                         final prefs = await SharedPreferences.getInstance();
                         prefs.remove("username");
                         prefs.remove("password");
-                       }; 
-                      AppHandler("loginInWidget", context, []);       
+                        AppHandler("logInWidget", context, []);    
+                       }(); 
                     },
                     child: const Text('Account Löschen'),
                   ),
