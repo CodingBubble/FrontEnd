@@ -29,7 +29,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         body: Scrollbar(
           child: ListView.builder(
             itemBuilder: (context, index) {
-              var settingCathegories = get_setting_category(update_color, context);
+              var settingCathegories =
+                  get_setting_category(update_color, context);
               return Material(
                 color: backgroundColor,
                 child: Column(
@@ -48,21 +49,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  void update_color(String mode)
-  {
+  void update_color(String mode) {
     set_color_variation(mode);
     setState(() {});
   }
 }
 
-List<Widget> get_setting_category(void Function(String mode) update_color, BuildContext context) {
-  return  <Widget>[
+List<Widget> get_setting_category(
+    void Function(String mode) update_color, BuildContext context) {
+  return <Widget>[
     themeSettings(update_color),
     generalSettings(context),
-      // securitySettings()
-  ];  
+    // securitySettings()
+  ];
 }
-
 
 Widget generalSettings(BuildContext context) {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -75,7 +75,7 @@ Widget generalSettings(BuildContext context) {
       child: Column(
         children: [
           //headline
-         Text(
+          Text(
             "Account",
             style:
                 TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
@@ -87,7 +87,7 @@ Widget generalSettings(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
-                   style: TextStyle(color: primaryTextColor),
+                  style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
                   decoration: InputDecoration(
                     hintText: 'Gebe dein neues Passwort ein',
@@ -104,29 +104,28 @@ Widget generalSettings(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {   
+                    onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                       me_change_password(password_controller.text);
-                       password = password_controller.text;   
+                        me_change_password(password_controller.text);
+                        password = password_controller.text;
                         () async {
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setString("password", password); 
-                       }; 
-                      AppHandler("mainWidget", context, []);       
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString("password", password);
+                        };
+                        AppHandler("mainWidget", context, []);
                       }
                     },
                     child: const Text('Passwort ändern'),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 48.0),
                   child: ElevatedButton(
-                    onPressed: () {   
-                       username = "";
-                       password = ""; 
-                       me=null;
-                        () async {
+                    onPressed: () {
+                      username = "";
+                      password = "";
+                      me = null;
+                      () async {
                         final prefs = await SharedPreferences.getInstance();
                         prefs.remove("username");
                         prefs.remove("password");
@@ -136,15 +135,14 @@ Widget generalSettings(BuildContext context) {
                     child: const Text('Abmelden'),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 48.0),
                   child: ElevatedButton(
-                    onPressed: () {   
-                       username = "";
-                       password = ""; 
-                       me=null;
-                        () async {
+                    onPressed: () {
+                      username = "";
+                      password = "";
+                      me = null;
+                      () async {
                         await me_delete();
                         final prefs = await SharedPreferences.getInstance();
                         prefs.remove("username");
@@ -155,7 +153,6 @@ Widget generalSettings(BuildContext context) {
                     child: const Text('Account Löschen'),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -173,7 +170,7 @@ Widget themeSettings(void Function(String mode) update_color) {
       child: Column(
         children: [
           //headline
-         Text(
+          Text(
             "Aussehen",
             style:
                 TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
@@ -185,21 +182,27 @@ Widget themeSettings(void Function(String mode) update_color) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                    onPressed: () {update_color("light");},
+                    onPressed: () {
+                      update_color("light");
+                    },
                     iconSize: 50,
                     icon: const Icon(Icons.sunny, color: Colors.yellow)),
                 const Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
                 ),
                 IconButton(
-                    onPressed: () {update_color("dark");},
+                    onPressed: () {
+                      update_color("dark");
+                    },
                     iconSize: 50,
                     icon: const Icon(Icons.shield_moon)),
                 const Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
                 ),
                 IconButton(
-                    onPressed: () {update_color("color");},
+                    onPressed: () {
+                      update_color("color");
+                    },
                     icon: const Icon(Icons.color_lens_outlined),
                     iconSize: 50,
                     color: Colors.brown),
