@@ -4,6 +4,7 @@ import 'package:projectilm/alert_fnc.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/mainWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
+import 'package:projectilm/splid_info_group.dart';
 import 'package:projectilm/src/projectillm_bridgelib_splid.dart';
 import 'app_bars/simple_app_bar.dart';
 import 'global.dart';
@@ -17,10 +18,6 @@ class transactionsMeWidget extends StatefulWidget {
 String invitationCode = "";
 
 List<Transaction> transactions = [];
-
-
-User? selected_user2;
-
 
 List<DropdownMenuItem<Group>> dropdown_groups = [
   DropdownMenuItem(child: Text("Alle", style: TextStyle(color: primaryTextColor)),value: null),
@@ -44,6 +41,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
 
 
   Future reload_user_options() async {
+    selected_user1 = me!;
     dropdown_users = [
       DropdownMenuItem(child: Text("Alle", style: TextStyle(color: primaryTextColor)),value: null),
     ];
@@ -95,7 +93,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
       if (selected_user2==null) {
         transactions = await get_my_transactions();
       } else {
-        transactions = await current_transaction_group!.get_my_transactions_with(selected_user2!);
+        transactions = await get_my_transactions_with(selected_user2!);
       }
     }
     else {
@@ -131,6 +129,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       dropdownColor:  widgetColor,
                       value: current_transaction_group,
                       onChanged: (Group? newValue) async {
+                        selected_user2 = null;
                         current_transaction_group = newValue;
                         await reload_user_options();
                         await reload_transactions();
@@ -200,14 +199,14 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
 
     Color c_color = secondaryTextColor;
     if (transaction.to.id == me!.id ) {
-      if (transaction.balance < 0) {
-        c_color = negativeColor;
-      } else {
+       if (transaction.balance > 0) {
         c_color = positiveColor;
+      } else {
+        c_color = negativeColor;
       }
     }
     else {
-      if (transaction.balance < 0) {
+      if (transaction.balance > 0) {
         c_color = positiveColor;
       } else {
         c_color = negativeColor;
