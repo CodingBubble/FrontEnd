@@ -12,45 +12,39 @@ AppBar get_group_app_bar(BuildContext context, Function onSearch) {
     backgroundColor: widgetColor,
     automaticallyImplyLeading: false,
     title: Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back, color:secondaryTextColor),
-            color: backgroundColor,
-            onPressed: () => {
-              AppHandler("mainWidget", context, []),
-            },
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      IconButton(
+        icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+        color: backgroundColor,
+        onPressed: () => {
+          AppHandler("mainWidget", context, []),
+        },
+      ),
+      IconButton(
+        icon: Icon(Icons.groups, color: secondaryTextColor),
+        color: backgroundColor,
+        onPressed: () => {
+          AppHandler("groupMembersWidget", context, []),
+        },
+      ),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.3,
+        child: TextFormField(
+          style: TextStyle(color: secondaryTextColor),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            hintText: "Suche",
+            hintStyle: TextStyle(color: primaryTextColor),
+            floatingLabelStyle: TextStyle(color: variationColor),
           ),
-          IconButton(
-            icon: Icon(Icons.groups, color:secondaryTextColor),
-            color: backgroundColor,
-            onPressed: () => {
-              AppHandler("groupMembersWidget", context, []),
-            },
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: TextFormField(
-              style: TextStyle(color:secondaryTextColor),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                hintText: "Suche",
-                hintStyle: TextStyle(color: primaryTextColor),
-                floatingLabelStyle: TextStyle(color: variationColor),
-              ),
-              onChanged: (value) => onSearch(value),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.settings, color:secondaryTextColor),
-            color: backgroundColor,
-            onPressed: () => {
-                  AppHandler("groupSettingsWidget", context, [])
-            }
-          ) 
-        ]
-      )
-    ),
+          onChanged: (value) => onSearch(value),
+        ),
+      ),
+      IconButton(
+          icon: Icon(Icons.settings, color: secondaryTextColor),
+          color: backgroundColor,
+          onPressed: () => {AppHandler("groupSettingsWidget", context, [])})
+    ])),
   );
 }
