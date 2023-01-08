@@ -111,7 +111,7 @@ class _StateGroup extends State<GroupWidget> {
     } else {
       await Events[i].join();
     }
-    setState(() {});
+    loadEvents();
   }
 
   List<Event> Events = <Event>[];

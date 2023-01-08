@@ -103,7 +103,7 @@ class _EventWidget extends State<EventWidget> {
     } else {
       await current_event!.join();
     }
-    setState(() {});
+    update_joined();
   }
 
   void get_last_chat() {
