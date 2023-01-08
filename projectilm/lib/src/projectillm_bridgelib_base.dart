@@ -287,6 +287,8 @@ class Group {
     return [];
   }
 
+  get_my_transactions_with(User user) {}
+
 }
 
 class Event {
@@ -757,7 +759,7 @@ Future<List<Transaction>> get_my_transactions() async {
   if (data["success"]) {
     List<Transaction> transactions = [];
     data["result"].forEach((e)=> {
-      transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), e["balance"]))
+      transactions.add(Transaction(e["id"], e["title"], User(e["userid1"], e["username1"]), User(e["userid2"], e["username2"]), double.parse(e["balance"].toString())))
     });
     return transactions;
     }
@@ -774,7 +776,7 @@ Future<List<Transaction>> get_my_transactions_with(User l) async {
     List<Transaction> transactions = [];
     List o = order(me!, l);
     data["result"].forEach((e)=> {
-      transactions.add(Transaction(e["id"], e["title"], o[0], o[1], e["balance"]))
+      transactions.add(Transaction(e["id"], e["title"], o[0], o[1], double.parse(e["balance"].toString())))
     });
     return transactions;
     }

@@ -14,6 +14,14 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          IconButton(
+                icon: Icon(Icons.money, color:secondaryTextColor),
+                color: backgroundColor,
+                onPressed: () {
+                      current_transaction_group=null;
+                      AppHandler("splid_info_me", context, []);
+                    }
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: TextFormField(
@@ -27,14 +35,14 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
               onChanged: (value) => onSearch(value),
             ),
           ),
-          Builder(builder: (BuildContext context) {
-            return (IconButton(
+          IconButton(
                 icon: Icon(Icons.settings, color:secondaryTextColor),
                 color: backgroundColor,
                 onPressed: () => {
                       AppHandler("settingsWidget", context, [])
-                    })); //here to add the onPressed-command to navigate to settings
-          }),
+                    }
+          ) 
+          
         ],
       ),
     ),

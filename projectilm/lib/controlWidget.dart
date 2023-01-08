@@ -7,6 +7,7 @@ import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/register.dart';
 import 'package:projectilm/settingsWidget.dart';
 import 'package:projectilm/splid_info_group.dart';
+import 'package:projectilm/splid_info_me.dart';
 import 'mainWidget.dart';
 import 'global.dart';
 import 'login.dart';
@@ -127,6 +128,11 @@ class AppHandler extends controlWidget {
           MaterialPageRoute(builder: (context) => Transaction_Create())
       );
     } 
+    else if (widgetPath == "splid_info_me") {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => transactionsMeWidget())
+      );
+    }
     else {
       print("ERROR: False route paramaeter");
     }
