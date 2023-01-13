@@ -166,7 +166,7 @@ class Group {
     if (data["success"]) {
       List<Event> events = [];
       data["result"].forEach((e)=> {
-        events.add(Event(e["id"], this, me!.id, e["eventname"], e["description"], DateTime.parse(e["date"])))
+        events.add(Event(e["id"], this, e["creator"], e["eventname"], e["description"], DateTime.parse(e["date"])))
       });
       return events;
       }

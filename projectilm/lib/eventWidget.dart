@@ -9,6 +9,7 @@ import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
 import 'package:intl/intl.dart';
+import 'alert_fnc.dart';
 import 'app_bars/simple_app_bar.dart';
 import 'src/projectillm_bridgelib_vote.dart';
 
@@ -519,7 +520,7 @@ Widget get_body(
       );
     case 2:
       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
-      var c = Column(children: [
+      return Column(children: [
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.8,
@@ -548,7 +549,7 @@ Widget get_body(
             ),
           ),
         ),
-        Align(
+        ret_if(current_event!.creator_id == me!.id, Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
@@ -574,15 +575,11 @@ Widget get_body(
               ],
             )),
           ),
-        ),
+        )),
       ]);
-      if (current_event!.creator_id != me!.id) {
-        c.children.removeAt(1);
-      }
-      return c;
     case 3:
      ///////////////////////////// EVENT POLLS ///////////////////////////////
-       var c = Column(
+      return Column(
           children: [
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -611,7 +608,7 @@ Widget get_body(
                 ),
               ),
             ),
-            Align(
+            ret_if(current_event!.creator_id == me!.id, Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -637,14 +634,9 @@ Widget get_body(
                   ],
                 )),
               ),
-            ),
+            )),
           ]
       );
-      if (current_event!.creator_id != me!.id) {
-        c.children.removeAt(1);
-      }
-      return c;
-
     case 4:
       ///////////////////// EVENT MEMBERS ///////////////////////////////////////
       return Container(

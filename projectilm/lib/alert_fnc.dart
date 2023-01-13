@@ -23,3 +23,9 @@ showAlertDialog(BuildContext context, String title_text, String desc_text) {
     },
   );
 }
+
+
+Widget ret_if (bool statement, Widget w)
+{
+  return statement ? w : Container();
+}
