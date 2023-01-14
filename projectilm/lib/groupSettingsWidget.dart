@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/alert_fnc.dart';
 import 'package:projectilm/controlWidget.dart';
+import 'package:projectilm/projectillm_bridgelib.dart';
 import 'app_bars/simple_app_bar.dart';
 import 'global.dart';
 
@@ -63,8 +64,9 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
 
 List<Widget> get_setting_category(context, generateID) {
   return <Widget>[
-    themeSettings(generateID),
-    configSettings(context)
+    ret_if(current_group!.admin_id==me!.id, themeSettings(generateID)),
+    ret_if(current_group!.admin_id==me!.id,configSettings(context)),
+     ret_if(current_group!.admin_id!=me!.id,leave_settings(context)),
     // securitySettings()
   ];
 }
@@ -187,7 +189,21 @@ Widget configSettings(BuildContext context) {
       )));
 }
 
-
+Widget leave_settings(BuildContext context) {
+  return Container(
+    padding: constPadding,
+    margin: constMargin,
+    width: double.infinity,
+    color: widgetColor,
+    child: ElevatedButton(
+        onPressed: () {current_group!.leave().then((value) {
+          if(!value) {showAlertDialog(context, "Fehler", "Gruppe konnte nicht verlassen werden"); return;}
+          AppHandler("mainWidget", context, []);
+        });},
+        child: const Text('Gruppe Verlassen'),
+      )
+  );             
+}
 
 Widget themeSettings(Function generateID) {
  // print(invitationCode);
