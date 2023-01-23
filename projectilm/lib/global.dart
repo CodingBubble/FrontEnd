@@ -26,7 +26,7 @@ const color_modes = {
   
    "color" : {
     "background_color":  Color.fromARGB(255, 0, 85, 182),
-    "primaryTextColor": Color.fromARGB(255, 188, 188, 188),
+    "primaryTextColor": Color.fromARGB(255, 236, 236, 236),
     "secondaryTextColor": Color.fromARGB(255, 240, 240, 240),
     "widgetColor": Color.fromARGB(255, 0, 31, 108),
     "variationColor": Color.fromARGB(255, 0, 110, 0),
