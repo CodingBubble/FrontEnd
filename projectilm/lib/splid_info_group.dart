@@ -141,7 +141,7 @@ class _transactionsWidget extends State<transactionsWidget> {
                 Row(
                   children: [
                     Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
-                    Text("mit: ", style: TextStyle(color: primaryTextColor),),
+                    Text("an: ", style: TextStyle(color: primaryTextColor),),
                     DropdownButton(
                       dropdownColor:  widgetColor,
                       value: selected_user2,

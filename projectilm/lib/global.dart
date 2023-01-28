@@ -15,12 +15,12 @@ const color_modes = {
 
    "dark" : {
     "background_color":  Color.fromARGB(255, 52, 52, 52),
-    "primaryTextColor": Color.fromARGB(255, 191, 191, 191),
-    "secondaryTextColor": Color.fromARGB(255, 250, 250, 250),
-    "widgetColor": Color.fromARGB(255, 39, 39, 39),
+    "primaryTextColor": Color.fromARGB(255, 250, 250, 250),
+    "secondaryTextColor": Color.fromARGB(255, 191, 191, 191),
+    "widgetColor": Color.fromARGB(255, 18, 18, 18),
     "variationColor": Color.fromARGB(255, 95, 138, 184),
     "positiveColor": Color.fromARGB(255, 9, 139, 0),
-    "negativeColor": Color.fromARGB(255, 214, 4, 4),
+    "negativeColor": Color.fromARGB(255, 155, 11, 11),
   },
 
   
