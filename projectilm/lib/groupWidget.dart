@@ -71,11 +71,14 @@ class _StateGroup extends State<GroupWidget> {
       child: Column(
         children: [
           Text(ev.name,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
               )),
+          Padding(padding: EdgeInsets.all(15)),
           Text(ev.description,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: secondaryTextColor, fontSize: SecondfontOfWidget)),
           SizedBox(
@@ -90,7 +93,7 @@ class _StateGroup extends State<GroupWidget> {
                       iconSize: 30,
                       icon: Icon(get_icon(index)),
                       color: get_color(index),
-                      onPressed: () => { toggle_join(index)  },
+                      onPressed: () => {toggle_join(index)},
                     ),
                     // here to add the onPressed-command to se
                   ],
@@ -118,35 +121,29 @@ class _StateGroup extends State<GroupWidget> {
   List<Event> Events_actual = <Event>[];
   List<bool> Joined = <bool>[];
 
-
-  void searchFilter(String s)
-  {
+  void searchFilter(String s) {
     Events = [...Events_actual];
     Events_actual.forEach((element) {
       if (!element.name.toLowerCase().contains(s.toLowerCase()) &&
-          !element.description.toLowerCase().contains(s.toLowerCase()) )
-      {
+          !element.description.toLowerCase().contains(s.toLowerCase())) {
         Events.remove(element);
       }
     });
     setState(() {});
   }
 
+  IconData get_icon(evid) => Joined[evid] ? Icons.check : Icons.close;
 
-  IconData get_icon(evid) => Joined[evid] ? Icons.check:Icons.close;
-  
-
-  Color get_color(evid) => Joined[evid] ? positiveColor:negativeColor;
-  
-
+  Color get_color(evid) => Joined[evid] ? positiveColor : negativeColor;
 
   void loadEvents() {
     //TODO: make Login used by me
-    if (me==null) {return;}
+    if (me == null) {
+      return;
+    }
     current_group?.get_events_active().then((events) async {
       Joined = [];
-      for(var event in events)
-      {
+      for (var event in events) {
         Joined.add(await event.am_member());
       }
       setState(() {
@@ -155,8 +152,6 @@ class _StateGroup extends State<GroupWidget> {
       });
     });
   }
-
-
 
   Widget chat(name) {
     return Container(
@@ -175,41 +170,42 @@ class _StateGroup extends State<GroupWidget> {
   }
 
   Widget scrollEvents() {
-    return Expanded(flex: 1,
-         child: Container(
-        constraints: BoxConstraints.expand(),
-        child: Scrollbar(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Material(
-                color: backgroundColor,
-                child: Column(
-                  children: [
-                    new Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets)),
-                    Container(
-                      width: MediaQuery.of(context).size.width *
-                          0.9, // the distance to the margin of display
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            widgetColor,
+    return Expanded(
+        flex: 1,
+        child: Container(
+            constraints: BoxConstraints.expand(),
+            child: Scrollbar(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Column(
+                      children: [
+                        new Padding(
+                            padding: EdgeInsets.all(discanceBetweenWidgets)),
+                        Container(
+                          width: MediaQuery.of(context).size.width *
+                              0.9, // the distance to the margin of display
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                widgetColor,
+                              ),
+                            ),
+                            child: eventWidget(Events[index], index),
+                            onPressed: () {
+                              current_event = Events[index];
+                              AppHandler("eventWidget", context, [-1]);
+                            },
+                            // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
                           ),
                         ),
-                        child: eventWidget(Events[index], index),
-                        onPressed: () {
-                          current_event = Events[index];
-                          AppHandler("eventWidget", context, [-1]);
-                        },
-                        // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-            itemCount: Events.length,
-          ),
-        )));
+                  );
+                },
+                itemCount: Events.length,
+              ),
+            )));
   }
 }
