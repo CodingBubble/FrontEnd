@@ -20,7 +20,6 @@ class mainWidget extends StatefulWidget {
 List<Group> groups_glob = <Group>[];
 List<Group> groups_actual = <Group>[];
 
-
 class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -31,24 +30,24 @@ class _mainWidgetState extends State<mainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_user_app_bar(context, searchFilter),
         body: Scrollbar(
-          child: ListView.builder(
+            child: ListView.builder(
           itemBuilder: (context, index) {
             return Material(
               color: backgroundColor,
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(discanceBetweenWidgets), 
+                    padding: EdgeInsets.all(discanceBetweenWidgets),
                     child: Container(
                       color: backgroundColor,
-                      width: MediaQuery.of(context).size.width * 0.9, // the distance to the margin of display
+                      width: MediaQuery.of(context).size.width *
+                          0.9, // the distance to the margin of display
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -64,7 +63,6 @@ class _mainWidgetState extends State<mainWidget> {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             );
@@ -91,11 +89,14 @@ class _mainWidgetState extends State<mainWidget> {
       child: Column(
         children: [
           Text(g.name,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
               )),
+          Padding(padding: EdgeInsets.all(15)),
           Text(g.description,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: secondaryTextColor, fontSize: SecondfontOfWidget)),
         ],
@@ -106,6 +107,7 @@ class _mainWidgetState extends State<mainWidget> {
       width: double.infinity,
     );
   }
+
   void loadGroups() {
     me_get_groups().then((groups) {
       setState(() {
@@ -115,18 +117,14 @@ class _mainWidgetState extends State<mainWidget> {
     });
   }
 
-  void searchFilter(String s)
-  {
+  void searchFilter(String s) {
     groups_glob = [...groups_actual];
     groups_actual.forEach((element) {
       if (!element.name.toLowerCase().contains(s.toLowerCase()) &&
-          !element.description.toLowerCase().contains(s.toLowerCase()) )
-      {
+          !element.description.toLowerCase().contains(s.toLowerCase())) {
         groups_glob.remove(element);
       }
     });
     setState(() {});
   }
-
-
 }

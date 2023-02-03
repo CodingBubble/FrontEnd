@@ -18,17 +18,17 @@ String invitationCode = "";
 
 List<Transaction> transactions = [];
 
-
-
 User? selected_user1;
 User? selected_user2;
 
-List<DropdownMenuItem<Group>> dropdown_groups = [
-];
+List<DropdownMenuItem<Group>> dropdown_groups = [];
 
 List<DropdownMenuItem<User>> dropdown_users = [
-  DropdownMenuItem(child: Text("Alle", style: TextStyle(color: primaryTextColor)),value: null),
-  DropdownMenuItem(child: Text("Ich",  style: TextStyle(color: primaryTextColor)),value: me),
+  DropdownMenuItem(
+      child: Text("Alle", style: TextStyle(color: primaryTextColor)),
+      value: null),
+  DropdownMenuItem(
+      child: Text("Ich", style: TextStyle(color: primaryTextColor)), value: me),
 ];
 
 class _transactionsWidget extends State<transactionsWidget> {
@@ -38,57 +38,59 @@ class _transactionsWidget extends State<transactionsWidget> {
     super.initState();
     reload_group_options();
     reload_user_options();
-    reload_transactions().then((value) =>
-      setState(() {})
-    );
+    reload_transactions().then((value) => setState(() {}));
   }
-
 
   Future reload_user_options() async {
     dropdown_users = [
-      DropdownMenuItem(child: Text("Alle", style: TextStyle(color: primaryTextColor)),value: null),
-      DropdownMenuItem(child: Text("Ich", style: TextStyle(color: primaryTextColor)),value: me),
+      DropdownMenuItem(
+          child: Text("Alle", style: TextStyle(color: primaryTextColor)),
+          value: null),
+      DropdownMenuItem(
+          child: Text("Ich", style: TextStyle(color: primaryTextColor)),
+          value: me),
     ];
     for (var member in (await current_transaction_group!.get_members())) {
-      dropdown_users.add(
-        DropdownMenuItem(
-          child: Text(member.username, style: TextStyle(color: primaryTextColor),),
-          value: member,
-        )
-      );
+      dropdown_users.add(DropdownMenuItem(
+        child: Text(
+          member.username,
+          style: TextStyle(color: primaryTextColor),
+        ),
+        value: member,
+      ));
     }
   }
 
-  void reload_group_options(){
+  void reload_group_options() {
     dropdown_groups = [];
     for (var group in groups_actual) {
-      dropdown_groups.add(
-        DropdownMenuItem(
-          child: Text(group.name, style: TextStyle(color: primaryTextColor),),
-          value: group,
-        )
-      );
+      dropdown_groups.add(DropdownMenuItem(
+        child: Text(
+          group.name,
+          style: TextStyle(color: primaryTextColor),
+        ),
+        value: group,
+      ));
     }
   }
 
-  Future reload_transactions() async
-  {
-    if(current_transaction_group==null) {
+  Future reload_transactions() async {
+    if (current_transaction_group == null) {
       return;
     }
-    if(selected_user1==null && selected_user2==null)
-    {
+    if (selected_user1 == null && selected_user2 == null) {
       transactions = await current_transaction_group!.get_all_transactions();
-    } else if (selected_user2==null) {
-      transactions = await current_transaction_group!.get_transactions_of(selected_user1!);
-    } else if (selected_user1==null) {
-      transactions = await current_transaction_group!.get_transactions_of(selected_user2!);
+    } else if (selected_user2 == null) {
+      transactions =
+          await current_transaction_group!.get_transactions_of(selected_user1!);
+    } else if (selected_user1 == null) {
+      transactions =
+          await current_transaction_group!.get_transactions_of(selected_user2!);
     } else {
-      transactions = await current_transaction_group!.get_transactions_between(selected_user1!, selected_user2!);
+      transactions = await current_transaction_group!
+          .get_transactions_between(selected_user1!, selected_user2!);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,146 +100,164 @@ class _transactionsWidget extends State<transactionsWidget> {
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Transaktionen"),
         body: Scrollbar(
-          child:Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Column(
-              children: [
-                Row(
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
-                    Text("in: ", style: TextStyle(color: primaryTextColor),),
-                    DropdownButton(
-                      dropdownColor:  widgetColor,
-                      value: current_transaction_group,
-                      onChanged: (Group? newValue) async {
-                        current_transaction_group = newValue!;
-                        selected_user1=null;
-                        selected_user2=null;
-                        await reload_user_options();
-                        await reload_transactions();
-                        setState(() {});
-                      },
-                      items: dropdown_groups
-                    )
-                  ]
-                ),
-                Row(
-                  children: [
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
-                    Text("von: ", style: TextStyle(color: primaryTextColor),),
-                    DropdownButton(
-                      dropdownColor:  widgetColor,
-                      value: selected_user1,
-                      onChanged: (User? newValue) async {
-                        selected_user1 = newValue;
-                        await reload_transactions();
-                        setState(() {});
-                      },
-                      items: dropdown_users
-                    )
-                  ]
-                ),
-                Row(
-                  children: [
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
-                    Text("an: ", style: TextStyle(color: primaryTextColor),),
-                    DropdownButton(
-                      dropdownColor:  widgetColor,
-                      value: selected_user2,
-                      onChanged: (User? newValue) async {
-                        selected_user2 = newValue;
-                        await reload_transactions();
-                        setState(() {});
-                      },
-                      items: dropdown_users
-                    )
-                  ]
-                ),
-
-                TextButton(
-                  onPressed: () => AppHandler("create_transaction", context, []), 
-                  child: Text("Transaktion hinzufügen", style: TextStyle(color: secondaryTextColor),)
-                ),
-
-                Expanded(flex: 1, child: Scrollbar(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: transactions.length,
-                    itemBuilder: (context, index) {
-                      return Material(
-                        color: backgroundColor,
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.all(discanceBetweenWidgets)),
-                            Container(
-                                width: MediaQuery.of(context).size.width *
-                                    0.9, // the distance to the margin of display
-                                child: 
-                                    Column(
-                                      children: [
-                                        get_transaction(transactions[index], (){reload_transactions(); setState((){});})                          
-                                    ],)
+                    Row(children: [
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      Text(
+                        "in: ",
+                        style: TextStyle(color: primaryTextColor),
+                      ),
+                      DropdownButton(
+                          dropdownColor: widgetColor,
+                          value: current_transaction_group,
+                          onChanged: (Group? newValue) async {
+                            current_transaction_group = newValue!;
+                            selected_user1 = null;
+                            selected_user2 = null;
+                            await reload_user_options();
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          items: dropdown_groups)
+                    ]),
+                    Row(children: [
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      Text(
+                        "von: ",
+                        style: TextStyle(color: primaryTextColor),
+                      ),
+                      DropdownButton(
+                          dropdownColor: widgetColor,
+                          value: selected_user1,
+                          onChanged: (User? newValue) async {
+                            selected_user1 = newValue;
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          items: dropdown_users)
+                    ]),
+                    Row(children: [
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      Text(
+                        "an: ",
+                        style: TextStyle(color: primaryTextColor),
+                      ),
+                      DropdownButton(
+                          dropdownColor: widgetColor,
+                          value: selected_user2,
+                          onChanged: (User? newValue) async {
+                            selected_user2 = newValue;
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          items: dropdown_users)
+                    ]),
+                    Container(
+                      child: TextButton(
+                        onPressed: () =>
+                            AppHandler("create_transaction", context, []),
+                        child: Text("Transaktion hinzufügen",
+                            style: TextStyle(color: widgetColor)),
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 2.0, color: Colors.green)),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: transactions.length,
+                            itemBuilder: (context, index) {
+                              return Material(
+                                color: backgroundColor,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.all(
+                                            discanceBetweenWidgets)),
+                                    Container(
+                                        width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                            0.9, // the distance to the margin of display
+                                        child: Column(
+                                          children: [
+                                            get_transaction(transactions[index],
+                                                () {
+                                              reload_transactions();
+                                              setState(() {});
+                                            })
+                                          ],
+                                        )),
+                                  ],
                                 ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                )),
-              ],
-            )
-          ) 
-        ),
+                              );
+                            },
+                          ),
+                        )),
+                  ],
+                ))),
       ),
     );
-  }  
-  
-  SizedBox get_transaction(Transaction transaction, reload_list) {
+  }
 
+  SizedBox get_transaction(Transaction transaction, reload_list) {
     Color c_color = secondaryTextColor;
-    if (selected_user1!=null || selected_user2!=null ) {
+    if (selected_user1 != null || selected_user2 != null) {
       if (transaction.balance < 0) {
         c_color = negativeColor;
       } else {
         c_color = positiveColor;
       }
     }
-    
+
     if (transaction.balance < 0) {
-        transaction=transaction.flipped();
+      transaction = transaction.flipped();
     }
 
     return SizedBox(
-      child: Padding(
-        padding: constPadding,
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              color: widgetColor,
-          ),
-          padding: const EdgeInsets.only(left: 10),
-          child:Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(transaction.title, style: TextStyle(color: primaryTextColor),),
-                Text(transaction.from.username, style: TextStyle(color: primaryTextColor),),
-                Text(transaction.to.username, style: TextStyle(color: primaryTextColor),),
-                Text(transaction.balance.toString() + "€", style: TextStyle(color: c_color),),
-                IconButton(
-                  onPressed: () async {
-                    await transaction.delete();
-                    reload_list();
-                  },
-                  icon: Icon(Icons.delete),
-                  color: primaryTextColor,
-                ), 
-              ],
-          ),
-        )
-    ));
-  } 
+        child: Padding(
+            padding: constPadding,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: widgetColor,
+              ),
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    transaction.title,
+                    style: TextStyle(color: primaryTextColor),
+                  ),
+                  Text(
+                    transaction.from.username,
+                    style: TextStyle(color: primaryTextColor),
+                  ),
+                  Text(
+                    transaction.to.username,
+                    style: TextStyle(color: primaryTextColor),
+                  ),
+                  Text(
+                    transaction.balance.toString() + "€",
+                    style: TextStyle(color: c_color),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await transaction.delete();
+                      reload_list();
+                    },
+                    icon: Icon(Icons.delete),
+                    color: primaryTextColor,
+                  ),
+                ],
+              ),
+            )));
+  }
 }
-
-

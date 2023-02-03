@@ -195,7 +195,8 @@ Widget themeSettings(void Function(String mode) update_color) {
                       update_color("dark");
                     },
                     iconSize: 50,
-                    icon: const Icon(Icons.shield_moon)),
+                    icon: const Icon(Icons.shield_moon),
+                    color: Colors.white),
                 const Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
                 ),
