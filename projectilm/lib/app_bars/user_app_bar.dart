@@ -15,17 +15,16 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-                icon: Icon(Icons.money, color:secondaryTextColor),
-                color: backgroundColor,
-                onPressed: () {
-                      current_transaction_group=null;
-                      AppHandler("splid_info_me", context, []);
-                    }
-          ),
+              icon: Icon(Icons.euro, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () {
+                current_transaction_group = null;
+                AppHandler("splid_info_me", context, []);
+              }),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: TextFormField(
-              style: TextStyle(color:secondaryTextColor),
+              style: TextStyle(color: secondaryTextColor),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 hintText: "Suche",
@@ -36,13 +35,9 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
             ),
           ),
           IconButton(
-                icon: Icon(Icons.settings, color:secondaryTextColor),
-                color: backgroundColor,
-                onPressed: () => {
-                      AppHandler("settingsWidget", context, [])
-                    }
-          ) 
-          
+              icon: Icon(Icons.settings, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {AppHandler("settingsWidget", context, [])})
         ],
       ),
     ),
