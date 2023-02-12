@@ -1,3 +1,4 @@
+//import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'alert_fnc.dart';
@@ -19,9 +20,9 @@ class logInForms extends StatelessWidget {
   final TextEditingController password_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-      return Container( 
+    return Container(
         color: backgroundColor,
-        child: Column (
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -45,13 +46,12 @@ class logInForms extends StatelessWidget {
                 child: TextFormField(
                   style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
-                  keyboardType: TextInputType.visiblePassword, 
+                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     hintText: 'Passwort',
                     hintStyle: TextStyle(color: primaryTextColor),
                     floatingLabelStyle: TextStyle(color: variationColor),
                   ),
-                  
                 ),
               ),
             ),
@@ -59,25 +59,24 @@ class logInForms extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () => evt_login(context),
                   child: Text('Einloggen'),
-                )
-              ),
-              Padding(
+                )),
+            Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () => AppHandler("register", context, []),
                   child: Text('Noch keinen Account?'),
-                )
-              )
+                ))
           ],
-        )
-      ); 
+        ));
   }
 
   void evt_login(con) {

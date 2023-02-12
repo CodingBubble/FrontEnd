@@ -166,6 +166,23 @@ class _transactionsWidget extends State<transactionsWidget> {
                       decoration: BoxDecoration(
                           border: Border.all(width: 2.0, color: Colors.green)),
                     ),
+                    Padding(padding: constPadding),
+                    Container(
+                        color: backgroundColor,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Grund für Transaktion",
+                                style: TextStyle(color: primaryTextColor)),
+                            Text("Kommt von",
+                                style: TextStyle(color: primaryTextColor)),
+                            Text("Geht an",
+                                style: TextStyle(color: primaryTextColor)),
+                            Text("Kostet",
+                                style: TextStyle(color: primaryTextColor))
+                          ],
+                        )),
                     Expanded(
                         flex: 1,
                         child: Scrollbar(
@@ -219,6 +236,10 @@ class _transactionsWidget extends State<transactionsWidget> {
     if (transaction.balance < 0) {
       transaction = transaction.flipped();
     }
+    var transactionTitle = "Transaktion: " + transaction.title;
+    var transactionOwner = "kommt von: " + transaction.from.username;
+    var transactionTo = "geht an: " + transaction.to.username;
+    var transactionCost = "kostet: " + transaction.balance.toString() + "€";
 
     return SizedBox(
         child: Padding(
@@ -233,19 +254,19 @@ class _transactionsWidget extends State<transactionsWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    transaction.title,
+                    transactionTitle,
                     style: TextStyle(color: primaryTextColor),
                   ),
                   Text(
-                    transaction.from.username,
+                    transactionOwner,
                     style: TextStyle(color: primaryTextColor),
                   ),
                   Text(
-                    transaction.to.username,
+                    transactionTo,
                     style: TextStyle(color: primaryTextColor),
                   ),
                   Text(
-                    transaction.balance.toString() + "€",
+                    transactionCost,
                     style: TextStyle(color: c_color),
                   ),
                   IconButton(

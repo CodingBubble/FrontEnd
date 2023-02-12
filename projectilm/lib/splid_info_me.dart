@@ -112,6 +112,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
     }
   }
 
+  var spaceBetweenTabulatorElements = 3.0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -170,6 +171,42 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       decoration: BoxDecoration(
                           border: Border.all(width: 2, color: widgetColor)),
                     ),
+                    Padding(padding: constPadding),
+                    Container(
+                        margin: EdgeInsets.only(left: 20),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("Transaktion:",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("von: ",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("an: ",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("Kostet:",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                                child: Text("Löschen:",
+                                    style: TextStyle(color: primaryTextColor))),
+                          ],
+                        )),
                     Expanded(
                         flex: 1,
                         child: Scrollbar(
@@ -229,8 +266,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
     if (transaction.balance < 0) {
       transaction = transaction.flipped();
     }
-
     return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
         child: Padding(
             padding: constPadding,
             child: Container(
