@@ -111,6 +111,9 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_messages_gen(0).then((value) {
       if (value.length > 0) {
         lastChat = value[0].text.substring(0, min(value[0].text.length, 50));
+        if (lastChat.startsWith(image_signalizer)) {
+          lastChat = "Bild";
+        }
         setState(() {});
       }
     });
