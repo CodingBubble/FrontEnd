@@ -92,6 +92,12 @@ class _transactionsWidget extends State<transactionsWidget> {
     }
   }
 
+  var spaceBetweenTabulatorElements = 3.0;
+
+  double standWidthForTabular(context) {
+    return MediaQuery.of(context).size.width * 0.1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -168,19 +174,43 @@ class _transactionsWidget extends State<transactionsWidget> {
                     ),
                     Padding(padding: constPadding),
                     Container(
-                        color: backgroundColor,
+                        margin: EdgeInsets.only(left: 20),
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Grund für Transaktion",
-                                style: TextStyle(color: primaryTextColor)),
-                            Text("Kommt von",
-                                style: TextStyle(color: primaryTextColor)),
-                            Text("Geht an",
-                                style: TextStyle(color: primaryTextColor)),
-                            Text("Kostet",
-                                style: TextStyle(color: primaryTextColor))
+                            Container(
+                              width: standWidthForTabular(context),
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("Transaktion:",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              width: standWidthForTabular(context),
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("von: ",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              width: standWidthForTabular(context),
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("an: ",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                              width: standWidthForTabular(context),
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Text("Kostet:",
+                                  style: TextStyle(color: primaryTextColor)),
+                            ),
+                            Container(
+                                width: standWidthForTabular(context),
+                                child: Text("Löschen:",
+                                    style: TextStyle(color: primaryTextColor))),
                           ],
                         )),
                     Expanded(
@@ -236,10 +266,6 @@ class _transactionsWidget extends State<transactionsWidget> {
     if (transaction.balance < 0) {
       transaction = transaction.flipped();
     }
-    var transactionTitle = "Transaktion: " + transaction.title;
-    var transactionOwner = "kommt von: " + transaction.from.username;
-    var transactionTo = "geht an: " + transaction.to.username;
-    var transactionCost = "kostet: " + transaction.balance.toString() + "€";
 
     return SizedBox(
         child: Padding(
@@ -253,29 +279,44 @@ class _transactionsWidget extends State<transactionsWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    transactionTitle,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.title,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transactionOwner,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.from.username,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transactionTo,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.to.username,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transactionCost,
-                    style: TextStyle(color: c_color),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.balance.toString() + "€",
+                      style: TextStyle(color: c_color),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      await transaction.delete();
-                      reload_list();
-                    },
-                    icon: Icon(Icons.delete),
-                    color: primaryTextColor,
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: IconButton(
+                      onPressed: () async {
+                        await transaction.delete();
+                        reload_list();
+                      },
+                      icon: Icon(Icons.delete),
+                      color: primaryTextColor,
+                    ),
                   ),
                 ],
               ),

@@ -113,6 +113,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
   }
 
   var spaceBetweenTabulatorElements = 3.0;
+
+  double standWidthForTabular(context) {
+    return MediaQuery.of(context).size.width * 0.1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -179,30 +184,35 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
+                              width: standWidthForTabular(context),
                               margin: EdgeInsets.only(
                                   right: spaceBetweenTabulatorElements),
                               child: Text("Transaktion:",
                                   style: TextStyle(color: primaryTextColor)),
                             ),
                             Container(
+                              width: standWidthForTabular(context),
                               margin: EdgeInsets.only(
                                   right: spaceBetweenTabulatorElements),
                               child: Text("von: ",
                                   style: TextStyle(color: primaryTextColor)),
                             ),
                             Container(
+                              width: standWidthForTabular(context),
                               margin: EdgeInsets.only(
                                   right: spaceBetweenTabulatorElements),
                               child: Text("an: ",
                                   style: TextStyle(color: primaryTextColor)),
                             ),
                             Container(
+                              width: standWidthForTabular(context),
                               margin: EdgeInsets.only(
                                   right: spaceBetweenTabulatorElements),
                               child: Text("Kostet:",
                                   style: TextStyle(color: primaryTextColor)),
                             ),
                             Container(
+                                width: standWidthForTabular(context),
                                 child: Text("Löschen:",
                                     style: TextStyle(color: primaryTextColor))),
                           ],
@@ -279,29 +289,44 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    transaction.title,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.title,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transaction.from.username,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.from.username,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transaction.to.username,
-                    style: TextStyle(color: primaryTextColor),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.to.username,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  Text(
-                    transaction.balance.toString() + "€",
-                    style: TextStyle(color: c_color),
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: Text(
+                      transaction.balance.toString() + "€",
+                      style: TextStyle(color: c_color),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      await transaction.delete();
-                      reload_list();
-                    },
-                    icon: Icon(Icons.delete),
-                    color: primaryTextColor,
+                  Container(
+                    width: standWidthForTabular(context),
+                    child: IconButton(
+                      onPressed: () async {
+                        await transaction.delete();
+                        reload_list();
+                      },
+                      icon: Icon(Icons.delete),
+                      color: primaryTextColor,
+                    ),
                   ),
                 ],
               ),
