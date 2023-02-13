@@ -61,7 +61,7 @@ class load_register extends StatelessWidget {
                         MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () => evt_register(context),
-                  child: Text('Einloggen'),
+                  child: Text('Erstelllen'),
                 )),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),

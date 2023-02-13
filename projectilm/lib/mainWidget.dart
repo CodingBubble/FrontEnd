@@ -23,6 +23,7 @@ List<Group> groups_actual = <Group>[];
 class _mainWidgetState extends State<mainWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
   void initState() {
     super.initState();
     loadGroups();

@@ -73,10 +73,11 @@ class _stateChatWidget extends State<chatWidget> {
                     return Material(
                       color: backgroundColor,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          new Padding(
+                          const Padding(
                               padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          Container(
+                          SizedBox(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
                               child:
@@ -98,12 +99,12 @@ class _stateChatWidget extends State<chatWidget> {
                     child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.image),
+                      icon: const Icon(Icons.image),
                       onPressed: () {
                         getImage();
                       },
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: TextFormField(
                         style: TextStyle(color: primaryTextColor),

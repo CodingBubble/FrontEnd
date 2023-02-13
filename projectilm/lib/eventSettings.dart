@@ -1,4 +1,4 @@
-// Ort, Zeit, 
+// Ort, Zeit,
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,35 +57,26 @@ class _eventSettingsWidget extends State<eventSettingsWidget> {
     );
   }
 
-  void get_event_data() async
-  {
+  void get_event_data() async {
     cur_date = current_event!.time;
     change_title_controller.text = current_event!.name;
     change_desc_controller.text = current_event!.description;
     setState(() {});
   }
-
-
 }
 
-final change_title_controller = TextEditingController(); 
-final change_desc_controller = TextEditingController(); 
+final change_title_controller = TextEditingController();
+final change_desc_controller = TextEditingController();
 DateTime cur_date = DateTime.now();
 
-
 List<Widget> get_setting_category(context, setState) {
-  return <Widget>[
-    configSettings(context, setState)
-  ];
+  return <Widget>[configSettings(context, setState)];
 }
-
 
 Widget configSettings(BuildContext context, setState) {
   final GlobalKey<FormState> _formTitlteKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formOrt = GlobalKey<FormState>();
   final GlobalKey<FormState> _formZeit = GlobalKey<FormState>();
-
-
 
   // get_values(change_title_controller, change_desc_controller);
 
@@ -94,9 +85,8 @@ Widget configSettings(BuildContext context, setState) {
       margin: constMargin,
       width: double.infinity,
       color: widgetColor,
-      child: Column(
-        children: [
-                  const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+      child: Column(children: [
+        const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
         SizedBox(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,115 +95,133 @@ Widget configSettings(BuildContext context, setState) {
                 "Eckdaten",
                 style: TextStyle(
                     color: primaryTextColor, fontSize: HeadfontOfWidget),
-              ),const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-            Form(
-              key: _formTitlteKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Eventname",
-                    style: TextStyle(
-                        color: primaryTextColor, fontSize: SecondfontOfWidget),
-                  ),
-                  TextFormField(
-                    
-                    style: TextStyle(color: primaryTextColor),
-                    controller: change_title_controller,
-                    decoration: InputDecoration(
-                      hintText: 'Gebe einen neuen Eventnamen ein',
-                      hintStyle: TextStyle(color: primaryTextColor),
-                      floatingLabelStyle: TextStyle(color: variationColor),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Bitte gebe einen neunen Eventnamem ein';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
               ),
-            ),
-             const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-                Form(
-                  key: _formOrt,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Ort",
-                        style: TextStyle(
-                            color: primaryTextColor, fontSize: SecondfontOfWidget),
+              const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+              Form(
+                key: _formTitlteKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Eventname",
+                      style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: SecondfontOfWidget),
+                    ),
+                    TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: change_title_controller,
+                      decoration: InputDecoration(
+                        hintText: 'Gebe einen neuen Eventnamen ein',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
                       ),
-                      TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: change_desc_controller,
-                        decoration: InputDecoration(
-                          hintText: 'Gebe einen neuen Ort ein',
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gebe einen neunen Ort ein';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Bitte gebe einen neunen Eventnamem ein';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-                Padding(padding: EdgeInsets.all(discanceBetweenWidgets),
-                    child:Row(
+              ),
+              const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+              Form(
+                key: _formOrt,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Ort",
+                      style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: SecondfontOfWidget),
+                    ),
+                    TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: change_desc_controller,
+                      decoration: InputDecoration(
+                        hintText: 'Gebe einen neuen Ort ein',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Bitte gebe einen neunen Ort ein';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                  child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.calendar_month, color: secondaryTextColor),
-                        onPressed: () { 
+                        icon: Icon(Icons.calendar_month,
+                            color: secondaryTextColor),
+                        onPressed: () {
                           DatePicker.showDateTimePicker(context,
-                                  showTitleActions: true,
-                                  minTime: DateTime.now(),
-                                  maxTime: DateTime.now().add(Duration(days: 365)), onChanged: (date) {
-                              }, onConfirm: (date) {
-                                cur_date=date; setState(() {});
-                              }, currentTime: cur_date, locale: LocaleType.de);
+                              showTitleActions: true,
+                              minTime: DateTime.now(),
+                              maxTime: DateTime.now().add(Duration(days: 365)),
+                              onChanged: (date) {}, onConfirm: (date) {
+                            cur_date = date;
+                            setState(() {});
+                          }, currentTime: cur_date, locale: LocaleType.de);
                         },
                       ),
-                      Text(formatter.format(cur_date), style: TextStyle(color: primaryTextColor),)
+                      Text(
+                        formatter.format(cur_date),
+                        style: TextStyle(color: primaryTextColor),
+                      )
                     ],
-                  )
-                ),
-          
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [ Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {current_event!.creator_update(change_title_controller.text, 
-              change_desc_controller.text, cur_date).then((value) {
-                if(!value) {showAlertDialog(context, "Fehler", "Event konnte nicht gändert werden"); return;}
-                AppHandler("eventWidget", context, [-1]);
-              });
-              },
-              child: const Text('speichern'),
-            ),
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        current_event!
+                            .creator_update(change_title_controller.text,
+                                change_desc_controller.text, cur_date)
+                            .then((value) {
+                          if (!value) {
+                            showAlertDialog(context, "Fehler",
+                                "Event konnte nicht gändert werden");
+                            return;
+                          }
+                          AppHandler("eventWidget", context, [-1]);
+                        });
+                      },
+                      child: const Text('speichern'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        current_event!.creator_delete().then((value) {
+                          if (!value) {
+                            showAlertDialog(context, "Fehler",
+                                "Event konnte nicht gelöscht werden");
+                            return;
+                          }
+                          AppHandler("groupWidget", context, []);
+                        });
+                      },
+                      child: const Text('Event löschen'),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0),
-            child: ElevatedButton(
-              onPressed: () {current_event!.creator_delete().then((value) {
-                if(!value) {showAlertDialog(context, "Fehler", "Event konnte nicht gelöscht werden"); return;}
-                AppHandler("groupWidget", context, []);
-              });},
-              child: const Text('Event löschen'),
-
-            ),
-          ),],
-          )
-         
-        ],
-      ),
-    )
-  ]
-  )));
+        )
+      ])));
 }

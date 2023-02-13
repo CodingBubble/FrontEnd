@@ -58,7 +58,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 List<Widget> get_setting_category(
     void Function(String mode) update_color, BuildContext context) {
   return <Widget>[
-    themeSettings(update_color),
+    themeSettings(update_color, context),
     generalSettings(context),
     // securitySettings()
   ];
@@ -71,7 +71,10 @@ Widget generalSettings(BuildContext context) {
       padding: constPadding,
       margin: constMargin,
       width: double.infinity,
-      color: widgetColor,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        color: widgetColor,
+      ),
       child: Column(
         children: [
           //headline
@@ -119,7 +122,7 @@ Widget generalSettings(BuildContext context) {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: ElevatedButton(
                     onPressed: () {
                       username = "";
@@ -136,7 +139,7 @@ Widget generalSettings(BuildContext context) {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: ElevatedButton(
                     onPressed: () {
                       username = "";
@@ -156,127 +159,128 @@ Widget generalSettings(BuildContext context) {
               ],
             ),
           ),
-          const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
         ],
       )));
 }
 
-Widget themeSettings(void Function(String mode) update_color) {
+Widget themeSettings(void Function(String mode) update_color, context) {
   return (Container(
-      padding: constPadding,
-      margin: constMargin,
-      width: double.infinity,
+    padding: constPadding,
+    margin: constMargin,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16.0),
       color: widgetColor,
-      child: Column(
-        children: [
-          //headline
-          Text(
-            "Aussehen",
-            style:
-                TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
-          ),
-          const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-          SizedBox(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      update_color("light");
-                    },
-                    iconSize: 50,
-                    icon: const Icon(Icons.sunny, color: Colors.yellow)),
-                const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets),
-                ),
-                IconButton(
-                    onPressed: () {
-                      update_color("dark");
-                    },
-                    iconSize: 50,
-                    icon: const Icon(Icons.shield_moon),
-                    color: Colors.white),
-                const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets),
-                ),
-                IconButton(
-                    onPressed: () {
-                      update_color("color");
-                    },
-                    icon: const Icon(Icons.color_lens_outlined),
-                    iconSize: 50,
-                    color: Colors.brown),
-                const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets),
-                ),
-              ],
+    ),
+    child: Column(children: [
+      //headline
+      Text(
+        "Aussehen",
+        style: TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
+      ),
+      const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+      SizedBox(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () {
+                  update_color("light");
+                },
+                iconSize: MediaQuery.of(context).size.width * 0.13,
+                icon: const Icon(Icons.sunny, color: Colors.yellow)),
+            const Padding(
+              padding: EdgeInsets.all(discanceBetweenWidgets),
             ),
-          ),
-          SizedBox(
+            IconButton(
+                onPressed: () {
+                  update_color("dark");
+                },
+                iconSize: MediaQuery.of(context).size.width * 0.13,
+                icon: const Icon(Icons.shield_moon),
+                color: Colors.white),
+            const Padding(
+              padding: EdgeInsets.all(discanceBetweenWidgets),
+            ),
+            IconButton(
+                onPressed: () {
+                  update_color("color");
+                },
+                icon: const Icon(Icons.color_lens_outlined),
+                iconSize: MediaQuery.of(context).size.width * 0.13,
+                color: Colors.brown),
+            const Padding(
+              padding: EdgeInsets.all(discanceBetweenWidgets),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: double.infinity,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(discanceBetweenWidgets),
+            ),
+            Container(
               width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  color: variationColor),
               child: Column(
                 children: [
                   const Padding(
                     padding: EdgeInsets.all(discanceBetweenWidgets),
                   ),
-                  ColoredBox(
-                    color: variationColor,
-                    child: Container(
-                      width: double.infinity,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets),
-                          ),
-                          Text(
-                            'Überschrift',
-                            style: TextStyle(
-                              color: primaryTextColor,
-                              fontSize: SecondfontOfWidget,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets),
-                          ),
-                          Text(
-                            'Text',
-                            style: TextStyle(
-                              color: secondaryTextColor,
-                              fontSize: SecondfontOfWidget,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets),
-                          ),
-                          Text(
-                            'Boxen',
-                            style: TextStyle(
-                              color: widgetColor,
-                              fontSize: SecondfontOfWidget,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets),
-                          ),
-                          Text(
-                            'Hintergrund',
-                            style: TextStyle(
-                              color: backgroundColor,
-                              fontSize: SecondfontOfWidget,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(discanceBetweenWidgets),
-                          ),
-                        ],
-                      ),
+                  Text(
+                    'Überschrift',
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: SecondfontOfWidget,
                     ),
-                  )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(discanceBetweenWidgets),
+                  ),
+                  Text(
+                    'Text',
+                    style: TextStyle(
+                      color: secondaryTextColor,
+                      fontSize: SecondfontOfWidget,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(discanceBetweenWidgets),
+                  ),
+                  Text(
+                    'Boxen',
+                    style: TextStyle(
+                      color: widgetColor,
+                      fontSize: SecondfontOfWidget,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(discanceBetweenWidgets),
+                  ),
+                  Text(
+                    'Hintergrund',
+                    style: TextStyle(
+                      color: backgroundColor,
+                      fontSize: SecondfontOfWidget,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(discanceBetweenWidgets),
+                  ),
                 ],
-              )),
-        ],
-      )));
+              ),
+            ),
+          ],
+        ),
+      )
+    ]),
+  ));
 }
 
 // Widget securitySettings() {

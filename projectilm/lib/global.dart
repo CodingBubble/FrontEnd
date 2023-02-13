@@ -10,7 +10,7 @@ const color_modes = {
     "widgetColor": Color.fromARGB(255, 150, 150, 150),
     "variationColor": Color.fromARGB(255, 45, 92, 147),
     "positiveColor": Color.fromARGB(255, 0, 121, 242),
-    "negativeColor": Color.fromARGB(255, 165, 0, 0),
+    "negativeColor": Color.fromARGB(255, 233, 71, 71),
   },
   "dark": {
     "background_color": Color.fromARGB(255, 52, 52, 52),

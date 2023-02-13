@@ -31,7 +31,8 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
           child: ListView.builder(
             itemCount: get_setting_category(context, generateID).length,
             itemBuilder: (context, index) {
-              var settingCathegories = get_setting_category(context, generateID);
+              var settingCathegories =
+                  get_setting_category(context, generateID);
               return Material(
                 color: backgroundColor,
                 child: Column(
@@ -49,65 +50,61 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
     );
   }
 
-    void generateID() {
-      current_group!.admin_create_key().then((key){
-        invitationCode = key as String;
-        setState(() {});
-      });
-      
-    }
-    
-
-    
-  
+  void generateID() {
+    current_group!.admin_create_key().then((key) {
+      invitationCode = key as String;
+      setState(() {});
+    });
+  }
 }
 
 List<Widget> get_setting_category(context, generateID) {
   return <Widget>[
-    ret_if(current_group!.admin_id==me!.id, themeSettings(generateID)),
-    ret_if(current_group!.admin_id==me!.id,configSettings(context)),
-     ret_if(current_group!.admin_id!=me!.id,leave_settings(context)),
+    ret_if(current_group!.admin_id == me!.id, themeSettings(generateID)),
+    ret_if(current_group!.admin_id == me!.id, configSettings(context)),
+    ret_if(current_group!.admin_id != me!.id, leave_settings(context)),
     // securitySettings()
   ];
 }
 
-/** Kannst du die momentanen Values reinladen sodass man die bearbeiten kann???
- * 
- *  merci beaucoup
- */
-
-void get_values(TextEditingController t_controller, TextEditingController d_controller){
-   t_controller.text = current_group!.name;
-   d_controller.text = current_group!.description;
+void get_values(
+    TextEditingController t_controller, TextEditingController d_controller) {
+  t_controller.text = current_group!.name;
+  d_controller.text = current_group!.description;
 }
 
-void update_values(TextEditingController t_controller, TextEditingController d_controller){
-  current_group!.admin_update(t_controller.text, d_controller.text).then((value) => {
-    if(!value){print("error while changing data")}
-  });
-
+void update_values(
+    TextEditingController t_controller, TextEditingController d_controller) {
+  current_group!
+      .admin_update(t_controller.text, d_controller.text)
+      .then((value) => {
+            if (!value) {print("error while changing data")}
+          });
 }
 
 Widget configSettings(BuildContext context) {
   final GlobalKey<FormState> _formTitlteKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formTextKey = GlobalKey<FormState>();
 
-  final change_title_controller = TextEditingController(); 
-  final change_desc_controller = TextEditingController(); 
+  final change_title_controller = TextEditingController();
+  final change_desc_controller = TextEditingController();
   get_values(change_title_controller, change_desc_controller);
 
   return (Container(
       padding: constPadding,
       margin: constMargin,
       width: double.infinity,
-      color: widgetColor,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        color: widgetColor,
+      ),
       child: Column(
         children: [
           //headline
           Text(
             "Konfiguration",
-            style:
-                TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
+            style: TextStyle(
+                color: secondaryTextColor, fontSize: GigafontOfWidget),
           ),
           const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
           Form(
@@ -118,7 +115,7 @@ Widget configSettings(BuildContext context) {
                 Text(
                   "Gruppenname",
                   style: TextStyle(
-                      color: primaryTextColor, fontSize: SecondfontOfWidget),
+                      color: secondaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
                   style: TextStyle(color: primaryTextColor),
@@ -148,10 +145,10 @@ Widget configSettings(BuildContext context) {
                 Text(
                   "Gruppebeschreibung",
                   style: TextStyle(
-                      color: primaryTextColor, fontSize: SecondfontOfWidget),
+                      color: secondaryTextColor, fontSize: SecondfontOfWidget),
                 ),
                 TextFormField(
-                   style: TextStyle(color: primaryTextColor),
+                  style: TextStyle(color: primaryTextColor),
                   controller: change_desc_controller,
                   decoration: InputDecoration(
                     hintText: 'Gebe eine neue Gruppenbeschreibung ein',
@@ -168,17 +165,26 @@ Widget configSettings(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {update_values(change_title_controller, change_desc_controller);},
+                    onPressed: () {
+                      update_values(
+                          change_title_controller, change_desc_controller);
+                    },
                     child: const Text('Gruppeneinstellungen ändern'),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
                   child: ElevatedButton(
-                    onPressed: () {current_group!.admin_delete().then((value) {
-                      if(!value) {showAlertDialog(context, "Fehler", "Gruppe konnte nicht gelöscht werden"); return;}
-                      AppHandler("mainWidget", context, []);
-                    });},
+                    onPressed: () {
+                      current_group!.admin_delete().then((value) {
+                        if (!value) {
+                          showAlertDialog(context, "Fehler",
+                              "Gruppe konnte nicht gelöscht werden");
+                          return;
+                        }
+                        AppHandler("mainWidget", context, []);
+                      });
+                    },
                     child: const Text('Gruppe Löschen'),
                   ),
                 ),
@@ -191,27 +197,35 @@ Widget configSettings(BuildContext context) {
 
 Widget leave_settings(BuildContext context) {
   return Container(
-    padding: constPadding,
-    margin: constMargin,
-    width: double.infinity,
-    color: widgetColor,
-    child: ElevatedButton(
-        onPressed: () {current_group!.leave().then((value) {
-          if(!value) {showAlertDialog(context, "Fehler", "Gruppe konnte nicht verlassen werden"); return;}
-          AppHandler("mainWidget", context, []);
-        });},
+      padding: constPadding,
+      margin: constMargin,
+      width: double.infinity,
+      color: widgetColor,
+      child: ElevatedButton(
+        onPressed: () {
+          current_group!.leave().then((value) {
+            if (!value) {
+              showAlertDialog(
+                  context, "Fehler", "Gruppe konnte nicht verlassen werden");
+              return;
+            }
+            AppHandler("mainWidget", context, []);
+          });
+        },
         child: const Text('Gruppe Verlassen'),
-      )
-  );             
+      ));
 }
 
 Widget themeSettings(Function generateID) {
- // print(invitationCode);
+  // print(invitationCode);
   return (Container(
     padding: constPadding,
     margin: constMargin,
     width: double.infinity,
-    color: widgetColor,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16.0),
+      color: widgetColor,
+    ),
     child: Column(
       children: [
         const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
@@ -222,12 +236,12 @@ Widget themeSettings(Function generateID) {
               Text(
                 "Einladungcode",
                 style: TextStyle(
-                    color: primaryTextColor, fontSize: HeadfontOfWidget),
+                    color: secondaryTextColor, fontSize: HeadfontOfWidget),
               ),
               const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
               Text(
                 invitationCode,
-                 style: TextStyle(
+                style: TextStyle(
                     color: primaryTextColor,
                     fontSize: SecondfontOfWidget * 0.75),
               ),
@@ -239,7 +253,10 @@ Widget themeSettings(Function generateID) {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: () async {await Clipboard.setData(ClipboardData(text: invitationCode));},
+                        onPressed: () async {
+                          await Clipboard.setData(
+                              ClipboardData(text: invitationCode));
+                        },
                         child: const Text('Kopieren'),
                       ),
                     ),
@@ -249,7 +266,7 @@ Widget themeSettings(Function generateID) {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          generateID();  
+                          generateID();
                         },
                         child: const Text('neu generieren'),
                       ),

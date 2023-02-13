@@ -21,14 +21,14 @@ List<Transaction> transactions = [];
 
 List<DropdownMenuItem<Group>> dropdown_groups = [
   DropdownMenuItem(
-      child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-      value: null),
+      value: null,
+      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
 ];
 
 List<DropdownMenuItem<User>> dropdown_users = [
   DropdownMenuItem(
-      child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-      value: null),
+      value: null,
+      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
 ];
 
 class _transactionsMeWidget extends State<transactionsMeWidget> {
@@ -45,8 +45,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
     selected_user1 = me!;
     dropdown_users = [
       DropdownMenuItem(
-          child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-          value: null),
+          value: null,
+          child: Text("Alle", style: TextStyle(color: primaryTextColor))),
     ];
     if (current_transaction_group == null) {
       Map<int, User> users = <int, User>{};
@@ -54,11 +54,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
         for (var member in (await group.get_members())) {
           if (member.id != me!.id && users[member.id] == null) {
             dropdown_users.add(DropdownMenuItem(
+              value: member,
               child: Text(
                 member.username,
                 style: TextStyle(color: primaryTextColor),
               ),
-              value: member,
             ));
             users[member.id] = member;
           }
@@ -68,11 +68,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
     }
     for (var member in (await current_transaction_group!.get_members())) {
       dropdown_users.add(DropdownMenuItem(
+        value: member,
         child: Text(
           member.username,
           style: TextStyle(color: primaryTextColor),
         ),
-        value: member,
       ));
     }
   }
@@ -80,16 +80,16 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
   void reload_group_options() {
     dropdown_groups = [
       DropdownMenuItem(
-          child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-          value: null),
+          value: null,
+          child: Text("Alle", style: TextStyle(color: primaryTextColor))),
     ];
     for (var group in groups_actual) {
       dropdown_groups.add(DropdownMenuItem(
+        value: group,
         child: Text(
           group.name,
           style: TextStyle(color: primaryTextColor),
         ),
-        value: group,
       ));
     }
   }
@@ -161,6 +161,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                           items: dropdown_users)
                     ]),
                     Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 2, color: widgetColor)),
                       child: TextButton(
                           onPressed: () =>
                               AppHandler("create_transaction", context, []),
@@ -168,8 +170,6 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                             "Transaktion hinzufügen",
                             style: TextStyle(color: secondaryTextColor),
                           )),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 2, color: widgetColor)),
                     ),
                     Padding(padding: constPadding),
                     Container(
