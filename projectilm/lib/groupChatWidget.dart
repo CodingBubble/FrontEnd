@@ -93,36 +93,36 @@ class _stateChatWidget extends State<chatWidget> {
             // button to enter a message to the chat
             Align(
               alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.image),
-                      onPressed: () {
-                        getImage();
-                      },
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: "Schreibe eine Nachricht",
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: () {
+                          getImage();
+                        },
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Schreibe eine Nachricht",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                        onPressed: () => {send_message()},
-                        icon: Icon(Icons.send, color: secondaryTextColor))
-                  ],
-                )),
-              ),
+                      IconButton(
+                          onPressed: () => {send_message()},
+                          icon: Icon(Icons.send, color: secondaryTextColor))
+                    ],
+                  )),
             ),
           ],
         ),

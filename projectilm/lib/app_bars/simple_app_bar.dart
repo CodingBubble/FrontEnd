@@ -13,12 +13,14 @@ AppBar get_simple_app_bar(BuildContext context, title) {
     title: Row(
       children: [
         IconButton(
-          icon: Icon(Icons.arrow_back, color:secondaryTextColor),
+          icon: Icon(Icons.arrow_back, color: secondaryTextColor),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-         Text(title, style: TextStyle(color: primaryTextColor))
+        Container(
+            margin: EdgeInsets.only(left: 2),
+            child: Text(title, style: TextStyle(color: primaryTextColor))),
       ],
     ),
     backgroundColor: widgetColor,

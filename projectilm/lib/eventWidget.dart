@@ -367,17 +367,23 @@ Widget get_body(
     case -1:
       return SingleChildScrollView(
           child: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Padding(padding: EdgeInsets.all(15)),
-          Text(
-            "Ort:  " + current_event!.description,
-            style: TextStyle(color: primaryTextColor, fontSize: 20),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Text(
+              "Ort:  " + current_event!.description,
+              style: TextStyle(color: primaryTextColor, fontSize: 20),
+            ),
           ),
           const Padding(padding: EdgeInsets.all(5)),
-          Text(
-            "Zeit: " + formatter.format(current_event!.time.toLocal()),
-            style: TextStyle(color: primaryTextColor, fontSize: 20),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Text(
+              "Zeit: " + formatter.format(current_event!.time.toLocal()),
+              style: TextStyle(color: primaryTextColor, fontSize: 20),
+            ),
           ),
           Column(children: [
             get_home_item("Ankündigungen", Icons.info_outline, 0,
