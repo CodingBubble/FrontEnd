@@ -42,7 +42,7 @@ AppBar get_group_app_bar(BuildContext context, Function onSearch) {
         ),
       ),
       IconButton(
-          icon: Icon(Icons.settings, color: secondaryTextColor),
+          icon: Icon(Icons.manage_accounts, color: secondaryTextColor),
           color: backgroundColor,
           onPressed: () => {AppHandler("groupSettingsWidget", context, [])})
     ])),
