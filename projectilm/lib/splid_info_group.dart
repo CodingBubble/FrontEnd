@@ -106,152 +106,150 @@ class _transactionsWidget extends State<transactionsWidget> {
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Transaktionen"),
         body: Scrollbar(
-            child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    Row(children: [
-                      const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12)),
-                      Text(
-                        "in: ",
-                        style: TextStyle(color: primaryTextColor),
-                      ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: current_transaction_group,
-                          onChanged: (Group? newValue) async {
-                            current_transaction_group = newValue!;
-                            selected_user1 = null;
-                            selected_user2 = null;
-                            await reload_user_options();
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          items: dropdown_groups)
-                    ]),
-                    Row(children: [
-                      const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12)),
-                      Text(
-                        "von: ",
-                        style: TextStyle(color: primaryTextColor),
-                      ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user1,
-                          onChanged: (User? newValue) async {
-                            selected_user1 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          items: dropdown_users)
-                    ]),
-                    Row(children: [
-                      const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12)),
-                      Text(
-                        "an: ",
-                        style: TextStyle(color: primaryTextColor),
-                      ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user2,
-                          onChanged: (User? newValue) async {
-                            selected_user2 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          items: dropdown_users)
-                    ]),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 2.0, color: Colors.green)),
-                      child: TextButton(
-                        onPressed: () =>
-                            AppHandler("create_transaction", context, []),
-                        child: Text("Transaktion hinzufügen",
-                            style: TextStyle(color: widgetColor)),
-                      ),
-                    ),
-                    const Padding(padding: constPadding),
-                    Container(
-                        margin: EdgeInsets.only(left: 20),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("Transaktion:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("von: ",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("an: ",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("Kostet:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                                width: standWidthForTabular(context),
-                                child: Text("Löschen:",
-                                    style: TextStyle(color: primaryTextColor))),
-                          ],
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: transactions.length,
-                            itemBuilder: (context, index) {
-                              return Material(
-                                color: backgroundColor,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              children: [
+                const Padding(padding: constPadding),
+                // Container(
+                //     margin: EdgeInsets.only(left: 20),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Container(
+                //           width: standWidthForTabular(context),
+                //           margin: EdgeInsets.only(
+                //               right: spaceBetweenTabulatorElements),
+                //           child: Text("Transaktion:",
+                //               style: TextStyle(color: primaryTextColor)),
+                //         ),
+                //         Container(
+                //           width: standWidthForTabular(context),
+                //           margin: EdgeInsets.only(
+                //               right: spaceBetweenTabulatorElements),
+                //           child: Text("von: ",
+                //               style: TextStyle(color: primaryTextColor)),
+                //         ),
+                //         Container(
+                //           width: standWidthForTabular(context),
+                //           margin: EdgeInsets.only(
+                //               right: spaceBetweenTabulatorElements),
+                //           child: Text("an: ",
+                //               style: TextStyle(color: primaryTextColor)),
+                //         ),
+                //         Container(
+                //           width: standWidthForTabular(context),
+                //           margin: EdgeInsets.only(
+                //               right: spaceBetweenTabulatorElements),
+                //           child: Text("Kostet:",
+                //               style: TextStyle(color: primaryTextColor)),
+                //         ),
+                //         Container(
+                //             width: standWidthForTabular(context),
+                //             child: Text("Löschen:",
+                //                 style: TextStyle(color: primaryTextColor))),
+                //       ],
+                //     )),
+                Expanded(
+                  flex: 1,
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: transactions.length,
+                      itemBuilder: (context, index) {
+                        return Material(
+                          color: backgroundColor,
+                          child: Column(
+                            children: [
+                              const Padding(
+                                  padding:
+                                      EdgeInsets.all(discanceBetweenWidgets)),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.9, // the distance to the margin of display
                                 child: Column(
                                   children: [
-                                    const Padding(
-                                        padding: EdgeInsets.all(
-                                            discanceBetweenWidgets)),
-                                    SizedBox(
-                                        width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                            0.9, // the distance to the margin of display
-                                        child: Column(
-                                          children: [
-                                            get_transaction(transactions[index],
-                                                () {
-                                              reload_transactions();
-                                              setState(() {});
-                                            })
-                                          ],
-                                        )),
+                                    get_transaction(
+                                      transactions[index],
+                                      () {
+                                        reload_transactions();
+                                        setState(() {});
+                                      },
+                                    )
                                   ],
                                 ),
-                              );
-                            },
+                              ),
+                            ],
                           ),
-                        )),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Row(children: [
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                  Text(
+                    "in: ",
+                    style: TextStyle(color: primaryTextColor),
+                  ),
+                  DropdownButton(
+                      dropdownColor: widgetColor,
+                      value: current_transaction_group,
+                      onChanged: (Group? newValue) async {
+                        current_transaction_group = newValue!;
+                        selected_user1 = null;
+                        selected_user2 = null;
+                        await reload_user_options();
+                        await reload_transactions();
+                        setState(() {});
+                      },
+                      items: dropdown_groups)
+                ]),
+                Row(children: [
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                  Text(
+                    "von: ",
+                    style: TextStyle(color: primaryTextColor),
+                  ),
+                  DropdownButton(
+                      dropdownColor: widgetColor,
+                      value: selected_user1,
+                      onChanged: (User? newValue) async {
+                        selected_user1 = newValue;
+                        await reload_transactions();
+                        setState(() {});
+                      },
+                      items: dropdown_users)
+                ]),
+                Row(
+                  children: [
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12)),
+                    Text(
+                      "an: ",
+                      style: TextStyle(color: primaryTextColor),
+                    ),
+                    DropdownButton(
+                        dropdownColor: widgetColor,
+                        value: selected_user2,
+                        onChanged: (User? newValue) async {
+                          selected_user2 = newValue;
+                          await reload_transactions();
+                          setState(() {});
+                        },
+                        items: dropdown_users)
                   ],
-                ))),
+                ),
+              ],
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => AppHandler("create_transaction", context, []),
+          backgroundColor: widgetColor,
+          child: const Icon(Icons.add_circle),
+        ),
       ),
     );
   }
@@ -271,58 +269,86 @@ class _transactionsWidget extends State<transactionsWidget> {
     }
 
     return SizedBox(
-        child: Padding(
-            padding: constPadding,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                color: widgetColor,
+      child: Padding(
+        padding: constPadding,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: widgetColor,
+          ),
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: standWidthForTabular(context) * 2,
+                child: Text(
+                  transaction.title,
+                  style: TextStyle(color: secondaryTextColor),
+                ),
               ),
-              padding: const EdgeInsets.only(left: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.title,
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  Container(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.from.username,
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  Container(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.to.username,
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  SizedBox(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.balance.toString() + "€",
-                      style: TextStyle(color: c_color),
-                    ),
-                  ),
-                  SizedBox(
-                    width: standWidthForTabular(context),
-                    child: IconButton(
-                      onPressed: () async {
-                        await transaction.delete();
-                        reload_list();
-                      },
-                      icon: const Icon(Icons.delete),
-                      color: primaryTextColor,
-                    ),
-                  ),
-                ],
+              SizedBox(
+                  width: standWidthForTabular(context) * 2,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            right: spaceBetweenTabulatorElements),
+                        child: Row(
+                          children: [
+                            Text(
+                              "von:",
+                              style: TextStyle(color: primaryTextColor),
+                            ),
+                            const Padding(padding: EdgeInsets.only(right: 2.0)),
+                            Text(
+                              transaction.from.username,
+                              style: TextStyle(color: secondaryTextColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            right: spaceBetweenTabulatorElements),
+                        child: Row(
+                          children: [
+                            Text("an:",
+                                style: TextStyle(color: primaryTextColor)),
+                            const Padding(padding: EdgeInsets.only(right: 2.0)),
+                            Text(
+                              transaction.to.username,
+                              style: TextStyle(color: secondaryTextColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                width: standWidthForTabular(context),
+                child: Text(
+                  transaction.balance.toString() + "€",
+                  style: TextStyle(color: c_color),
+                ),
               ),
-            )));
+              /***
+                   * löschen durch swipe funktion????
+                   */
+              SizedBox(
+                child: IconButton(
+                  onPressed: () async {
+                    await transaction.delete();
+                    reload_list();
+                  },
+                  icon: const Icon(Icons.delete),
+                  color: primaryTextColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

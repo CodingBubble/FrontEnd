@@ -84,7 +84,7 @@ class _StateTransaction_Create extends State<Transaction_Create> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: TextFormField(
                   style: TextStyle(color: primaryTextColor),
@@ -99,7 +99,7 @@ class _StateTransaction_Create extends State<Transaction_Create> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: TextFormField(
                   style: TextStyle(color: primaryTextColor),
@@ -114,7 +114,7 @@ class _StateTransaction_Create extends State<Transaction_Create> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: DropdownButton(
                     dropdownColor: widgetColor,
@@ -130,7 +130,7 @@ class _StateTransaction_Create extends State<Transaction_Create> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: DropdownButton(
                     dropdownColor: widgetColor,
@@ -143,7 +143,7 @@ class _StateTransaction_Create extends State<Transaction_Create> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: DropdownButton(
                     dropdownColor: widgetColor,
@@ -156,17 +156,19 @@ class _StateTransaction_Create extends State<Transaction_Create> {
               ),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: widgetColor)),
-                    child: TextButton(
-                      onPressed: () {
-                        create_transaction();
-                      },
-                      child: Text('Transaktion erstellen',
-                          style: TextStyle(color: secondaryTextColor)),
-                    ))),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: widgetColor)),
+                child: TextButton(
+                  onPressed: () {
+                    create_transaction();
+                  },
+                  child: Text('Transaktion erstellen',
+                      style: TextStyle(color: secondaryTextColor)),
+                ),
+              ),
+            ),
           ],
         ));
   }

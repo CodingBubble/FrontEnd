@@ -126,52 +126,38 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Meine Transaktionen"),
         body: Scrollbar(
-            child: Container(
+            child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: Column(
                   children: [
                     const Padding(padding: constPadding),
-                    Container(
-                        margin: const EdgeInsets.only(left: 20),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("Transaktion:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("von:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("an:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                              width: standWidthForTabular(context),
-                              margin: EdgeInsets.only(
-                                  right: spaceBetweenTabulatorElements),
-                              child: Text("Bilanz:",
-                                  style: TextStyle(color: primaryTextColor)),
-                            ),
-                            Container(
-                                width: standWidthForTabular(context),
-                                child: Text("Löschen:",
-                                    style: TextStyle(color: primaryTextColor))),
-                          ],
-                        )),
+                    // Container(
+                    //     margin: const EdgeInsets.only(left: 20),
+                    //     width: MediaQuery.of(context).size.width * 0.9,
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Container(
+                    //           width: standWidthForTabular(context),
+                    //           margin: EdgeInsets.only(
+                    //               right: spaceBetweenTabulatorElements),
+                    //           child: Text("Transaktion:",
+                    //               style: TextStyle(color: primaryTextColor)),
+                    //         ),
+                    //         Container(
+                    //           width: standWidthForTabular(context),
+                    //           margin: EdgeInsets.only(
+                    //               right: spaceBetweenTabulatorElements),
+                    //           child: Text("Bilanz:",
+                    //               style: TextStyle(color: primaryTextColor)),
+                    //         ),
+                    //         SizedBox(
+                    //             width: standWidthForTabular(context),
+                    //             child: Text("Löschen:",
+                    //                 style: TextStyle(color: primaryTextColor))),
+                    //       ],
+                    //     )),
                     Expanded(
                       flex: 1,
                       child: Scrollbar(
@@ -186,7 +172,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                   const Padding(
                                       padding: EdgeInsets.all(
                                           discanceBetweenWidgets)),
-                                  Container(
+                                  SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.9, // the distance to the margin of display
                                       child: Column(
@@ -284,40 +270,67 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                 borderRadius: BorderRadius.circular(16.0),
                 color: widgetColor,
               ),
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: standWidthForTabular(context),
+                  SizedBox(
+                    width: standWidthForTabular(context) * 2,
                     child: Text(
                       transaction.title,
-                      style: TextStyle(color: primaryTextColor),
+                      style: TextStyle(color: secondaryTextColor),
                     ),
                   ),
-                  Container(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.from.username,
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  Container(
-                    width: standWidthForTabular(context),
-                    child: Text(
-                      transaction.to.username,
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  Container(
+                  SizedBox(
+                      width: standWidthForTabular(context) * 2,
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "von:",
+                                    style: TextStyle(color: primaryTextColor),
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 2.0)),
+                                  Text(
+                                    transaction.from.username,
+                                    style: TextStyle(color: secondaryTextColor),
+                                  ),
+                                ],
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  right: spaceBetweenTabulatorElements),
+                              child: Row(
+                                children: [
+                                  Text("an:",
+                                      style:
+                                          TextStyle(color: primaryTextColor)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 2.0)),
+                                  Text(
+                                    transaction.to.username,
+                                    style: TextStyle(color: secondaryTextColor),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      )),
+                  SizedBox(
                     width: standWidthForTabular(context),
                     child: Text(
                       transaction.balance.toString() + "€",
                       style: TextStyle(color: c_color),
                     ),
                   ),
+                  /***
+                   * löschen durch swipe funktion????
+                   */
                   SizedBox(
-                    width: standWidthForTabular(context),
                     child: IconButton(
                       onPressed: () async {
                         await transaction.delete();

@@ -48,65 +48,104 @@ class _groupMembersWidget extends State<groupMembersWidget> {
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Mitglieder"),
-        body: Scrollbar(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Scrollbar(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: Member.length,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      color: backgroundColor,
-                      child: Column(
-                        children: [
-                          const Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width *
-                                0.9, // the distance to the margin of display
+        body: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: Scrollbar(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Scrollbar(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: Member.length,
+                        itemBuilder: (context, index) {
+                          return Material(
+                            color: backgroundColor,
                             child: Column(
                               children: [
-                                get_memberBlock(Member[index], get_members)
+                                Padding(
+                                  padding: const EdgeInsets.all(
+                                      discanceBetweenWidgets),
+                                  child: Container(
+                                    padding: constPadding,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                      children: [
+                                        get_memberBlock(
+                                            Member[index], get_members)
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
-              Expanded(
-                child: Align(
-                  alignment: FractionalOffset.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 40.0),
-                    child: IconButton(
-                      onPressed: () {
-                        current_transaction_group = current_group;
-                        AppHandler("splid_info_group", context, []);
-                      },
-                      icon: Icon(
-                        Icons.playlist_add_check_circle_sharp,
-                        size: 60,
-                        color: widgetColor,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Transform.translate(
+                    offset: const Offset(-20, 0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: Expanded(
+                        child: Align(
+                          alignment: FractionalOffset.bottomLeft,
+                          child: IconButton(
+                            onPressed: () {
+                              current_transaction_group = current_group;
+                              AppHandler("splid_info_group", context, []);
+                            },
+                            icon: Icon(
+                              Icons.playlist_add_check_circle_sharp,
+                              size: 60,
+                              color: widgetColor,
+                              fill: 1,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Expanded(
+                      child: Align(
+                        alignment: FractionalOffset.bottomRight,
+                        child: IconButton(
+                          onPressed: () {
+                            current_transaction_group = current_group;
+                            AppHandler("create_transaction", context, const []);
+                          },
+                          icon: Icon(
+                            Icons.add_circle,
+                            size: 60,
+                            color: widgetColor,
+                            fill: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ])),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            current_transaction_group = current_group;
-            AppHandler("create_transaction", context, []);
-          },
-          backgroundColor: widgetColor,
-          child: const Icon(Icons.add_circle),
+            )
+          ],
         ),
       ),
     );
@@ -116,7 +155,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
     double balance = vals[member.id] ?? 0;
     return SizedBox(
         child: Padding(
-            padding: constPadding * 4,
+            padding: constPadding,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
@@ -126,24 +165,30 @@ class _groupMembersWidget extends State<groupMembersWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    member.username,
-                    style: TextStyle(color: primaryTextColor),
-                  ),
-                  Text(
-                    balance.toString() + "€",
-                    style: TextStyle(
-                      color: get_balance_color(balance),
-                    ),
-                    textAlign: TextAlign.right,
+                  Column(
+                    children: [
+                      Text(
+                        member.username,
+                        style: TextStyle(color: primaryTextColor),
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: discanceBetweenWidgets)),
+                      Text(
+                        "$balance€",
+                        style: TextStyle(
+                          color: get_balance_color(balance),
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
                   ),
                   IconButton(
                     onPressed: () async {
                       await current_group!.admin_kick_user(member);
                       reload_list();
-                      current_group!.send_message("Der Benutzer " +
-                          member.name +
-                          " wurde aus der Gruppe entfernt");
+                      current_group!.send_message(
+                          "Der Benutzer ${member.name} wurde aus der Gruppe entfernt");
                     },
                     icon: Icon(Icons.person_remove_rounded,
                         color: backgroundColor),

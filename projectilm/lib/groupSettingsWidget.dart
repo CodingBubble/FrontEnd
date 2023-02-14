@@ -104,7 +104,10 @@ Widget configSettings(BuildContext context) {
           Text(
             "Konfiguration",
             style: TextStyle(
-                color: secondaryTextColor, fontSize: GigafontOfWidget),
+              color: secondaryTextColor,
+              fontSize: SecondfontOfWidget + 2,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
           Form(
@@ -145,7 +148,9 @@ Widget configSettings(BuildContext context) {
                 Text(
                   "Gruppebeschreibung",
                   style: TextStyle(
-                      color: secondaryTextColor, fontSize: SecondfontOfWidget),
+                    color: secondaryTextColor,
+                    fontSize: SecondfontOfWidget,
+                  ),
                 ),
                 TextFormField(
                   style: TextStyle(color: primaryTextColor),
@@ -236,7 +241,10 @@ Widget themeSettings(Function generateID) {
               Text(
                 "Einladungcode",
                 style: TextStyle(
-                    color: secondaryTextColor, fontSize: HeadfontOfWidget),
+                  color: secondaryTextColor,
+                  fontSize: SecondfontOfWidget + 2,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
               Text(

@@ -59,7 +59,7 @@ Future get_saved_mode() async {
 }
 
 // padding and margin
-const constPadding = EdgeInsets.all(10);
+const constPadding = EdgeInsets.all(10.0);
 const constMargin = EdgeInsets.only(top: 30, bottom: 30, left: 10, right: 10);
 const discanceBetweenWidgets = 8.0;
 

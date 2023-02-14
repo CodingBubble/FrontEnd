@@ -92,7 +92,7 @@ Widget configSettings(BuildContext context, setState) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Eckdaten",
+                "Anlass:",
                 style: TextStyle(
                     color: primaryTextColor, fontSize: HeadfontOfWidget),
               ),
@@ -103,7 +103,7 @@ Widget configSettings(BuildContext context, setState) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Eventname",
+                      "Eventname:",
                       style: TextStyle(
                           color: primaryTextColor,
                           fontSize: SecondfontOfWidget),
@@ -156,9 +156,13 @@ Widget configSettings(BuildContext context, setState) {
                   ],
                 ),
               ),
+              /***
+               * Vllt durch Iconbuttons ersätzen 
+               * unten links und unten rechts je
+               */
               Padding(
                   padding: EdgeInsets.all(discanceBetweenWidgets),
-                  child: Row(
+                  child: Column(
                     children: [
                       IconButton(
                         icon: Icon(Icons.calendar_month,

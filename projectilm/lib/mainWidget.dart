@@ -44,7 +44,7 @@ class _mainWidgetState extends State<mainWidget> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(discanceBetweenWidgets),
+                    padding: const EdgeInsets.all(discanceBetweenWidgets),
                     child: Container(
                       color: backgroundColor,
                       width: MediaQuery.of(context).size.width *
@@ -87,6 +87,10 @@ class _mainWidgetState extends State<mainWidget> {
 
   Widget groups(Group g) {
     return Container(
+      padding: constPadding,
+      alignment: Alignment.center,
+      margin: constMargin,
+      width: double.infinity,
       child: Column(
         children: [
           Text(g.name,
@@ -95,17 +99,13 @@ class _mainWidgetState extends State<mainWidget> {
                 color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
               )),
-          Padding(padding: EdgeInsets.all(15)),
+          const Padding(padding: EdgeInsets.all(15)),
           Text(g.description,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: secondaryTextColor, fontSize: SecondfontOfWidget)),
         ],
       ),
-      padding: constPadding,
-      alignment: Alignment.center,
-      margin: constMargin,
-      width: double.infinity,
     );
   }
 
