@@ -709,9 +709,13 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  text,
-                  style: TextStyle(color: secondaryTextColor, fontSize: 19),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  margin: EdgeInsets.only(left: 2),
+                  child: Text(
+                    text,
+                    style: TextStyle(color: secondaryTextColor, fontSize: 19),
+                  ),
                 ),
                 Text(
                   additional,
