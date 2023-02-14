@@ -56,43 +56,123 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
             ],
           ),
         );
+        break;
       }
     case 0:
       {
         return AppBar(
           backgroundColor: widgetColor,
-          title:
+          title: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // go back button
+                  onPressed: () => {
+                    AppHandler("eventWidget", context, [-1])
+                  },
+                  icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+                ),
+              ),
               Text(style: TextStyle(color: primaryTextColor), "Ankündigungen"),
+            ],
+          ),
         );
+        break;
       }
     case 1:
       {
         return AppBar(
           backgroundColor: widgetColor,
-          title: Text(style: TextStyle(color: primaryTextColor), "Event-Chat"),
+          title: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // go back button
+                  onPressed: () => {
+                    AppHandler("eventWidget", context, [-1])
+                  },
+                  icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+                ),
+              ),
+              Text(style: TextStyle(color: primaryTextColor), "Event-Chat"),
+            ],
+          ),
         );
+        break;
       }
     case 2:
       {
         return AppBar(
-            backgroundColor: widgetColor,
-            title: Text(
-                style: TextStyle(color: primaryTextColor), "Einkaufsliste"));
+          backgroundColor: widgetColor,
+          title: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // go back button
+                  onPressed: () => {
+                    AppHandler("eventWidget", context, [-1])
+                  },
+                  icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+                ),
+              ),
+              Text(style: TextStyle(color: primaryTextColor), "Einkaufsliste"),
+            ],
+          ),
+        );
+        break;
       }
     case 3:
       {
         return AppBar(
-            backgroundColor: widgetColor,
-            title: Text(style: TextStyle(color: primaryTextColor), "Umfragen"));
+          backgroundColor: widgetColor,
+          title: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // go back button
+                  onPressed: () => {
+                    AppHandler("eventWidget", context, [-1])
+                  },
+                  icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+                ),
+              ),
+              Text(style: TextStyle(color: primaryTextColor), "Umfragen"),
+            ],
+          ),
+        );
+        break;
       }
     case 4:
       {
         return AppBar(
           backgroundColor: widgetColor,
-          title: Text(
-              style: TextStyle(color: primaryTextColor), "Gruppenmitglieder"),
+          title: Row(
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // go back button
+                  onPressed: () => {
+                    AppHandler("eventWidget", context, [-1])
+                  },
+                  icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+                ),
+              ),
+              Text(
+                  style: TextStyle(color: primaryTextColor),
+                  "Gruppenmitglieder"),
+            ],
+          ),
         );
+        break;
       }
+    default:
+      return AppBar();
   }
 }
 

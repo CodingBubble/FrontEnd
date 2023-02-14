@@ -63,9 +63,8 @@ class _EventWidget extends State<EventWidget> {
   @override
   Widget build(BuildContext context) {
     var AppBar = get_simple_app_bar(context, "");
-    if (state == -1) {
-      AppBar = get_event_app_bar(context, toggle_join);
-    }
+    AppBar = get_event_app_bar(context, toggle_join, state);
+
     void t() => {};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
