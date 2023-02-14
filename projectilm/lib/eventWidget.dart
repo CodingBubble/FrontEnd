@@ -31,6 +31,8 @@ class _EventWidget extends State<EventWidget> {
   int state;
   final ImagePicker picker = ImagePicker();
   _EventWidget(this.state);
+
+  @override
   void initState() {
     super.initState();
     update_joined();
@@ -69,24 +71,28 @@ class _EventWidget extends State<EventWidget> {
       debugShowCheckedModeBanner: false,
       // title: "Dein Event",
       home: Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: AppBar,
-          body: get_body(
-              state,
-              context,
-              send_message,
-              send_announcement,
-              create_list_item,
-              bring_list_item,
-              unbring_list_item,
-              delete_list_item,
-              create_poll,
-              delete_poll,
-              create_voteoption,
-              delete_voteoption,
-              vote_for,
-              unvote_for,
-              getImage)),
+        backgroundColor: backgroundColor,
+        appBar: AppBar,
+        body: get_body(
+            state,
+            context,
+            send_message,
+            send_announcement,
+            create_list_item,
+            bring_list_item,
+            unbring_list_item,
+            delete_list_item,
+            create_poll,
+            delete_poll,
+            create_voteoption,
+            delete_voteoption,
+            vote_for,
+            unvote_for,
+            getImage
+            // hinzufuegenButtonDisplay,
+            // hinzufuegenButtonNotDisplay
+            ),
+      ),
     );
   }
 
@@ -348,21 +354,22 @@ class _EventWidget extends State<EventWidget> {
 
 var inputMessageController = TextEditingController();
 Widget get_body(
-    int i,
-    BuildContext context,
-    Function() send_message,
-    Function() send_announcement,
-    void Function() create_list_item,
-    void Function(ListItem item) bring_list_item,
-    void Function(ListItem item) unbring_list_item,
-    void Function(ListItem item) delete_list_item,
-    void Function() create_poll,
-    void Function(Poll p) delete_poll,
-    void Function(Poll, TextEditingController) create_voteoption,
-    void Function(VoteOption p) delete_voteoption,
-    void Function(VoteOption p) vote_for,
-    void Function(VoteOption p) unvote_for,
-    Future Function() getImage) {
+  int i,
+  BuildContext context,
+  Function() send_message,
+  Function() send_announcement,
+  void Function() create_list_item,
+  void Function(ListItem item) bring_list_item,
+  void Function(ListItem item) unbring_list_item,
+  void Function(ListItem item) delete_list_item,
+  void Function() create_poll,
+  void Function(Poll p) delete_poll,
+  void Function(Poll, TextEditingController) create_voteoption,
+  void Function(VoteOption p) delete_voteoption,
+  void Function(VoteOption p) vote_for,
+  void Function(VoteOption p) unvote_for,
+  Future Function() getImage,
+) {
   switch (i) {
     case -1:
       return SingleChildScrollView(
@@ -686,35 +693,38 @@ Widget get_body(
 Widget get_home_item(String text, IconData icon, int keyD, String additional,
     BuildContext context) {
   return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          child: TextButton(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Icon(icon,
-                      color: primaryTextColor,
-                      size: min(MediaQuery.of(context).size.width,
-                              MediaQuery.of(context).size.height) *
-                          0.14),
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.65,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(text,
-                              style: TextStyle(
-                                  color: secondaryTextColor, fontSize: 19)),
-                          Text(additional,
-                              style: TextStyle(
-                                  color: primaryTextColor, fontSize: 14))
-                        ],
-                      ))
-                ]),
-            onPressed: () => AppHandler("eventWidget", context, [keyD]),
-          )));
+    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
+    child: Container(
+      height: MediaQuery.of(context).size.height * 0.18,
+      child: TextButton(
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          Icon(icon,
+              color: primaryTextColor,
+              size: min(MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height) *
+                  0.14),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.65,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 19),
+                ),
+                Text(
+                  additional,
+                  style: TextStyle(color: primaryTextColor, fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ]),
+        onPressed: () => AppHandler("eventWidget", context, [keyD]),
+      ),
+    ),
+  );
 }
 
 Widget ListData(item, add_me, remove_me, delete_item) {
@@ -937,10 +947,7 @@ Widget WidgetmessageDesign(list) {
                 children: [
                   Text(
                     author,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                    ),
+                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
                     textAlign: TextAlign.right,
                   ),
                   MessageInp
@@ -973,7 +980,7 @@ Widget WidgetmessageDesign(list) {
                 children: [
                   Text(
                     author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
                     textAlign: TextAlign.left,
                   ),
                   MessageInp

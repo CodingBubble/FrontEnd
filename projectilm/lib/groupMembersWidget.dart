@@ -49,50 +49,65 @@ class _groupMembersWidget extends State<groupMembersWidget> {
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Mitglieder"),
         body: Scrollbar(
-            child: Column(children: [
-          TextButton(
-              onPressed: () {
-                current_transaction_group = current_group;
-                AppHandler("splid_info_group", context, []);
-              },
-              child: Text(
-                "Transaktionen ansehen",
-                style: TextStyle(color: secondaryTextColor),
-              )),
-          TextButton(
-              onPressed: () {
-                current_transaction_group = current_group;
-                AppHandler("create_transaction", context, []);
-              },
-              child: Text(
-                "Transaktion hinzufügen",
-                style: TextStyle(color: secondaryTextColor),
-              )),
-          Scrollbar(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: Member.length,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
-                      Container(
-                          width: MediaQuery.of(context).size.width *
-                              0.9, // the distance to the margin of display
-                          child: Column(
-                            children: [
-                              get_memberBlock(Member[index], get_members)
-                            ],
-                          )),
-                    ],
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+              Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: Member.length,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          const Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets)),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width *
+                                0.9, // the distance to the margin of display
+                            child: Column(
+                              children: [
+                                get_memberBlock(Member[index], get_members)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 40.0),
+                    child: IconButton(
+                      onPressed: () {
+                        current_transaction_group = current_group;
+                        AppHandler("splid_info_group", context, []);
+                      },
+                      icon: Icon(
+                        Icons.playlist_add_check_circle_sharp,
+                        size: 60,
+                        color: widgetColor,
+                      ),
+                    ),
                   ),
-                );
-              },
-            ),
-          ),
-        ])),
+                ),
+              ),
+            ])),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            current_transaction_group = current_group;
+            AppHandler("create_transaction", context, []);
+          },
+          backgroundColor: widgetColor,
+          child: const Icon(Icons.add_circle),
+        ),
       ),
     );
   }
@@ -101,7 +116,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
     double balance = vals[member.id] ?? 0;
     return SizedBox(
         child: Padding(
-            padding: constPadding,
+            padding: constPadding * 4,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
@@ -130,7 +145,8 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                           member.name +
                           " wurde aus der Gruppe entfernt");
                     },
-                    icon: const Icon(Icons.person_remove_rounded),
+                    icon: Icon(Icons.person_remove_rounded,
+                        color: backgroundColor),
                     color: primaryTextColor,
                   ),
                 ],

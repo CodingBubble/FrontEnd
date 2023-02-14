@@ -39,7 +39,7 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
           Container(
             width: MediaQuery.of(context).size.width * 0.1,
             child: IconButton(
-              icon: Icon(Icons.settings, color: secondaryTextColor),
+              icon: Icon(Icons.manage_accounts, color: secondaryTextColor),
               color: backgroundColor,
               onPressed: () => {AppHandler("settingsWidget", context, [])},
             ),

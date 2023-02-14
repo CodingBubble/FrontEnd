@@ -25,10 +25,10 @@ List<DropdownMenuItem<Group>> dropdown_groups = [];
 
 List<DropdownMenuItem<User>> dropdown_users = [
   DropdownMenuItem(
-      child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-      value: null),
+      value: null,
+      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
   DropdownMenuItem(
-      child: Text("Ich", style: TextStyle(color: primaryTextColor)), value: me),
+      value: me, child: Text("Ich", style: TextStyle(color: primaryTextColor))),
 ];
 
 class _transactionsWidget extends State<transactionsWidget> {
@@ -44,19 +44,19 @@ class _transactionsWidget extends State<transactionsWidget> {
   Future reload_user_options() async {
     dropdown_users = [
       DropdownMenuItem(
-          child: Text("Alle", style: TextStyle(color: primaryTextColor)),
-          value: null),
+          value: null,
+          child: Text("Alle", style: TextStyle(color: primaryTextColor))),
       DropdownMenuItem(
-          child: Text("Ich", style: TextStyle(color: primaryTextColor)),
-          value: me),
+          value: me,
+          child: Text("Ich", style: TextStyle(color: primaryTextColor))),
     ];
     for (var member in (await current_transaction_group!.get_members())) {
       dropdown_users.add(DropdownMenuItem(
+        value: member,
         child: Text(
           member.username,
           style: TextStyle(color: primaryTextColor),
         ),
-        value: member,
       ));
     }
   }
@@ -65,11 +65,11 @@ class _transactionsWidget extends State<transactionsWidget> {
     dropdown_groups = [];
     for (var group in groups_actual) {
       dropdown_groups.add(DropdownMenuItem(
+        value: group,
         child: Text(
           group.name,
           style: TextStyle(color: primaryTextColor),
         ),
-        value: group,
       ));
     }
   }
@@ -112,7 +112,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                 child: Column(
                   children: [
                     Row(children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12)),
                       Text(
                         "in: ",
                         style: TextStyle(color: primaryTextColor),
@@ -131,7 +132,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                           items: dropdown_groups)
                     ]),
                     Row(children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12)),
                       Text(
                         "von: ",
                         style: TextStyle(color: primaryTextColor),
@@ -147,7 +149,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                           items: dropdown_users)
                     ]),
                     Row(children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 12)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12)),
                       Text(
                         "an: ",
                         style: TextStyle(color: primaryTextColor),
@@ -163,16 +166,16 @@ class _transactionsWidget extends State<transactionsWidget> {
                           items: dropdown_users)
                     ]),
                     Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 2.0, color: Colors.green)),
                       child: TextButton(
                         onPressed: () =>
                             AppHandler("create_transaction", context, []),
                         child: Text("Transaktion hinzufügen",
                             style: TextStyle(color: widgetColor)),
                       ),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 2.0, color: Colors.green)),
                     ),
-                    Padding(padding: constPadding),
+                    const Padding(padding: constPadding),
                     Container(
                         margin: EdgeInsets.only(left: 20),
                         width: MediaQuery.of(context).size.width * 0.9,
@@ -224,10 +227,10 @@ class _transactionsWidget extends State<transactionsWidget> {
                                 color: backgroundColor,
                                 child: Column(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                         padding: EdgeInsets.all(
                                             discanceBetweenWidgets)),
-                                    Container(
+                                    SizedBox(
                                         width: MediaQuery.of(context)
                                                 .size
                                                 .width *
@@ -300,21 +303,21 @@ class _transactionsWidget extends State<transactionsWidget> {
                       style: TextStyle(color: primaryTextColor),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: standWidthForTabular(context),
                     child: Text(
                       transaction.balance.toString() + "€",
                       style: TextStyle(color: c_color),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: standWidthForTabular(context),
                     child: IconButton(
                       onPressed: () async {
                         await transaction.delete();
                         reload_list();
                       },
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       color: primaryTextColor,
                     ),
                   ),

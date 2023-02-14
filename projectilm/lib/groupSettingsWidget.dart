@@ -26,7 +26,7 @@ class _groupSettingsWidgetState extends State<groupSettingsWidget> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_simple_app_bar(context, "Gruppeneinstellungen"),
+        appBar: get_simple_app_bar(context, "Einstellungen"),
         body: Scrollbar(
           child: ListView.builder(
             itemCount: get_setting_category(context, generateID).length,
@@ -268,7 +268,7 @@ Widget themeSettings(Function generateID) {
                         onPressed: () {
                           generateID();
                         },
-                        child: const Text('neu generieren'),
+                        child: const Text('Generieren'),
                       ),
                     ),
                   ],

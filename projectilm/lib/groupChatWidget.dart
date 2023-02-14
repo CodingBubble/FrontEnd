@@ -93,19 +93,24 @@ class _stateChatWidget extends State<chatWidget> {
             // button to enter a message to the chat
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Flexible(
+                    child: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
                         icon: const Icon(Icons.image),
                         onPressed: () {
                           getImage();
                         },
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
                         child: TextFormField(
                           style: TextStyle(color: primaryTextColor),
                           controller: inputMessageController,
@@ -118,11 +123,17 @@ class _stateChatWidget extends State<chatWidget> {
                           ),
                         ),
                       ),
-                      IconButton(
-                          onPressed: () => {send_message()},
-                          icon: Icon(Icons.send, color: secondaryTextColor))
-                    ],
-                  )),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        onPressed: () => {send_message()},
+                        icon: Icon(Icons.send, color: secondaryTextColor),
+                      ),
+                    )
+                  ],
+                )),
+              ),
             ),
           ],
         ),
@@ -206,7 +217,7 @@ class _stateChatWidget extends State<chatWidget> {
             child: Container(
                 padding: const EdgeInsets.all(15),
                 margin: const EdgeInsets.only(bottom: 5),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(19),
@@ -221,8 +232,8 @@ class _stateChatWidget extends State<chatWidget> {
                     Text(
                       author,
                       style: TextStyle(
-                        color: widgetColor,
-                        fontSize: 10,
+                        color: secondaryTextColor,
+                        fontSize: 12,
                       ),
                       textAlign: TextAlign.right,
                     ),
@@ -244,7 +255,7 @@ class _stateChatWidget extends State<chatWidget> {
                 margin: const EdgeInsets.only(bottom: 5),
                 decoration: BoxDecoration(
                   color: widgetColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(19),
                     topRight: Radius.circular(19),
                     bottomRight: Radius.circular(19),
@@ -252,11 +263,11 @@ class _stateChatWidget extends State<chatWidget> {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       author,
-                      style: TextStyle(color: secondaryTextColor, fontSize: 10),
+                      style: TextStyle(color: secondaryTextColor, fontSize: 12),
                       textAlign: TextAlign.left,
                     ),
                     MessageInp

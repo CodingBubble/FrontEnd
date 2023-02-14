@@ -34,7 +34,7 @@ class _eventSettingsWidget extends State<eventSettingsWidget> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_simple_app_bar(context, "Eventeinstellungen"),
+        appBar: get_simple_app_bar(context, "Einstellungen"),
         body: Scrollbar(
           child: ListView.builder(
             itemCount: get_setting_category(context, setState).length,
