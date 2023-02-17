@@ -11,6 +11,7 @@ AppBar get_simple_app_bar(BuildContext context, title) {
   return AppBar(
     automaticallyImplyLeading: false,
     title: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back, color: secondaryTextColor),
@@ -18,9 +19,18 @@ AppBar get_simple_app_bar(BuildContext context, title) {
             Navigator.pop(context);
           },
         ),
-        Container(
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+        ),
+        Expanded(
+          child: Container(
             margin: EdgeInsets.only(left: 2),
-            child: Text(title, style: TextStyle(color: primaryTextColor))),
+            child: Text(
+              title,
+              style: TextStyle(color: primaryTextColor),
+            ),
+          ),
+        ),
       ],
     ),
     backgroundColor: widgetColor,

@@ -167,20 +167,27 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        member.username,
-                        style: TextStyle(color: primaryTextColor),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          member.username,
+                          style: TextStyle(color: primaryTextColor),
+                        ),
                       ),
                       const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: discanceBetweenWidgets)),
-                      Text(
-                        "$balance€",
-                        style: TextStyle(
-                          color: get_balance_color(balance),
-                        ),
-                        textAlign: TextAlign.right,
+                        padding: EdgeInsets.symmetric(
+                            vertical: discanceBetweenWidgets / 2),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          "$balance€",
+                          style: TextStyle(
+                            color: get_balance_color(balance),
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
                     ],
                   ),
                   IconButton(

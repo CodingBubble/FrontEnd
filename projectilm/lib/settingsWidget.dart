@@ -81,7 +81,7 @@ Widget generalSettings(BuildContext context) {
           Text(
             "Account",
             style:
-                TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
+                TextStyle(color: primaryTextColor, fontSize: HeadfontOfWidget),
           ),
           const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
           Form(
@@ -176,42 +176,40 @@ Widget themeSettings(void Function(String mode) update_color, context) {
       //headline
       Text(
         "Aussehen",
-        style: TextStyle(color: primaryTextColor, fontSize: GigafontOfWidget),
+        style: TextStyle(color: primaryTextColor, fontSize: HeadfontOfWidget),
       ),
       const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
       SizedBox(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(
+            Expanded(
+              child: IconButton(
                 onPressed: () {
                   update_color("light");
                 },
                 iconSize: MediaQuery.of(context).size.width * 0.13,
-                icon: const Icon(Icons.sunny, color: Colors.yellow)),
-            const Padding(
-              padding: EdgeInsets.all(discanceBetweenWidgets),
+                icon: const Icon(Icons.sunny, color: Colors.yellow),
+              ),
             ),
-            IconButton(
-                onPressed: () {
-                  update_color("dark");
-                },
-                iconSize: MediaQuery.of(context).size.width * 0.13,
-                icon: const Icon(Icons.shield_moon),
-                color: Colors.white),
-            const Padding(
-              padding: EdgeInsets.all(discanceBetweenWidgets),
+            Expanded(
+              child: IconButton(
+                  onPressed: () {
+                    update_color("dark");
+                  },
+                  iconSize: MediaQuery.of(context).size.width * 0.13,
+                  icon: const Icon(Icons.shield_moon),
+                  color: Colors.white),
             ),
-            IconButton(
-                onPressed: () {
-                  update_color("color");
-                },
-                icon: const Icon(Icons.color_lens_outlined),
-                iconSize: MediaQuery.of(context).size.width * 0.13,
-                color: Colors.brown),
-            const Padding(
-              padding: EdgeInsets.all(discanceBetweenWidgets),
+            Expanded(
+              child: IconButton(
+                  onPressed: () {
+                    update_color("color");
+                  },
+                  icon: const Icon(Icons.color_lens_outlined),
+                  iconSize: MediaQuery.of(context).size.width * 0.13,
+                  color: Colors.brown),
             ),
           ],
         ),

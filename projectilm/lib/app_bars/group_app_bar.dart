@@ -12,39 +12,53 @@ AppBar get_group_app_bar(BuildContext context, Function onSearch) {
     backgroundColor: widgetColor,
     automaticallyImplyLeading: false,
     title: Container(
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      IconButton(
-        icon: Icon(Icons.arrow_back, color: secondaryTextColor),
-        color: backgroundColor,
-        onPressed: () => {
-          AppHandler("mainWidget", context, []),
-        },
-      ),
-      IconButton(
-        icon: Icon(Icons.groups, color: secondaryTextColor),
-        color: backgroundColor,
-        onPressed: () => {
-          AppHandler("groupMembersWidget", context, []),
-        },
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.3,
-        child: TextFormField(
-          style: TextStyle(color: secondaryTextColor),
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            hintText: "Suche",
-            hintStyle: TextStyle(color: primaryTextColor),
-            floatingLabelStyle: TextStyle(color: variationColor),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {
+                AppHandler("mainWidget", context, []),
+              },
+            ),
           ),
-          onChanged: (value) => onSearch(value),
-        ),
+          Expanded(
+            child: IconButton(
+              icon: Icon(Icons.groups, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {
+                AppHandler("groupMembersWidget", context, []),
+              },
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: TextFormField(
+                style: TextStyle(color: secondaryTextColor),
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Suche",
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
+                ),
+                onChanged: (value) => onSearch(value),
+              ),
+            ),
+          ),
+          Expanded(
+            child: IconButton(
+              icon: Icon(Icons.settings_sharp, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {
+                AppHandler("groupSettingsWidget", context, []),
+              },
+            ),
+          ),
+        ],
       ),
-      IconButton(
-          icon: Icon(Icons.settings_sharp, color: secondaryTextColor),
-          color: backgroundColor,
-          onPressed: () => {AppHandler("groupSettingsWidget", context, [])})
-    ])),
+    ),
   );
 }

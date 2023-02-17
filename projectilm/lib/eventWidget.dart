@@ -421,10 +421,12 @@ Widget get_body(
                   child: Column(
                     children: [
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets)),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: AnnouncentsData(event_data_list[index])),
+                        padding: EdgeInsets.all(discanceBetweenWidgets),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: AnnouncentsData(event_data_list[index]),
+                      ),
                     ],
                   ),
                 );
@@ -467,69 +469,86 @@ Widget get_body(
       return c;
     case 1:
       /////////////////////// EVENT CHAT WIDGET ///////////////////////////////
-      return Column(children: [
-        // history of messages
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Scrollbar(
-            child: ListView.builder(
-              reverse: true,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets)),
-                      Container(
+      return Column(
+        children: [
+          // history of messages
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Scrollbar(
+              child: ListView.builder(
+                reverse: true,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets),
+                        ),
+                        SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.9, // the distance to the margin of display
-                          child: WidgetmessageDesign(event_data_list[index])),
-                    ],
-                  ),
-                );
-              },
-              itemCount: event_data_list.length,
+                          child: WidgetmessageDesign(event_data_list[index]),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: event_data_list.length,
+              ),
             ),
           ),
-        ),
-        // button to enter a message to the chat
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
+          // button to enter a message to the chat
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: constPadding * 0.5,
+              child: Container(
                 child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.image),
-                  onPressed: () {
-                    getImage();
-                  },
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: TextFormField(
-                    style: TextStyle(color: primaryTextColor),
-                    controller: inputMessageController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      hintText: "Schreibe eine Nachricht",
-                      hintStyle: TextStyle(color: primaryTextColor),
-                      floatingLabelStyle: TextStyle(color: variationColor),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: () {
+                          getImage();
+                        },
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: SizedBox(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "chat . . .",
+                            hintStyle: TextStyle(
+                              color: primaryTextColor,
+                              fontSize: 13,
+                            ),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {send_message()},
+                        icon: Icon(Icons.send, color: secondaryTextColor),
+                      ),
+                    ),
+                  ],
                 ),
-                IconButton(
-                    onPressed: () => {send_message()},
-                    icon: Icon(Icons.send, color: secondaryTextColor))
-              ],
-            )),
+              ),
+            ),
           ),
-        ),
-      ]);
+        ],
+      );
     case 2:
       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
       return Column(children: [
@@ -659,7 +678,7 @@ Widget get_body(
       ]);
     case 4:
       ///////////////////// EVENT MEMBERS ///////////////////////////////////////
-      return Container(
+      return SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.8,
         child: Scrollbar(
@@ -673,10 +692,12 @@ Widget get_body(
                     const Padding(
                         padding: EdgeInsets.all(discanceBetweenWidgets)),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width *
-                            0.9, // the distance to the margin of display
-                        child: MemberData(event_data_list[
-                            event_data_list.length - index - 1])),
+                      width: MediaQuery.of(context).size.width *
+                          0.9, // the distance to the margin of display
+                      child: MemberData(
+                        event_data_list[event_data_list.length - index - 1],
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -710,7 +731,7 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  margin: EdgeInsets.only(left: 2),
+                  margin: const EdgeInsets.only(left: 2),
                   child: Text(
                     text,
                     style: TextStyle(color: secondaryTextColor, fontSize: 19),
@@ -779,15 +800,24 @@ Widget MemberData(member) {
         borderRadius: BorderRadius.circular(16.0),
         color: widgetColor,
       ),
-      padding: const EdgeInsets.only(left: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon, color: iconColor),
-          const Padding(padding: EdgeInsets.only(right: 10)),
-          Text(
-            member[0],
-            style: TextStyle(color: primaryTextColor),
+          Padding(
+            padding: constPadding,
+            child: Text(
+              member[0],
+              style: TextStyle(color: primaryTextColor),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Padding(
+            padding: constPadding,
+            child: Icon(
+              icon,
+              color: iconColor,
+            ),
           ),
         ],
       ),
@@ -796,11 +826,13 @@ Widget MemberData(member) {
 }
 
 Widget AnnouncentsData(message) {
-  return Container(
-      child: Text(
-    message[0],
-    style: TextStyle(color: primaryTextColor),
-  ));
+  return Padding(
+    padding: constPadding,
+    child: Text(
+      message[0],
+      style: TextStyle(color: primaryTextColor),
+    ),
+  );
 }
 
 Widget PollData(
@@ -922,18 +954,21 @@ Widget WidgetmessageDesign(list) {
   if (message.startsWith(image_signalizer)) {
     int id = int.parse(message.substring(image_signalizer.length));
     MessageInp = Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Image.network(get_image_url(id)));
+      padding: const EdgeInsets.only(top: 10),
+      child: Image.network(
+        get_image_url(id),
+      ),
+    );
   }
 
   if (_me == true) {
     return Container(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: Container(
               padding: const EdgeInsets.all(15),
               margin: const EdgeInsets.only(bottom: 5),
               decoration: const BoxDecoration(
@@ -955,18 +990,20 @@ Widget WidgetmessageDesign(list) {
                   ),
                   MessageInp
                 ],
-              )),
-        ),
-      ],
-    ));
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   } else {
     return Container(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Flexible(
-          child: Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Flexible(
+            child: Container(
               padding: const EdgeInsets.all(15),
               margin: const EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(
@@ -988,9 +1025,11 @@ Widget WidgetmessageDesign(list) {
                   ),
                   MessageInp
                 ],
-              )),
-        ),
-      ],
-    ));
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

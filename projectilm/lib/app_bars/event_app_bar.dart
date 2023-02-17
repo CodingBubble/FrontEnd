@@ -16,9 +16,9 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                   // go back button
@@ -26,7 +26,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                     onPressed: () => toggle_join(),
@@ -35,7 +35,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                       color: get_join_button_color(),
                     )),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                     onPressed: () => {
@@ -44,15 +44,17 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     icon: Icon(Icons.group, color: secondaryTextColor)),
               ),
               ret_if(
-                  current_event!.creator_id == me!.id,
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      child: IconButton(
-                          // button for settings
-                          onPressed: () =>
-                              {AppHandler("eventSettingsWidget", context, [])},
-                          icon: Icon(Icons.settings,
-                              color: secondaryTextColor)))),
+                current_event!.creator_id == me!.id,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  child: IconButton(
+                    // button for settings
+                    onPressed: () =>
+                        {AppHandler("eventSettingsWidget", context, [])},
+                    icon: Icon(Icons.settings, color: secondaryTextColor),
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -63,8 +65,9 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                   // go back button
@@ -74,7 +77,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Text(style: TextStyle(color: primaryTextColor), "Ankündigungen"),
+              const Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+              ),
+              Expanded(
+                child: Text(
+                    style: TextStyle(color: primaryTextColor), "Ankündigungen"),
+              ),
             ],
           ),
         );
@@ -85,8 +95,9 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                   // go back button
@@ -96,7 +107,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Text(style: TextStyle(color: primaryTextColor), "Event-Chat"),
+              const Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+              ),
+              Expanded(
+                child: Text(
+                    style: TextStyle(color: primaryTextColor), "Event-Chat"),
+              ),
             ],
           ),
         );
@@ -107,8 +125,9 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                   // go back button
@@ -118,7 +137,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Text(style: TextStyle(color: primaryTextColor), "Einkaufsliste"),
+              const Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+              ),
+              Expanded(
+                child: Text(
+                    style: TextStyle(color: primaryTextColor), "Einkaufsliste"),
+              ),
             ],
           ),
         );
@@ -129,8 +155,9 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
                   // go back button
@@ -140,7 +167,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Text(style: TextStyle(color: primaryTextColor), "Umfragen"),
+              const Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+              ),
+              Expanded(
+                child:
+                    Text(style: TextStyle(color: primaryTextColor), "Umfragen"),
+              ),
             ],
           ),
         );
@@ -151,6 +185,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
         return AppBar(
           backgroundColor: widgetColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 alignment: Alignment.centerLeft,
@@ -163,9 +198,14 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                   icon: Icon(Icons.arrow_back, color: secondaryTextColor),
                 ),
               ),
-              Text(
-                  style: TextStyle(color: primaryTextColor),
-                  "Gruppenmitglieder"),
+              const Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
+              ),
+              Expanded(
+                child: Text(
+                    style: TextStyle(color: primaryTextColor), "Mitglieder"),
+              ),
             ],
           ),
         );

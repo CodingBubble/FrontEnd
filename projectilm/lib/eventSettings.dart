@@ -81,11 +81,12 @@ Widget configSettings(BuildContext context, setState) {
   // get_values(change_title_controller, change_desc_controller);
 
   return (Container(
-      padding: constPadding,
-      margin: constMargin,
-      width: double.infinity,
-      color: widgetColor,
-      child: Column(children: [
+    padding: constPadding,
+    margin: constMargin,
+    width: double.infinity,
+    color: widgetColor,
+    child: Column(
+      children: [
         const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
         SizedBox(
           child: Column(
@@ -108,20 +109,22 @@ Widget configSettings(BuildContext context, setState) {
                           color: primaryTextColor,
                           fontSize: SecondfontOfWidget),
                     ),
-                    TextFormField(
-                      style: TextStyle(color: primaryTextColor),
-                      controller: change_title_controller,
-                      decoration: InputDecoration(
-                        hintText: 'Gebe einen neuen Eventnamen ein',
-                        hintStyle: TextStyle(color: primaryTextColor),
-                        floatingLabelStyle: TextStyle(color: variationColor),
+                    Expanded(
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: change_title_controller,
+                        decoration: InputDecoration(
+                          hintText: 'Gebe einen neuen Eventnamen ein',
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Bitte gebe einen neunen Eventnamem ein';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Bitte gebe einen neunen Eventnamem ein';
-                        }
-                        return null;
-                      },
                     ),
                   ],
                 ),
@@ -138,20 +141,22 @@ Widget configSettings(BuildContext context, setState) {
                           color: primaryTextColor,
                           fontSize: SecondfontOfWidget),
                     ),
-                    TextFormField(
-                      style: TextStyle(color: primaryTextColor),
-                      controller: change_desc_controller,
-                      decoration: InputDecoration(
-                        hintText: 'Gebe einen neuen Ort ein',
-                        hintStyle: TextStyle(color: primaryTextColor),
-                        floatingLabelStyle: TextStyle(color: variationColor),
+                    Expanded(
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: change_desc_controller,
+                        decoration: InputDecoration(
+                          hintText: 'Gebe einen neuen Ort ein',
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Bitte gebe einen neunen Ort ein';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Bitte gebe einen neunen Ort ein';
-                        }
-                        return null;
-                      },
                     ),
                   ],
                 ),
@@ -184,7 +189,7 @@ Widget configSettings(BuildContext context, setState) {
                       )
                     ],
                   )),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
@@ -227,5 +232,7 @@ Widget configSettings(BuildContext context, setState) {
             ],
           ),
         )
-      ])));
+      ],
+    ),
+  ));
 }

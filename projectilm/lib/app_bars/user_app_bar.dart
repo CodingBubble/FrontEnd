@@ -14,36 +14,42 @@ AppBar get_user_app_bar(BuildContext context, Function onSearch) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            icon: Icon(Icons.euro, color: secondaryTextColor),
-            color: backgroundColor,
-            onPressed: () {
-              current_transaction_group = null;
-              AppHandler("splid_info_me", context, []);
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 2),
-            width: MediaQuery.of(context).size.width * 0.4,
-            child: TextFormField(
-              style: TextStyle(color: secondaryTextColor),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                hintText: "Suche",
-                hintStyle: TextStyle(color: primaryTextColor),
-                floatingLabelStyle: TextStyle(color: variationColor),
-              ),
-              onChanged: (value) => onSearch(value),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.1,
+          Expanded(
             child: IconButton(
-              icon: Icon(Icons.manage_accounts, color: secondaryTextColor),
+              icon: Icon(Icons.euro, color: secondaryTextColor),
               color: backgroundColor,
-              onPressed: () => {AppHandler("settingsWidget", context, [])},
+              onPressed: () {
+                current_transaction_group = null;
+                AppHandler("splid_info_me", context, []);
+              },
             ),
-          )
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 2),
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: TextFormField(
+                style: TextStyle(color: secondaryTextColor),
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Suche",
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
+                ),
+                onChanged: (value) => onSearch(value),
+              ),
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: IconButton(
+                icon: Icon(Icons.manage_accounts, color: secondaryTextColor),
+                color: backgroundColor,
+                onPressed: () => {AppHandler("settingsWidget", context, [])},
+              ),
+            ),
+          ),
         ],
       ),
     ),
