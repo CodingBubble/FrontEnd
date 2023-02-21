@@ -376,7 +376,7 @@ Widget get_body(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Padding(padding: EdgeInsets.all(15)),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Text(
               "Ort:  " + current_event!.description,
@@ -384,7 +384,7 @@ Widget get_body(
             ),
           ),
           const Padding(padding: EdgeInsets.all(5)),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Text(
               "Zeit: " + formatter.format(current_event!.time.toLocal()),
@@ -408,7 +408,7 @@ Widget get_body(
     case 0:
       ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
       var c = Column(children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.8,
           child: Scrollbar(
@@ -442,7 +442,7 @@ Widget get_body(
             child: Container(
                 child: Row(
               children: [
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: TextFormField(
                     style: TextStyle(color: primaryTextColor),
@@ -472,7 +472,7 @@ Widget get_body(
       return Column(
         children: [
           // history of messages
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.8,
             child: Scrollbar(
@@ -552,7 +552,7 @@ Widget get_body(
     case 2:
       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
       return Column(children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.8,
           child: Scrollbar(
@@ -565,7 +565,7 @@ Widget get_body(
                     children: [
                       const Padding(
                           padding: EdgeInsets.all(discanceBetweenWidgets)),
-                      Container(
+                      SizedBox(
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: ListData(
                               event_data_list[index],
@@ -586,34 +586,39 @@ Widget get_body(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
+                child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: "Neuer Eintrag",
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
+                      child: Expanded(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Neuer Eintrag",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
                         ),
                       ),
                     ),
-                    IconButton(
+                    Expanded(
+                      child: IconButton(
                         onPressed: () => {create_list_item()},
-                        icon: Icon(Icons.add, color: secondaryTextColor))
+                        icon: Icon(Icons.add, color: secondaryTextColor),
+                      ),
+                    )
                   ],
-                )),
+                ),
               ),
             )),
       ]);
     case 3:
       ///////////////////////////// EVENT POLLS ///////////////////////////////
       return Column(children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.8,
           child: Scrollbar(
@@ -626,7 +631,7 @@ Widget get_body(
                     children: [
                       const Padding(
                           padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
-                      Container(
+                      SizedBox(
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: PollData(
                               event_data_list[index],
@@ -654,23 +659,30 @@ Widget get_body(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Container(
                     child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: "Neue Umfrage",
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
+                      child: Expanded(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Neue Umfrage",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
                         ),
                       ),
                     ),
-                    IconButton(
+                    Expanded(
+                      child: IconButton(
                         onPressed: () => {create_poll()},
-                        icon: Icon(Icons.add_box, color: secondaryTextColor))
+                        icon: Icon(Icons.add_box, color: secondaryTextColor),
+                      ),
+                    ),
                   ],
                 )),
               ),
@@ -714,7 +726,7 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
     BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
-    child: Container(
+    child: SizedBox(
       height: MediaQuery.of(context).size.height * 0.18,
       child: TextButton(
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -723,7 +735,7 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
               size: min(MediaQuery.of(context).size.width,
                       MediaQuery.of(context).size.height) *
                   0.14),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.65,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -971,9 +983,9 @@ Widget WidgetmessageDesign(list) {
             child: Container(
               padding: const EdgeInsets.all(15),
               margin: const EdgeInsets.only(bottom: 5),
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Colors.green[900],
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(19),
                   topLeft: Radius.circular(19),
                   bottomLeft: Radius.circular(19),

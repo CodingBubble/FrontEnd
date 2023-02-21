@@ -30,27 +30,34 @@ class _StateGroup extends State<GroupWidget> {
         body: Column(
           children: [
             //first widget as official chat
-            Container(
-              child: Column(
-                children: [
-                  const Padding(
-                      padding: EdgeInsets.all(discanceBetweenWidgets)),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(negativeColor),
-                      ),
-                      child: chat("offizieller Chat"),
-                      onPressed: () => {
-                        AppHandler("chatWidget", context,
-                            ["Grouping", "offizieller Chat"])
-                      },
+            Column(
+              children: [
+                const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(negativeColor),
                     ),
-                  )
-                ],
-              ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      child: Text(
+                        "Gruppen Chat",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: HeadfontOfWidget,
+                        ),
+                      ),
+                    ),
+                    onPressed: () => {
+                      AppHandler("chatWidget", context,
+                          ["Grouping", "offizieller Chat"])
+                    },
+                  ),
+                )
+              ],
             ),
             //second widget as Scrollbar for all events
             const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
@@ -82,27 +89,31 @@ class _StateGroup extends State<GroupWidget> {
                 fontSize: HeadfontOfWidget,
               )),
           const Padding(padding: EdgeInsets.all(15)),
-          Text(ev.description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: secondaryTextColor, fontSize: SecondfontOfWidget)),
+          Text(
+            ev.description,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: secondaryTextColor,
+              fontSize: descriptionfontOfWidget,
+            ),
+          ),
           SizedBox(
             width: double.infinity,
-            child: Container(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: 30,
-                      icon: Icon(get_icon(index)),
-                      color: get_color(index),
-                      onPressed: () => {toggle_join(index)},
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    iconSize: 30,
+                    icon: Icon(
+                      get_icon(index),
                     ),
-                    // here to add the onPressed-command to se
-                  ],
-                ),
+                    color: get_color(index),
+                    onPressed: () => {toggle_join(index)},
+                  ),
+                  // here to add the onPressed-command to se
+                ],
               ),
             ),
           ),

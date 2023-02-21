@@ -65,8 +65,9 @@ const discanceBetweenWidgets = 8.0;
 
 // Size of different fonts
 const GigafontOfWidget = 40.0;
-const HeadfontOfWidget = 30.0;
+const HeadfontOfWidget = 25.0;
 const SecondfontOfWidget = 20.0;
+const descriptionfontOfWidget = 14.0;
 
 Group? current_group;
 Event? current_event;

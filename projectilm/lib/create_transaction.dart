@@ -63,13 +63,15 @@ class _StateTransaction_Create extends State<Transaction_Create> {
   void reload_group_options() {
     dropdown_groups = [];
     for (var group in groups_actual) {
-      dropdown_groups.add(DropdownMenuItem(
-        child: Text(
-          group.name,
-          style: TextStyle(color: primaryTextColor),
+      dropdown_groups.add(
+        DropdownMenuItem(
+          value: group,
+          child: Text(
+            group.name,
+            style: TextStyle(color: primaryTextColor),
+          ),
         ),
-        value: group,
-      ));
+      );
     }
   }
 
@@ -77,100 +79,99 @@ class _StateTransaction_Create extends State<Transaction_Create> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_simple_app_bar(context, "Transaktion erstellen"),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: title_controller,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: 'Titel',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
+        appBar: get_simple_app_bar(context, "Erstellen"),
+        body: Scrollbar(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: Padding(
+              padding: constPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Form(
+                    child: TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: title_controller,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        hintText: 'Titel',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: balance_controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Wert',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
+                  Form(
+                    child: TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: balance_controller,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Wert',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
+                      ),
+                    ),
                   ),
-                ),
+                  Form(
+                    child: DropdownButton(
+                        dropdownColor: widgetColor,
+                        value: current_transaction_group,
+                        onChanged: (Group? newValue) async {
+                          current_transaction_group = newValue!;
+                          selected_user1 = null;
+                          selected_user2 = null;
+                          await reload_user_options();
+                          setState(() {});
+                        },
+                        items: dropdown_groups),
+                  ),
+                  Form(
+                    child: DropdownButton(
+                        dropdownColor: widgetColor,
+                        value: selected_user1,
+                        onChanged: (User? newValue) async {
+                          selected_user1 = newValue;
+                          setState(() {});
+                        },
+                        items: dropdown_users),
+                  ),
+                  Form(
+                    child: DropdownButton(
+                        dropdownColor: widgetColor,
+                        value: selected_user2,
+                        onChanged: (User? newValue) async {
+                          selected_user2 = newValue;
+                          setState(() {});
+                        },
+                        items: dropdown_users),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: widgetColor)),
+                    child: TextButton(
+                      onPressed: () {
+                        create_transaction();
+                      },
+                      child: Expanded(
+                        child: Text(
+                          'Transaktion erstellen',
+                          style: TextStyle(color: secondaryTextColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: DropdownButton(
-                    dropdownColor: widgetColor,
-                    value: current_transaction_group,
-                    onChanged: (Group? newValue) async {
-                      current_transaction_group = newValue!;
-                      selected_user1 = null;
-                      selected_user2 = null;
-                      await reload_user_options();
-                      setState(() {});
-                    },
-                    items: dropdown_groups),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: DropdownButton(
-                    dropdownColor: widgetColor,
-                    value: selected_user1,
-                    onChanged: (User? newValue) async {
-                      selected_user1 = newValue;
-                      setState(() {});
-                    },
-                    items: dropdown_users),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: DropdownButton(
-                    dropdownColor: widgetColor,
-                    value: selected_user2,
-                    onChanged: (User? newValue) async {
-                      selected_user2 = newValue;
-                      setState(() {});
-                    },
-                    items: dropdown_users),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: widgetColor)),
-                child: TextButton(
-                  onPressed: () {
-                    create_transaction();
-                  },
-                  child: Text('Transaktion erstellen',
-                      style: TextStyle(color: secondaryTextColor)),
-                ),
-              ),
-            ),
-          ],
-        ));
+          ),
+        ),
+      ),
+    );
   }
 
   void create_transaction() async {

@@ -93,46 +93,48 @@ class _stateChatWidget extends State<chatWidget> {
             // button to enter a message to the chat
             Align(
               alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Flexible(
-                    child: Row(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(Icons.image),
-                        onPressed: () {
-                          getImage();
-                        },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: constPadding * 0.5,
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          icon: const Icon(Icons.image),
+                          onPressed: () {
+                            getImage();
+                          },
+                        ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Schreibe eine Nachricht",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                      Expanded(
+                        child: SizedBox(
+                          child: TextFormField(
+                            style: TextStyle(color: primaryTextColor),
+                            controller: inputMessageController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: "chat . . .",
+                              hintStyle: TextStyle(
+                                color: primaryTextColor,
+                                fontSize: 13,
+                              ),
+                              floatingLabelStyle:
+                                  TextStyle(color: variationColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: IconButton(
-                        onPressed: () => {send_message()},
-                        icon: Icon(Icons.send, color: secondaryTextColor),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () => {send_message()},
+                          icon: Icon(Icons.send, color: secondaryTextColor),
+                        ),
                       ),
-                    )
-                  ],
-                )),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
@@ -217,9 +219,9 @@ class _stateChatWidget extends State<chatWidget> {
             child: Container(
                 padding: const EdgeInsets.all(15),
                 margin: const EdgeInsets.only(bottom: 5),
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Colors.green[900],
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(19),
                     topLeft: Radius.circular(19),
                     bottomLeft: Radius.circular(19),
@@ -244,49 +246,48 @@ class _stateChatWidget extends State<chatWidget> {
         ],
       ));
     } else {
-      return Container(
-          child: Row(
+      return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Flexible(
             child: Container(
-                padding: const EdgeInsets.all(15),
-                margin: const EdgeInsets.only(bottom: 5),
-                decoration: BoxDecoration(
-                  color: widgetColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(19),
-                    topRight: Radius.circular(19),
-                    bottomRight: Radius.circular(19),
-                  ),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(bottom: 5),
+              decoration: BoxDecoration(
+                color: widgetColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(19),
+                  topRight: Radius.circular(19),
+                  bottomRight: Radius.circular(19),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      author,
-                      style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                      textAlign: TextAlign.left,
-                    ),
-                    MessageInp
-                  ],
-                )),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    author,
+                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                    textAlign: TextAlign.left,
+                  ),
+                  MessageInp
+                ],
+              ),
+            ),
           ),
         ],
-      ));
+      );
     }
   }
 }
 
 
 
-/*
-
-            // Box to write new Message
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Text("Hello from the dark side!"),
-            ),
-            */
+/** 
+* Box to write new Message
+* Align(
+*  alignment: Alignment.bottomCenter,
+*  child: Text("Hello from the dark side!"),
+* ),
+*/

@@ -93,7 +93,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              padding: const EdgeInsets.only(bottom: 5.0),
+              margin: const EdgeInsets.only(bottom: 5.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +104,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: Expanded(
                         child: Align(
-                          alignment: FractionalOffset.bottomLeft,
+                          alignment: Alignment.bottomLeft,
                           child: IconButton(
                             onPressed: () {
                               current_transaction_group = current_group;
@@ -123,10 +123,10 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.1,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Expanded(
                       child: Align(
-                        alignment: FractionalOffset.bottomRight,
+                        alignment: Alignment.bottomRight,
                         child: IconButton(
                           onPressed: () {
                             current_transaction_group = current_group;
@@ -154,56 +154,58 @@ class _groupMembersWidget extends State<groupMembersWidget> {
   SizedBox get_memberBlock(member, reload_list) {
     double balance = vals[member.id] ?? 0;
     return SizedBox(
-        child: Padding(
-            padding: constPadding,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                color: widgetColor,
-              ),
-              padding: const EdgeInsets.only(left: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: constPadding,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: widgetColor,
+          ),
+          padding: const EdgeInsets.only(left: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          member.username,
-                          style: TextStyle(color: primaryTextColor),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: discanceBetweenWidgets / 2),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "$balance€",
-                          style: TextStyle(
-                            color: get_balance_color(balance),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      member.username,
+                      style: TextStyle(color: primaryTextColor),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      await current_group!.admin_kick_user(member);
-                      reload_list();
-                      current_group!.send_message(
-                          "Der Benutzer ${member.name} wurde aus der Gruppe entfernt");
-                    },
-                    icon: Icon(Icons.person_remove_rounded,
-                        color: backgroundColor),
-                    color: primaryTextColor,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: discanceBetweenWidgets / 2),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text(
+                      "$balance€",
+                      style: TextStyle(
+                        color: get_balance_color(balance),
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                  )
                 ],
               ),
-            )));
+              IconButton(
+                onPressed: () async {
+                  await current_group!.admin_kick_user(member);
+                  reload_list();
+                  current_group!.send_message(
+                    "Der Benutzer ${member.name} wurde aus der Gruppe entfernt",
+                  );
+                },
+                icon: Icon(Icons.person_remove_rounded, color: backgroundColor),
+                color: primaryTextColor,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

@@ -112,8 +112,7 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
               ),
               Expanded(
-                child: Text(
-                    style: TextStyle(color: primaryTextColor), "Event-Chat"),
+                child: Text(style: TextStyle(color: primaryTextColor), "Chat"),
               ),
             ],
           ),

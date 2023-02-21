@@ -98,12 +98,18 @@ class _mainWidgetState extends State<mainWidget> {
               style: TextStyle(
                 color: primaryTextColor,
                 fontSize: HeadfontOfWidget,
+                fontWeight: FontWeight.w600,
               )),
           const Padding(padding: EdgeInsets.all(15)),
-          Text(g.description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: secondaryTextColor, fontSize: SecondfontOfWidget)),
+          Text(
+            g.description,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: secondaryTextColor,
+              fontSize: descriptionfontOfWidget,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ],
       ),
     );
