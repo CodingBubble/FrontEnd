@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/app_bars/simple_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
@@ -206,7 +207,21 @@ class _stateChatWidget extends State<chatWidget> {
       int id = int.parse(message.substring(image_signalizer.length));
       MessageInp = Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.network(get_image_url(id)));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  constraints: BoxConstraints(              
+                    maxHeight: MediaQuery.of(context).size.height*0.4,      
+                    maxWidth: MediaQuery.of(context).size.width*0.75,
+                ),
+                child:Image.network(get_image_url(id), fit: BoxFit.contain), 
+              ),
+              IconButton(onPressed: () async {await ImageDownloader.downloadImage(get_image_url(id));}
+              , icon: Icon(Icons.download, color: primaryTextColor),)
+            ],
+          )
+      );
     }
 
     if (_me == true) {

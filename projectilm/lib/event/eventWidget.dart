@@ -3,9 +3,11 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
+import 'package:projectilm/group/mainWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
@@ -490,7 +492,7 @@ Widget get_body(
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.9, // the distance to the margin of display
-                          child: WidgetmessageDesign(event_data_list[index]),
+                          child: WidgetmessageDesign(event_data_list[index], context),
                         ),
                       ],
                     ),
@@ -953,7 +955,7 @@ Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
 var event_data_list = [];
 
 var inputMessage = "";
-Widget WidgetmessageDesign(list) {
+Widget WidgetmessageDesign(list, context) {
   var message = list[0];
   var _me = list[1];
   var author = list[2];
@@ -967,9 +969,20 @@ Widget WidgetmessageDesign(list) {
     int id = int.parse(message.substring(image_signalizer.length));
     MessageInp = Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Image.network(
-        get_image_url(id),
-      ),
+      child: Column(
+        children: [
+          Container(
+              constraints: BoxConstraints(              
+                maxHeight: MediaQuery.of(context).size.height*0.4,      
+                maxWidth: MediaQuery.of(context).size.width*0.75,
+            ),
+            child:Image.network(get_image_url(id), fit: BoxFit.contain), 
+          ),
+          IconButton(onPressed: () async {await ImageDownloader.downloadImage(get_image_url(id));}
+          , icon: Icon(Icons.download, color: primaryTextColor))
+        ],
+      )
+    
     );
   }
 

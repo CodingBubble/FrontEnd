@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:projectilm/create_event.dart';
-import 'package:projectilm/create_group.dart';
-import 'package:projectilm/create_transaction.dart';
-import 'package:projectilm/groupChatWidget.dart';
-import 'package:projectilm/eventWidget.dart';
 import 'package:projectilm/register.dart';
-import 'package:projectilm/settingsWidget.dart';
-import 'package:projectilm/splid_info_group.dart';
-import 'package:projectilm/splid_info_me.dart';
-import 'mainWidget.dart';
+import 'package:projectilm/transactions/create_transaction.dart';
+import 'package:projectilm/transactions/splid_info_group.dart';
+import 'package:projectilm/transactions/splid_info_me.dart';
+import 'event/create_event.dart';
+import 'event/eventSettings.dart';
+import 'event/eventWidget.dart';
 import 'global.dart';
+import 'group/create_group.dart';
+import 'group/groupChatWidget.dart';
+import 'group/groupMembersWidget.dart';
+import 'group/groupSettingsWidget.dart';
+import 'group/groupWidget.dart';
+import 'group/mainWidget.dart';
+import 'group/settingsWidget.dart';
 import 'login.dart';
-import 'groupWidget.dart';
-import 'groupSettingsWidget.dart';
-import 'groupMembersWidget.dart';
-import 'eventSettings.dart';
 
 class controlWidget extends StatelessWidget {
   const controlWidget({super.key});
