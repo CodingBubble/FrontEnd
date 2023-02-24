@@ -88,47 +88,78 @@ class _mainWidgetState extends State<mainWidget> {
   // buttons and others
 
   Widget groups(Group g, bool b) {
-    return Container (
+    return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 30),
-      child: Row (     
+      margin: const EdgeInsets.symmetric(vertical: 30),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.group, color:backgroundColor,size: MediaQuery.of(context).size.width*0.1,),
+          // Wofür ist das Icon??
+
+          // Icon(
+          //   Icons.group,
+          //   color: backgroundColor,
+          //   size: MediaQuery.of(context).size.width * 0.1,
+          // ),
           Container(
             alignment: Alignment.center,
-            width:  MediaQuery.of(context).size.width*0.5,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(g.name,
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    g.name,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryTextColor,
                       fontSize: HeadfontOfWidget,
                       fontWeight: FontWeight.w600,
-                    )),
-                const Padding(padding: EdgeInsets.all(15)),
-                Text(
-                  g.description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: secondaryTextColor,
-                    fontSize: descriptionfontOfWidget,
-                    fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        g.description,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: secondaryTextColor,
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        onPressed: () async {
+                          await toggleGroupPinned(g);
+                          loadGroups();
+                        },
+                        icon: Icon(
+                          b ? Icons.push_pin : Icons.push_pin_outlined,
+                          color: b ? primaryTextColor : backgroundColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
-          IconButton(
-            onPressed: () async {await toggleGroupPinned(g); loadGroups() ;}, 
-            icon: Icon(Icons.pin_drop, color:b?primaryTextColor:backgroundColor,size: MediaQuery.of(context).size.width*0.1,)
-          )
         ],
-      ));
+      ),
+    );
   }
 
-  void loadGroups()  {
+  void loadGroups() {
     me_get_groups().then((groups) async {
       pinned = [];
       for (var group in groups) {
@@ -142,11 +173,11 @@ class _mainWidgetState extends State<mainWidget> {
           pinned[i] = save;
           var save2 = groups[index];
           groups[index] = groups[i];
-          groups[i] = save2;  
+          groups[i] = save2;
           index++;
         }
       }
-        
+
       setState(() {
         groups_glob = groups;
         groups_actual = groups;
@@ -159,7 +190,7 @@ class _mainWidgetState extends State<mainWidget> {
     return prefs.getBool("Group_Pinned${g.id}") ?? false;
   }
 
-   Future toggleGroupPinned(Group g) async {
+  Future toggleGroupPinned(Group g) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool("Group_Pinned${g.id}", !await isGroupPinned(g));
   }
