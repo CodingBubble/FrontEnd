@@ -82,7 +82,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Ankündigungen"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Ankündigungen"),
               ),
             ],
           ),
@@ -111,7 +115,12 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
               ),
               Expanded(
-                child: Text(style: TextStyle(color: primaryTextColor), "Chat"),
+                child: Text(
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Chat"),
               ),
             ],
           ),
@@ -141,7 +150,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Einkaufsliste"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Einkaufsliste"),
               ),
             ],
           ),
@@ -170,8 +183,12 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
               ),
               Expanded(
-                child:
-                    Text(style: TextStyle(color: primaryTextColor), "Umfragen"),
+                child: Text(
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Umfragen"),
               ),
             ],
           ),
@@ -202,7 +219,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Mitglieder"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Mitglieder"),
               ),
             ],
           ),

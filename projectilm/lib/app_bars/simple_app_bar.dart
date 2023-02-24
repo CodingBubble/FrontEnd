@@ -26,7 +26,10 @@ AppBar get_simple_app_bar(BuildContext context, title) {
             margin: EdgeInsets.only(left: 2),
             child: Text(
               title,
-              style: TextStyle(color: primaryTextColor),
+              style: TextStyle(
+                color: primaryTextColor,
+                fontSize: descriptionfontOfWidget,
+              ),
             ),
           ),
         ),
