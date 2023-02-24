@@ -237,9 +237,10 @@ Widget themeSettings(Function generateID) {
         SizedBox(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Einladungcode",
+                "Einladungscode",
                 style: TextStyle(
                   color: secondaryTextColor,
                   fontSize: SecondfontOfWidget + 2,
