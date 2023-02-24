@@ -160,6 +160,21 @@ class _StateGroup extends State<GroupWidget> {
       for (var event in events) {
         Joined.add(await event.am_member());
       }
+      int index = 0;
+      for (int i = 0; i < Joined.length; i++) {
+        if (Joined[i]) {
+          bool save = Joined[index];
+          Joined[index] = Joined[i];
+          Joined[i] = save;
+
+          var save2 = events[index];
+          events[index] = events[i];
+          events[i] = save2;
+          
+          index++;
+        }
+      }
+
       setState(() {
         Events = events;
         Events_actual = events;
