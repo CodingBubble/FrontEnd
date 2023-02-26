@@ -93,7 +93,7 @@ Widget generalSettings(BuildContext context) {
                   style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
                   decoration: InputDecoration(
-                    hintText: 'Neues Passwor',
+                    hintText: 'Neues Passwort',
                     hintStyle: TextStyle(color: primaryTextColor),
                     floatingLabelStyle: TextStyle(color: variationColor),
                   ),
