@@ -39,6 +39,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
   Map<int, double> vals = <int, double>{};
   void get_transaction_hashmap() async {
     vals = get_group_balances(await current_group!.get_all_transactions());
+    setState(() {});
   }
 
   @override
