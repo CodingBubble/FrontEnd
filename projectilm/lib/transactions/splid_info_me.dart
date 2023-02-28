@@ -15,6 +15,7 @@ class transactionsMeWidget extends StatefulWidget {
   State<transactionsMeWidget> createState() => _transactionsMeWidget();
 }
 
+// Wofür ist das ?
 String invitationCode = "";
 
 List<Transaction> transactions = [];
@@ -198,56 +199,70 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                     ),
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "in:  ",
-                      style: TextStyle(color: primaryTextColor),
-                    ),
+                const Padding(
+                  padding: EdgeInsets.all(discanceBetweenWidgets * 2),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 2),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "in:  ",
+                        style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: SecondfontOfWidget,
+                        ),
+                      ),
+                      DropdownButton(
+                          dropdownColor: widgetColor,
+                          value: current_transaction_group,
+                          isExpanded: true,
+                          onChanged: (Group? newValue) async {
+                            selected_user2 = null;
+                            current_transaction_group = newValue;
+                            await reload_user_options();
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          items: dropdown_groups),
+                    ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 14),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 2),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "mit:  ",
+                        style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: SecondfontOfWidget,
+                        ),
+                      ),
+                      DropdownButton(
+                          dropdownColor: widgetColor,
+                          value: current_transaction_group,
+                          isExpanded: true,
+                          onChanged: (Group? newValue) async {
+                            selected_user2 = null;
+                            current_transaction_group = newValue;
+                            await reload_user_options();
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          items: dropdown_groups),
+                    ],
                   ),
-                  Expanded(
-                    child: DropdownButton(
-                        dropdownColor: widgetColor,
-                        value: current_transaction_group,
-                        onChanged: (Group? newValue) async {
-                          selected_user2 = null;
-                          current_transaction_group = newValue;
-                          await reload_user_options();
-                          await reload_transactions();
-                          setState(() {});
-                        },
-                        items: dropdown_groups),
-                  ),
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "mit: ",
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                  Expanded(
-                    child: DropdownButton(
-                        dropdownColor: widgetColor,
-                        value: selected_user2,
-                        onChanged: (User? newValue) async {
-                          selected_user2 = newValue;
-                          await reload_transactions();
-                          setState(() {});
-                        },
-                        items: dropdown_users),
-                  )
-                ]),
+                ),
               ],
             ),
           ),
