@@ -219,14 +219,15 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       DropdownButton(
                           dropdownColor: widgetColor,
                           value: current_transaction_group,
-                          isExpanded: true,
                           onChanged: (Group? newValue) async {
+                            current_transaction_group = newValue!;
+                            selected_user1 = null;
                             selected_user2 = null;
-                            current_transaction_group = newValue;
                             await reload_user_options();
                             await reload_transactions();
                             setState(() {});
                           },
+                          isExpanded: true,
                           items: dropdown_groups),
                     ],
                   ),
@@ -250,16 +251,14 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       ),
                       DropdownButton(
                           dropdownColor: widgetColor,
-                          value: current_transaction_group,
-                          isExpanded: true,
-                          onChanged: (Group? newValue) async {
-                            selected_user2 = null;
-                            current_transaction_group = newValue;
-                            await reload_user_options();
+                          value: selected_user2,
+                          onChanged: (User? newValue) async {
+                            selected_user2 = newValue;
                             await reload_transactions();
                             setState(() {});
                           },
-                          items: dropdown_groups),
+                          isExpanded: true,
+                          items: dropdown_users),
                     ],
                   ),
                 ),
