@@ -152,7 +152,8 @@ class _StateTransaction_Create extends State<Transaction_Create> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: widgetColor)),
+                      border: Border.all(width: 2, color: widgetColor),
+                    ),
                     child: TextButton(
                       onPressed: () {
                         create_transaction();

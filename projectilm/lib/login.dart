@@ -1,4 +1,5 @@
 //import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'alert_fnc.dart';
@@ -26,7 +27,42 @@ class logInForms extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.only(top: 22),
+              child: Center(
+                child: Text(
+                  "WILLKOMMEN IN",
+                  style: TextStyle(
+                    fontSize: SecondfontOfWidget,
+                    color: secondaryTextColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: RichText(
+                text: TextSpan(
+                  text: "G",
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontSize: GigafontOfWidget * 1.25,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "rouping",
+                      style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: HeadfontOfWidget * 1.4,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: TextFormField(
                   style: TextStyle(color: primaryTextColor),
@@ -41,9 +77,12 @@ class logInForms extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Form(
                 child: TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
                   style: TextStyle(color: primaryTextColor),
                   controller: password_controller,
                   keyboardType: TextInputType.visiblePassword,
@@ -56,24 +95,36 @@ class logInForms extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: widgetColor),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  onPressed: () => evt_login(context),
-                  child: Text('Einloggen'),
+                  child: TextButton(
+                    onPressed: () => evt_login(context),
+                    child: Text(
+                      'Einloggen',
+                      style: TextStyle(color: primaryTextColor),
+                    ),
+                  ),
                 )),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: widgetColor),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  onPressed: () => AppHandler("register", context, []),
-                  child: Text('Noch keinen Account?'),
+                  child: TextButton(
+                    onPressed: () => AppHandler("register", context, []),
+                    child: Text(
+                      'Noch keinen Account?',
+                      style: TextStyle(color: primaryTextColor),
+                    ),
+                  ),
                 ))
           ],
         ));
