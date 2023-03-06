@@ -152,7 +152,6 @@ class _transactionsWidget extends State<transactionsWidget> {
                 //       ],
                 //     )),
                 Expanded(
-                  flex: 1,
                   child: Scrollbar(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -176,6 +175,7 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         reload_transactions();
                                         setState(() {});
                                       },
+                                      index,
                                     )
                                   ],
                                 ),
@@ -292,7 +292,7 @@ class _transactionsWidget extends State<transactionsWidget> {
     );
   }
 
-  Dismissible get_transaction(Transaction transaction, reload_list) {
+  Dismissible get_transaction(Transaction transaction, reload_list, index) {
     Color c_color = secondaryTextColor;
     if (transaction.to.id == me!.id) {
       if (transaction.balance > 0) {
@@ -367,10 +367,15 @@ class _transactionsWidget extends State<transactionsWidget> {
           ),
         );
       },
-      onDismissed: (DismissDirection direction) async {
+      onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          await transaction.delete();
-          reload_list();
+          setState(() async {
+            transactions.removeAt(index);
+
+            await transaction.delete();
+            print("reload");
+            reload_list();
+          });
         }
       },
       child: SizedBox(
