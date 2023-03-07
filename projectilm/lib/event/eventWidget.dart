@@ -286,8 +286,7 @@ class _EventWidget extends State<EventWidget> {
         return;
       }
       current_event!.creator_send_announcement(
-          "Es wurde eine neue Umfrage erstellt: " +
-              inputMessageController.text.trim());
+          "Es wurde eine neue Umfrage erstellt: ${inputMessageController.text.trim()}");
       inputMessageController.text = "";
       load_poll_history();
     });
@@ -381,7 +380,7 @@ Widget get_body(
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Text(
-              "Ort:  " + current_event!.description,
+              "Ort:  ${current_event!.description}",
               style: TextStyle(color: primaryTextColor, fontSize: 20),
             ),
           ),
@@ -389,7 +388,7 @@ Widget get_body(
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Text(
-              "Zeit: " + formatter.format(current_event!.time.toLocal()),
+              "Zeit: ${formatter.format(current_event!.time.toLocal())}",
               style: TextStyle(color: primaryTextColor, fontSize: 20),
             ),
           ),
@@ -399,7 +398,7 @@ Widget get_body(
             get_home_item(
                 "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
             get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
-                list_items[0] + "\n" + list_items[1], context),
+                "${list_items[0]}\n${list_items[1]}", context),
             get_home_item(
                 "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
             //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
@@ -415,7 +414,7 @@ Widget get_body(
           height: MediaQuery.of(context).size.height * 0.8,
           child: Scrollbar(
             child: ListView.builder(
-              reverse: true,
+              reverse: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Material(
@@ -441,27 +440,31 @@ Widget get_body(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
-            child: Container(
-                child: Row(
+            child: Row(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextFormField(
-                    style: TextStyle(color: primaryTextColor),
-                    controller: inputMessageController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      hintText: "Rundnachricht",
-                      hintStyle: TextStyle(color: primaryTextColor),
-                      floatingLabelStyle: TextStyle(color: variationColor),
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: Expanded(
+                    child: TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: inputMessageController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "Rundnachricht",
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
+                      ),
                     ),
                   ),
                 ),
-                IconButton(
+                Expanded(
+                  child: IconButton(
                     onPressed: () => {send_announcement()},
-                    icon: Icon(Icons.send, color: secondaryTextColor))
+                    icon: Icon(Icons.send, color: secondaryTextColor),
+                  ),
+                ),
               ],
-            )),
+            ),
           ),
         ),
       ]);
@@ -492,7 +495,10 @@ Widget get_body(
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.9, // the distance to the margin of display
-                          child: WidgetmessageDesign(event_data_list[index], context),
+                          child: WidgetmessageDesign(
+                            event_data_list[index],
+                            context,
+                          ),
                         ),
                       ],
                     ),
@@ -508,44 +514,41 @@ Widget get_body(
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: constPadding * 0.5,
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: IconButton(
-                        icon: const Icon(Icons.image),
-                        onPressed: () {
-                          getImage();
-                        },
-                      ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: IconButton(
+                      icon: const Icon(Icons.image),
+                      onPressed: () {
+                        getImage();
+                      },
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "chat . . .",
-                            hintStyle: TextStyle(
-                              color: primaryTextColor,
-                              fontSize: 13,
-                            ),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "chat . . .",
+                          hintStyle: TextStyle(
+                            color: primaryTextColor,
+                            fontSize: 13,
                           ),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () => {send_message()},
-                        icon: Icon(Icons.send, color: secondaryTextColor),
-                      ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () => {send_message()},
+                      icon: Icon(Icons.send, color: secondaryTextColor),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -566,14 +569,17 @@ Widget get_body(
                   child: Column(
                     children: [
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets),
+                      ),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: ListData(
-                              event_data_list[index],
-                              bring_list_item,
-                              unbring_list_item,
-                              delete_list_item)),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: ListData(
+                          event_data_list[index],
+                          bring_list_item,
+                          unbring_list_item,
+                          delete_list_item,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -632,19 +638,23 @@ Widget get_body(
                   child: Column(
                     children: [
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets * 3),
+                      ),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: PollData(
-                              event_data_list[index],
-                              create_voteoption,
-                              delete_voteoption,
-                              delete_poll,
-                              vote_for,
-                              unvote_for,
-                              context)),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: PollData(
+                          event_data_list[index],
+                          create_voteoption,
+                          delete_voteoption,
+                          delete_poll,
+                          vote_for,
+                          unvote_for,
+                          context,
+                        ),
+                      ),
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets * 5),
+                      ),
                     ],
                   ),
                 );
@@ -654,41 +664,40 @@ Widget get_body(
           ),
         ),
         ret_if(
-            current_event!.creator_id == me!.id,
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Expanded(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Neue Umfrage",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
-                          ),
+          current_event!.creator_id == me!.id,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Expanded(
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "Neue Umfrage",
+                          hintStyle: TextStyle(color: primaryTextColor),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () => {create_poll()},
-                        icon: Icon(Icons.add_box, color: secondaryTextColor),
-                      ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () => {create_poll()},
+                      icon: Icon(Icons.add_box, color: secondaryTextColor),
                     ),
-                  ],
-                )),
+                  ),
+                ],
               ),
-            )),
+            ),
+          ),
+        ),
       ]);
     case 4:
       ///////////////////// EVENT MEMBERS ///////////////////////////////////////
@@ -770,7 +779,7 @@ Widget ListData(item, add_me, remove_me, delete_item) {
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
-        icon: Icon(Icons.delete_forever_outlined, color: positiveColor),
+        icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
         onPressed: () => {delete_item(item[1])});
   }
   if (item[1].bringer != "") {
@@ -839,15 +848,44 @@ Widget MemberData(member) {
   );
 }
 
-Widget AnnouncentsData(message) {
-  return Padding(
-    padding: constPadding,
-    child: Text(
-      message[0],
-      style: TextStyle(color: primaryTextColor),
-    ),
+Row AnnouncentsData(list) {
+  var message = list[0];
+
+  // größter Bubatz => nicht dynamisch => gibt nur einen creator => bei einführung von Admins => bitte änder => Announcements haben keinen Autor => danke GOTT
+  Widget MessageInp = Text(
+    message,
+    style: const TextStyle(color: Colors.white, fontSize: 15),
+  );
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Flexible(
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.fromLTRB(10, 0, 0, 5),
+          decoration: BoxDecoration(
+            color: Colors.green[900],
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(19),
+              topLeft: Radius.circular(19),
+              bottomLeft: Radius.circular(19),
+            ),
+          ),
+          child: MessageInp,
+        ),
+      ),
+    ],
   );
 }
+// return Padding(
+//   padding: constPadding,
+//   child: Text(
+//     message,
+//     style: TextStyle(color: primaryTextColor),
+//   ),
+// );
 
 Widget PollData(
     item, add_item, remove_item, delete_this, vote, unvote, context) {
@@ -855,19 +893,24 @@ Widget PollData(
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
-        icon: Icon(Icons.delete_forever_outlined, color: variationColor),
-        onPressed: () => {delete_this(item[1])});
+      icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
+      onPressed: () => {delete_this(item[1])},
+    );
   }
   var c = Column(children: [
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        // Anzahl der Stimmen
         Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
-        Text(item[0],
-            style: TextStyle(
-                color: secondaryTextColor,
-                decoration: TextDecoration.underline,
-                fontSize: 16)),
+        Text(
+          item[0],
+          style: TextStyle(
+            color: secondaryTextColor,
+            fontWeight: FontWeight.w500,
+            fontSize: 22,
+          ),
+        ),
         del_button,
       ],
     ),
@@ -931,9 +974,10 @@ Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
       color: secondaryTextColor);
   if (voted_for(my_opts, data)) {
     vote_btn = IconButton(
-        onPressed: () => unvote(data),
-        icon: const Icon(Icons.check_box),
-        color: positiveColor);
+      onPressed: () => unvote(data),
+      icon: const Icon(Icons.check_box),
+      color: positiveColor,
+    );
   }
 
   return Container(
@@ -966,95 +1010,94 @@ Widget WidgetmessageDesign(list, context) {
     style: const TextStyle(color: Colors.white, fontSize: 15),
   );
   if (message.startsWith(image_signalizer)) {
-    int id = int.parse(message.substring(image_signalizer.length));
-    MessageInp = Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Container(
-              constraints: BoxConstraints(              
-                maxHeight: MediaQuery.of(context).size.height*0.4,      
-                maxWidth: MediaQuery.of(context).size.width*0.75,
-            ),
-            child:Image.network(get_image_url(id), fit: BoxFit.contain), 
-          ),
-          IconButton(onPressed: () async {await ImageDownloader.downloadImage(get_image_url(id));}
-          , icon: Icon(Icons.download, color: primaryTextColor))
-        ],
-      )
-    
+    int id = int.parse(
+      message.substring(image_signalizer.length),
     );
+    MessageInp = Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          children: [
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.4,
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
+              ),
+              child: Image.network(get_image_url(id), fit: BoxFit.contain),
+            ),
+            IconButton(
+                onPressed: () async {
+                  await ImageDownloader.downloadImage(get_image_url(id));
+                },
+                icon: Icon(Icons.download, color: primaryTextColor))
+          ],
+        ));
   }
 
   if (_me == true) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.green[900],
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(19),
-                  topLeft: Radius.circular(19),
-                  bottomLeft: Radius.circular(19),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                    textAlign: TextAlign.right,
-                  ),
-                  MessageInp
-                ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              color: Colors.green[900],
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(19),
+                topLeft: Radius.circular(19),
+                bottomLeft: Radius.circular(19),
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  textAlign: TextAlign.right,
+                ),
+                MessageInp
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   } else {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: widgetColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(19),
-                  topRight: Radius.circular(19),
-                  bottomRight: Radius.circular(19),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                    textAlign: TextAlign.left,
-                  ),
-                  MessageInp
-                ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              color: widgetColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(19),
+                topRight: Radius.circular(19),
+                bottomRight: Radius.circular(19),
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  textAlign: TextAlign.left,
+                ),
+                MessageInp
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
