@@ -879,16 +879,17 @@ Row AnnouncentsData(list) {
     ],
   );
 }
-// return Padding(
-//   padding: constPadding,
-//   child: Text(
-//     message,
-//     style: TextStyle(color: primaryTextColor),
-//   ),
-// );
 
+@override
 Widget PollData(
-    item, add_item, remove_item, delete_this, vote, unvote, context) {
+  item,
+  add_item,
+  remove_item,
+  delete_this,
+  vote,
+  unvote,
+  context,
+) {
   final controller = TextEditingController();
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id) {
@@ -897,54 +898,88 @@ Widget PollData(
       onPressed: () => {delete_this(item[1])},
     );
   }
-  var c = Column(children: [
-    Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Anzahl der Stimmen
-        Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
-        Text(
+  var c = Column(
+    children: [
+      Center(
+        child: Text(
           item[0],
           style: TextStyle(
             color: secondaryTextColor,
             fontWeight: FontWeight.w500,
-            fontSize: 22,
+            fontSize: SecondfontOfWidget,
           ),
         ),
-        del_button,
-      ],
-    ),
-    ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Material(
+      ),
+      ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Material(
             color: backgroundColor,
-            child: VoteOptionData(item[3][index], item[4][index], item[5],
-                remove_item, vote, unvote, context));
-      },
-      itemCount: item[3].length,
-    ),
-    Row(
-      children: [
-        IconButton(
-            onPressed: () => {add_item(item[1], controller)},
-            icon: Icon(Icons.add_box, color: secondaryTextColor)),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
-          child: TextFormField(
-            controller: controller,
-            style: TextStyle(color: secondaryTextColor),
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              hintText: "Neue Option",
-              hintStyle: TextStyle(color: secondaryTextColor),
-              floatingLabelStyle: TextStyle(color: primaryTextColor),
+            child: VoteOptionData(
+              item[3][index],
+              item[4][index],
+              item[5],
+              remove_item,
+              vote,
+              unvote,
+              context,
+              index,
             ),
-          ),
-        )
-      ],
-    )
-  ]);
+          );
+        },
+        itemCount: item[3].length,
+      ),
+      // Anzahl der Stimmen
+      Container(
+        margin: constMargin,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Stimmen: ${item[2].toString()}",
+              style: TextStyle(
+                color: secondaryTextColor,
+                fontSize: descriptionfontOfWidget,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            del_button,
+          ],
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.all(discanceBetweenWidgets),
+      ),
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: widgetColor),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () => {add_item(item[1], controller)},
+              icon: Icon(Icons.add_box, color: secondaryTextColor),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: TextFormField(
+                controller: controller,
+                style: TextStyle(color: secondaryTextColor),
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Neue Option",
+                  hintStyle: TextStyle(color: secondaryTextColor),
+                  floatingLabelStyle: TextStyle(color: primaryTextColor),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ],
+  );
+
   if (current_event!.creator_id != me!.id) {
     c.children.removeAt(2);
   }
@@ -960,18 +995,24 @@ bool voted_for(List<VoteOption> l, VoteOption o) {
   return false;
 }
 
-Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
-    delete, vote, unvote, context) {
+Dismissible VoteOptionData(
+  VoteOption data,
+  int num,
+  List<VoteOption> my_opts,
+  delete,
+  vote,
+  unvote,
+  context,
+  index,
+) {
   Widget del_button = Container();
-  if (current_event!.creator_id == me!.id) {
-    del_button = IconButton(
-        icon: Icon(Icons.remove, color: variationColor),
-        onPressed: () => {delete(data)});
-  }
+
   Widget vote_btn = IconButton(
-      onPressed: () => vote(data),
-      icon: const Icon(Icons.check_box_outline_blank),
-      color: secondaryTextColor);
+    onPressed: () => vote(data),
+    icon: const Icon(Icons.check_box_outline_blank),
+    color: secondaryTextColor,
+  );
+
   if (voted_for(my_opts, data)) {
     vote_btn = IconButton(
       onPressed: () => unvote(data),
@@ -980,20 +1021,106 @@ Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
     );
   }
 
-  return Container(
+  return Dismissible(
+    key: Key(data.title),
+    direction: DismissDirection.endToStart,
+    confirmDismiss: (direction) {
+      return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text(
+            "Option löschen?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+            ),
+          ),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: widgetColor,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                child: Text(
+                  "Abbrechen",
+                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: widgetColor,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                child: Text(
+                  "Löschen",
+                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    },
+    background: Container(
+      color: Colors.redAccent,
+      padding: constPadding,
+      margin: const EdgeInsets.fromLTRB(30, 10, 10, 10), // EdgeInsets.all(10)
+      child: const Icon(Icons.remove_circle_outline, color: Colors.white),
+    ),
+    onDismissed: (direction) {
+      if (direction == DismissDirection.endToStart) {
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => () {
+            my_opts.removeAt(index);
+          },
+        );
+        delete(data);
+      }
+    },
+    child: Padding(
+      padding: constPadding * 1.5,
       child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(num.toString(), style: TextStyle(color: secondaryTextColor)),
-      Text(data.title, style: TextStyle(color: primaryTextColor)),
-      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          vote_btn,
-          del_button,
+          Text(
+            data.title,
+            style: TextStyle(
+              color: primaryTextColor,
+              fontSize: descriptionfontOfWidget,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                num.toString(),
+                style: TextStyle(
+                  color: secondaryTextColor,
+                  fontSize: descriptionfontOfWidget,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
+              ),
+              vote_btn,
+            ],
+          ),
         ],
-      )
-    ],
-  ));
+      ),
+    ),
+  );
 }
 
 var event_data_list = [];
@@ -1014,23 +1141,27 @@ Widget WidgetmessageDesign(list, context) {
       message.substring(image_signalizer.length),
     );
     MessageInp = Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Column(
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.4,
-                maxWidth: MediaQuery.of(context).size.width * 0.75,
-              ),
-              child: Image.network(get_image_url(id), fit: BoxFit.contain),
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
             ),
-            IconButton(
-                onPressed: () async {
-                  await ImageDownloader.downloadImage(get_image_url(id));
-                },
-                icon: Icon(Icons.download, color: primaryTextColor))
-          ],
-        ));
+            child: Image.network(get_image_url(id), fit: BoxFit.contain),
+          ),
+          IconButton(
+            onPressed: () async {
+              await ImageDownloader.downloadImage(
+                get_image_url(id),
+              );
+            },
+            icon: Icon(Icons.download, color: primaryTextColor),
+          )
+        ],
+      ),
+    );
   }
 
   if (_me == true) {

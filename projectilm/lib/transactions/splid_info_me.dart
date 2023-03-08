@@ -188,6 +188,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         reload_transactions();
                                         setState(() {});
                                       },
+                                      index,
                                     )
                                   ],
                                 ),
@@ -275,7 +276,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
     );
   }
 
-  Dismissible get_transaction(Transaction transaction, reload_list) {
+  Dismissible get_transaction(Transaction transaction, reload_list, index) {
     Color c_color = secondaryTextColor;
     if (transaction.to.id == me!.id) {
       if (transaction.balance > 0) {
@@ -351,8 +352,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
       },
       onDismissed: (DismissDirection direction) async {
         if (direction == DismissDirection.endToStart) {
-          await transaction.delete();
-          reload_list();
+          setState(() async {
+            transactions.removeAt(index);
+            await transaction.delete();
+            reload_list();
+          });
         }
       },
       child: SizedBox(

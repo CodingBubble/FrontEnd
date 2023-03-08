@@ -371,9 +371,7 @@ class _transactionsWidget extends State<transactionsWidget> {
         if (direction == DismissDirection.endToStart) {
           setState(() async {
             transactions.removeAt(index);
-
             await transaction.delete();
-            print("reload");
             reload_list();
           });
         }
