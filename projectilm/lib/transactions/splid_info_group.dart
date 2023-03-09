@@ -250,9 +250,9 @@ class _transactionsWidget extends State<transactionsWidget> {
                       ),
                       DropdownButton(
                           dropdownColor: widgetColor,
-                          value: selected_user1,
+                          value: selected_user2,
                           onChanged: (User? newValue) async {
-                            selected_user1 = newValue;
+                            selected_user2 = newValue;
                             await reload_transactions();
                             setState(() {});
                           },
