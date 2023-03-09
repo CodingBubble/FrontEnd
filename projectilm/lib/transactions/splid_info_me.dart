@@ -37,6 +37,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
   @override
   void initState() {
     super.initState();
+    selected_user2 = null;
     reload_group_options();
     reload_user_options();
     reload_transactions().then((value) => setState(() {}));

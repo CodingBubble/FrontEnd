@@ -36,6 +36,8 @@ class _transactionsWidget extends State<transactionsWidget> {
   @override
   void initState() {
     super.initState();
+    selected_user1 = null;
+    selected_user2 = null;
     reload_group_options();
     reload_user_options();
     reload_transactions().then((value) => setState(() {}));
@@ -268,9 +270,9 @@ class _transactionsWidget extends State<transactionsWidget> {
                       ),
                       DropdownButton(
                           dropdownColor: widgetColor,
-                          value: selected_user1,
+                          value: selected_user2,
                           onChanged: (User? newValue) async {
-                            selected_user1 = newValue;
+                            selected_user2 = newValue;
                             await reload_transactions();
                             setState(() {});
                           },
