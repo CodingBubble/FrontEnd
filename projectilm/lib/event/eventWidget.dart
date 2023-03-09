@@ -184,14 +184,13 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void load_list_items() {
-    current_event!.get_list_items().then((msgs) {
-      event_data_list = [];
-      msgs.forEach((msg) {
+  void load_list_items() async {
+    var msgs = await current_event!.get_list_items();
+    event_data_list = [];
+    msgs.forEach((msg) {
         event_data_list.add([msg.title, msg]);
-      });
-      setState(() {});
     });
+    setState(() {});
   }
 
   void create_list_item() {
@@ -805,6 +804,9 @@ Widget ListData(item, add_me, remove_me, delete_item) {
     del_button = IconButton(
         icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
         onPressed: () => {delete_item(item[1])});
+  }
+  if (item[1].runtimeType.toString()!=(ListItem).toString()) {
+    return Container();
   }
   if (item[1].bringer != "") {
     icon = Icon(Icons.check, color: variationColor);
