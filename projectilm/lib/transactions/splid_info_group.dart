@@ -374,11 +374,13 @@ class _transactionsWidget extends State<transactionsWidget> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 5.0),
                   child: Text(
                     transaction.title,
                     style: TextStyle(
-                        color: primaryTextColor, fontSize: SecondfontOfWidget),
+                      color: primaryTextColor,
+                      fontSize: SecondfontOfWidget,
+                    ),
                   ),
                 ),
                 Row(
