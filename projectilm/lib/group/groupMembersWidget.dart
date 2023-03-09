@@ -108,7 +108,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                             current_transaction_group = current_group;
                             AppHandler("splid_info_group", context, []);
                           },
-                          iconSize: 60.0,
+                          iconSize: 50.0,
                           icon: Icon(
                             Icons.playlist_add_check_circle_sharp,
 
@@ -129,11 +129,10 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                             current_transaction_group = current_group;
                             AppHandler("create_transaction", context, const []);
                           },
-                          iconSize: 60.0,
+                          iconSize: 50.0,
                           icon: Icon(
                             Icons.add_circle,
                             color: widgetColor,
-                            //fill: 1,
                           ),
                         ),
                       ),

@@ -25,10 +25,19 @@ List<DropdownMenuItem<Group>> dropdown_groups = [];
 
 List<DropdownMenuItem<User>> dropdown_users = [
   DropdownMenuItem(
-      value: null,
-      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
+    value: null,
+    child: Text(
+      "Alle",
+      style: TextStyle(color: primaryTextColor),
+    ),
+  ),
   DropdownMenuItem(
-      value: me, child: Text("Ich", style: TextStyle(color: primaryTextColor))),
+    value: me,
+    child: Text(
+      "Ich",
+      style: TextStyle(color: primaryTextColor),
+    ),
+  ),
 ];
 
 class _transactionsWidget extends State<transactionsWidget> {
@@ -44,33 +53,45 @@ class _transactionsWidget extends State<transactionsWidget> {
   Future reload_user_options() async {
     dropdown_users = [
       DropdownMenuItem(
-          value: null,
-          child: Text("Alle", style: TextStyle(color: primaryTextColor))),
-      DropdownMenuItem(
-          value: me,
-          child: Text("Ich", style: TextStyle(color: primaryTextColor))),
-    ];
-    for (var member in (await current_transaction_group!.get_members())) {
-      dropdown_users.add(DropdownMenuItem(
-        value: member,
+        value: null,
         child: Text(
-          member.username,
+          "Alle",
           style: TextStyle(color: primaryTextColor),
         ),
-      ));
+      ),
+      DropdownMenuItem(
+        value: me,
+        child: Text(
+          "Ich",
+          style: TextStyle(color: primaryTextColor),
+        ),
+      ),
+    ];
+    for (var member in (await current_transaction_group!.get_members())) {
+      dropdown_users.add(
+        DropdownMenuItem(
+          value: member,
+          child: Text(
+            member.username,
+            style: TextStyle(color: primaryTextColor),
+          ),
+        ),
+      );
     }
   }
 
   void reload_group_options() {
     dropdown_groups = [];
     for (var group in groups_actual) {
-      dropdown_groups.add(DropdownMenuItem(
-        value: group,
-        child: Text(
-          group.name,
-          style: TextStyle(color: primaryTextColor),
+      dropdown_groups.add(
+        DropdownMenuItem(
+          value: group,
+          child: Text(
+            group.name,
+            style: TextStyle(color: primaryTextColor),
+          ),
         ),
-      ));
+      );
     }
   }
 
@@ -112,45 +133,6 @@ class _transactionsWidget extends State<transactionsWidget> {
             child: Column(
               children: [
                 const Padding(padding: constPadding),
-                // Container(
-                //     margin: EdgeInsets.only(left: 20),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       children: [
-                //         Container(
-                //           width: standWidthForTabular(context),
-                //           margin: EdgeInsets.only(
-                //               right: spaceBetweenTabulatorElements),
-                //           child: Text("Transaktion:",
-                //               style: TextStyle(color: primaryTextColor)),
-                //         ),
-                //         Container(
-                //           width: standWidthForTabular(context),
-                //           margin: EdgeInsets.only(
-                //               right: spaceBetweenTabulatorElements),
-                //           child: Text("von: ",
-                //               style: TextStyle(color: primaryTextColor)),
-                //         ),
-                //         Container(
-                //           width: standWidthForTabular(context),
-                //           margin: EdgeInsets.only(
-                //               right: spaceBetweenTabulatorElements),
-                //           child: Text("an: ",
-                //               style: TextStyle(color: primaryTextColor)),
-                //         ),
-                //         Container(
-                //           width: standWidthForTabular(context),
-                //           margin: EdgeInsets.only(
-                //               right: spaceBetweenTabulatorElements),
-                //           child: Text("Kostet:",
-                //               style: TextStyle(color: primaryTextColor)),
-                //         ),
-                //         Container(
-                //             width: standWidthForTabular(context),
-                //             child: Text("Löschen:",
-                //                 style: TextStyle(color: primaryTextColor))),
-                //       ],
-                //     )),
                 Expanded(
                   child: Scrollbar(
                     child: ListView.builder(
@@ -200,8 +182,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                       Text(
                         "in:  ",
                         style: TextStyle(
-                          color: primaryTextColor,
-                          fontSize: SecondfontOfWidget,
+                          color: secondaryTextColor,
+                          fontSize: descriptionfontOfWidget,
                         ),
                       ),
                       DropdownButton(
@@ -232,8 +214,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                       Text(
                         "von:  ",
                         style: TextStyle(
-                          color: primaryTextColor,
-                          fontSize: SecondfontOfWidget,
+                          color: secondaryTextColor,
+                          fontSize: descriptionfontOfWidget,
                         ),
                       ),
                       DropdownButton(
@@ -262,8 +244,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                       Text(
                         "an:  ",
                         style: TextStyle(
-                          color: primaryTextColor,
-                          fontSize: SecondfontOfWidget,
+                          color: secondaryTextColor,
+                          fontSize: descriptionfontOfWidget,
                         ),
                       ),
                       DropdownButton(
@@ -286,6 +268,7 @@ class _transactionsWidget extends State<transactionsWidget> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => AppHandler("create_transaction", context, []),
           backgroundColor: widgetColor,
+          mini: true,
           child: const Icon(Icons.add_circle),
         ),
       ),
@@ -418,7 +401,9 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         child: Text(
                                           "von: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -450,7 +435,9 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         child: Text(
                                           "an: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -459,7 +446,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         child: Text(
                                           transaction.to.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                            color: secondaryTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -475,14 +463,15 @@ class _transactionsWidget extends State<transactionsWidget> {
                       width: standWidthForTabular(context) * 2,
                       child: Expanded(
                         child: Text(
-                          transaction.balance.toString() + "€",
-                          style: TextStyle(color: c_color),
+                          "${transaction.balance}€",
+                          style: TextStyle(
+                            color: c_color,
+                            fontSize: descriptionfontOfWidget + 2,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                    /***
-                     * löschen durch swipe funktion????
-                     */
                   ],
                 ),
               ],

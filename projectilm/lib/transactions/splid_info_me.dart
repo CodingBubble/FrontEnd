@@ -270,6 +270,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => AppHandler("create_transaction", context, []),
           backgroundColor: widgetColor,
+          mini: true,
           child: const Icon(Icons.add_circle),
         ),
       ),
@@ -401,7 +402,9 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           "von: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -410,7 +413,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           transaction.from.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                            color: secondaryTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -433,7 +437,9 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           "an: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -442,7 +448,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           transaction.to.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                            color: secondaryTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -458,8 +465,12 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       width: standWidthForTabular(context) * 2,
                       child: Expanded(
                         child: Text(
-                          transaction.balance.toString() + "€",
-                          style: TextStyle(color: c_color),
+                          "${transaction.balance}€",
+                          style: TextStyle(
+                            color: c_color,
+                            fontSize: descriptionfontOfWidget + 2,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
