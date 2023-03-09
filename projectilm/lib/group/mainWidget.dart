@@ -76,6 +76,7 @@ class _mainWidgetState extends State<mainWidget> {
           onPressed: () {
             AppHandler("create_group", context, []);
           },
+          mini: true,
           backgroundColor: positiveColor,
           child: const Icon(Icons.add_circle),
         ),

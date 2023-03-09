@@ -68,8 +68,11 @@ class _StateGroup extends State<GroupWidget> {
           onPressed: () {
             AppHandler("create_event", context, []);
           },
+          mini: true,
           backgroundColor: positiveColor,
-          child: const Icon(Icons.add_circle),
+          child: const Icon(
+            Icons.add_circle,
+          ),
         ),
       ),
     );
@@ -170,7 +173,7 @@ class _StateGroup extends State<GroupWidget> {
           var save2 = events[index];
           events[index] = events[i];
           events[i] = save2;
-          
+
           index++;
         }
       }
