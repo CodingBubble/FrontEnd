@@ -352,6 +352,13 @@ class _EventWidget extends State<EventWidget> {
   }
 }
 
+// var Einkaufsliste;
+// void checkIfEinkaufslisteIsEmpty() {
+//   if (list_items[0] == "") {
+//     Einkaufsliste = "Keine Sachen fehlen";
+//   } else {}
+// }
+
 var inputMessageController = TextEditingController();
 Widget get_body(
   int i,
@@ -373,38 +380,41 @@ Widget get_body(
   switch (i) {
     case -1:
       return SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Padding(padding: EdgeInsets.all(15)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Text(
-              "Ort:  ${current_event!.description}",
-              style: TextStyle(color: primaryTextColor, fontSize: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Padding(padding: EdgeInsets.all(15)),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                "Ort:  ${current_event!.description}",
+                style: TextStyle(color: primaryTextColor, fontSize: 20),
+              ),
             ),
-          ),
-          const Padding(padding: EdgeInsets.all(5)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Text(
-              "Zeit: ${formatter.format(current_event!.time.toLocal())}",
-              style: TextStyle(color: primaryTextColor, fontSize: 20),
+            const Padding(padding: EdgeInsets.all(5)),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                "Zeit: ${formatter.format(current_event!.time.toLocal())}",
+                style: TextStyle(color: primaryTextColor, fontSize: 20),
+              ),
             ),
-          ),
-          Column(children: [
-            get_home_item("Ankündigungen", Icons.info_outline, 0,
-                lastAnnouncement, context),
-            get_home_item(
-                "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
-            get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
-                "${list_items[0]}\n${list_items[1]}", context),
-            get_home_item(
-                "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
-            //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
-          ]),
-        ],
-      ));
+            Column(
+              children: [
+                get_home_item("Ankündigungen", Icons.info_outline, 0,
+                    lastAnnouncement, context),
+                get_home_item(
+                    "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
+                get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
+                    "${list_items[0]}\n${list_items[1]}", context),
+                get_home_item(
+                    "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
+                //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
+              ],
+            ),
+          ],
+        ),
+      );
 
     case 0:
       ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
@@ -444,17 +454,22 @@ Widget get_body(
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.75,
-                  child: Expanded(
-                    child: TextFormField(
-                      style: TextStyle(color: primaryTextColor),
-                      controller: inputMessageController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        hintText: "Rundnachricht",
-                        hintStyle: TextStyle(color: primaryTextColor),
-                        floatingLabelStyle: TextStyle(color: variationColor),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Rundnachricht",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -598,18 +613,22 @@ Widget get_body(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: Expanded(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Neuer Eintrag",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              style: TextStyle(color: primaryTextColor),
+                              controller: inputMessageController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: "Neuer Eintrag",
+                                hintStyle: TextStyle(color: primaryTextColor),
+                                floatingLabelStyle:
+                                    TextStyle(color: variationColor),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     Expanded(
@@ -674,17 +693,22 @@ Widget get_body(
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    child: Expanded(
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: inputMessageController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: "Neue Umfrage",
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            style: TextStyle(color: primaryTextColor),
+                            controller: inputMessageController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: "Neue Umfrage",
+                              hintStyle: TextStyle(color: primaryTextColor),
+                              floatingLabelStyle:
+                                  TextStyle(color: variationColor),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   Expanded(
