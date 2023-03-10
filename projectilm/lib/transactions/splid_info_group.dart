@@ -199,6 +199,11 @@ class _transactionsWidget extends State<transactionsWidget> {
                             await reload_transactions();
                             setState(() {});
                           },
+                          style: TextStyle(
+                            fontSize: descriptionfontOfWidget,
+                            fontWeight: FontWeight.w400,
+                            color: primaryTextColor,
+                          ),
                           items: dropdown_groups),
                     ],
                   ),
@@ -228,6 +233,11 @@ class _transactionsWidget extends State<transactionsWidget> {
                             await reload_transactions();
                             setState(() {});
                           },
+                          style: TextStyle(
+                            fontSize: descriptionfontOfWidget,
+                            fontWeight: FontWeight.w400,
+                            color: primaryTextColor,
+                          ),
                           isExpanded: true,
                           items: dropdown_users),
                     ],
@@ -239,8 +249,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                 Container(
                   margin: const EdgeInsets.only(left: 2),
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -251,15 +261,21 @@ class _transactionsWidget extends State<transactionsWidget> {
                         ),
                       ),
                       DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user2,
-                          onChanged: (User? newValue) async {
-                            selected_user2 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          isExpanded: true,
-                          items: dropdown_users),
+                        dropdownColor: widgetColor,
+                        value: selected_user2,
+                        onChanged: (User? newValue) async {
+                          selected_user2 = newValue;
+                          await reload_transactions();
+                          setState(() {});
+                        },
+                        style: TextStyle(
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                          color: primaryTextColor,
+                        ),
+                        isExpanded: true,
+                        items: dropdown_users,
+                      ),
                     ],
                   ),
                 ),
