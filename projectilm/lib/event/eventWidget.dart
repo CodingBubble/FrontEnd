@@ -28,7 +28,7 @@ String lastAnnouncement = "";
 List<String> list_items = ["", ""];
 final DateFormat formatter = DateFormat('dd. MM. yyyy HH:mm');
 bool joined_event = false;
-
+bool has_unvoted_poll = false;
 class _EventWidget extends State<EventWidget> {
   int state;
   final ImagePicker picker = ImagePicker();
@@ -40,9 +40,11 @@ class _EventWidget extends State<EventWidget> {
     update_joined();
     switch (state) {
       case -1:
+        has_unvoted_poll = false;
         get_last_announcement();
         get_last_chat();
         get_last_listitems();
+        get_unvoted_polls();
         break;
       case 0:
         load_announcement_history();
@@ -145,6 +147,15 @@ class _EventWidget extends State<EventWidget> {
       });
       list_items = list_items.reversed.toList();
       setState(() {});
+    });
+  }
+
+  void get_unvoted_polls() async {
+    List<Poll> polls = await current_event!.get_polls();
+    polls.forEach((poll) async {
+      List<VoteOption> options = await poll.get_my_voted_options();
+      has_unvoted_poll = has_unvoted_poll || options.length==0;
+      setState(() { });
     });
   }
 
@@ -407,7 +418,7 @@ Widget get_body(
                 get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
                     "${list_items[0]}\n${list_items[1]}", context),
                 get_home_item(
-                    "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
+                    "Umfragen", Icons.how_to_vote_outlined, 3, has_unvoted_poll?"Neue Umfrage!":"", context),
                 //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
               ],
             ),
