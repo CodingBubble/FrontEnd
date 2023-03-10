@@ -22,14 +22,30 @@ List<Transaction> transactions = [];
 
 List<DropdownMenuItem<Group>> dropdown_groups = [
   DropdownMenuItem(
-      value: null,
-      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
+    value: null,
+    child: Text(
+      "Alle",
+      style: TextStyle(
+        color: primaryTextColor,
+        fontSize: descriptionfontOfWidget,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ),
 ];
 
 List<DropdownMenuItem<User>> dropdown_users = [
   DropdownMenuItem(
-      value: null,
-      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
+    value: null,
+    child: Text(
+      "Alle",
+      style: TextStyle(
+        color: primaryTextColor,
+        fontSize: descriptionfontOfWidget,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ),
 ];
 
 class _transactionsMeWidget extends State<transactionsMeWidget> {
@@ -215,22 +231,29 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                         "in:  ",
                         style: TextStyle(
                           color: primaryTextColor,
-                          fontSize: SecondfontOfWidget,
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: current_transaction_group,
-                          onChanged: (Group? newValue) async {
-                            current_transaction_group = newValue!;
-                            selected_user1 = null;
-                            selected_user2 = null;
-                            await reload_user_options();
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          isExpanded: true,
-                          items: dropdown_groups),
+                        dropdownColor: widgetColor,
+                        value: current_transaction_group,
+                        onChanged: (Group? newValue) async {
+                          current_transaction_group = newValue!;
+                          selected_user1 = null;
+                          selected_user2 = null;
+                          await reload_user_options();
+                          await reload_transactions();
+                          setState(() {});
+                        },
+                        style: TextStyle(
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                          color: primaryTextColor,
+                        ),
+                        isExpanded: true,
+                        items: dropdown_groups,
+                      ),
                     ],
                   ),
                 ),
@@ -248,19 +271,25 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                         "mit:  ",
                         style: TextStyle(
                           color: primaryTextColor,
-                          fontSize: SecondfontOfWidget,
+                          fontSize: descriptionfontOfWidget,
                         ),
                       ),
                       DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user2,
-                          onChanged: (User? newValue) async {
-                            selected_user2 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          isExpanded: true,
-                          items: dropdown_users),
+                        dropdownColor: widgetColor,
+                        value: selected_user2,
+                        onChanged: (User? newValue) async {
+                          selected_user2 = newValue;
+                          await reload_transactions();
+                          setState(() {});
+                        },
+                        style: TextStyle(
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                          color: primaryTextColor,
+                        ),
+                        isExpanded: true,
+                        items: dropdown_users,
+                      ),
                     ],
                   ),
                 ),
