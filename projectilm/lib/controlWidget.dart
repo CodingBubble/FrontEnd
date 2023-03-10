@@ -48,9 +48,15 @@ class AppHandler extends controlWidget {
         ),
       );
     } else if (widgetPath == "groupWidget") {
+      var k;
+      try {
+        k = info[0];
+      } catch (E) {
+        k = false;
+      }
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const GroupWidget(title: "Grouping"),
+          builder: (context) => GroupWidget(title: "Grouping", archived: k),
         ),
       );
     } else if (widgetPath == "logInWidget") {

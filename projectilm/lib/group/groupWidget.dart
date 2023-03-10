@@ -7,12 +7,16 @@ import 'package:projectilm/global.dart';
 
 class GroupWidget extends StatefulWidget {
   final String title;
-  const GroupWidget({super.key, required this.title});
+  final bool archived;
+  const GroupWidget({super.key, required this.title, required this.archived});
   @override
-  State<GroupWidget> createState() => _StateGroup();
+  State<GroupWidget> createState() => _StateGroup(archived);
 }
 
 class _StateGroup extends State<GroupWidget> {
+  bool archived;
+  _StateGroup(this.archived);
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +30,7 @@ class _StateGroup extends State<GroupWidget> {
       title: "Deine Gruppe",
       home: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: get_group_app_bar(context, searchFilter),
+        appBar: get_group_app_bar(context, searchFilter, archived),
         body: Column(
           children: [
             //first widget as official chat
@@ -153,35 +157,34 @@ class _StateGroup extends State<GroupWidget> {
 
   Color get_color(evid) => Joined[evid] ? positiveColor : negativeColor;
 
-  void loadEvents() {
+  void loadEvents() async {
     //TODO: make Login used by me
     if (me == null) {
       return;
     }
-    current_group?.get_events_active().then((events) async {
-      Joined = [];
-      for (var event in events) {
-        Joined.add(await event.am_member());
+    List<Event> events = await (archived?current_group!.get_events_achieved():current_group!.get_events_active());
+    Joined = [];
+    for (var event in events) {
+      Joined.add(await event.am_member());
+    }
+    int index = 0;
+    for (int i = 0; i < Joined.length; i++) {
+      if (Joined[i]) {
+        bool save = Joined[index];
+        Joined[index] = Joined[i];
+        Joined[i] = save;
+
+        var save2 = events[index];
+        events[index] = events[i];
+        events[i] = save2;
+
+        index++;
       }
-      int index = 0;
-      for (int i = 0; i < Joined.length; i++) {
-        if (Joined[i]) {
-          bool save = Joined[index];
-          Joined[index] = Joined[i];
-          Joined[i] = save;
+    }
 
-          var save2 = events[index];
-          events[index] = events[i];
-          events[i] = save2;
-
-          index++;
-        }
-      }
-
-      setState(() {
-        Events = events;
-        Events_actual = events;
-      });
+    setState(() {
+      Events = events;
+      Events_actual = events;
     });
   }
 
@@ -242,4 +245,8 @@ class _StateGroup extends State<GroupWidget> {
       ),
     );
   }
+
+
+
+
 }

@@ -6,7 +6,7 @@ import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-AppBar get_group_app_bar(BuildContext context, Function onSearch) {
+AppBar get_group_app_bar(BuildContext context, Function onSearch, bool archived) {
   return AppBar(
     backgroundColor: widgetColor,
     automaticallyImplyLeading: false,
@@ -56,6 +56,16 @@ AppBar get_group_app_bar(BuildContext context, Function onSearch) {
               },
             ),
           ),
+          Expanded(
+            child: IconButton(
+              icon: Icon(archived?Icons.timer:Icons.archive, color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {
+                AppHandler("groupWidget", context, [!archived]),
+              },
+            ),
+          ),
+
         ],
       ),
     ),
