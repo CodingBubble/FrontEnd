@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/eventWidget.dart';
-import 'package:projectilm/groupWidget.dart';
-import '../alert_fnc.dart';
-import '../main.dart';
+import 'package:projectilm/event/eventWidget.dart';
+import 'package:projectilm/group/groupWidget.dart';
+import 'package:projectilm/alert_fnc.dart';
+import 'package:projectilm/main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
