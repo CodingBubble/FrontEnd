@@ -199,7 +199,7 @@ class _EventWidget extends State<EventWidget> {
     var msgs = await current_event!.get_list_items();
     event_data_list = [];
     msgs.forEach((msg) {
-        event_data_list.add([msg.title, msg]);
+      event_data_list.add([msg.title, msg]);
     });
     setState(() {});
   }
@@ -774,34 +774,39 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
     child: SizedBox(
       height: MediaQuery.of(context).size.height * 0.18,
       child: TextButton(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Icon(icon,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Icon(
+              icon,
               color: primaryTextColor,
               size: min(MediaQuery.of(context).size.width,
                       MediaQuery.of(context).size.height) *
-                  0.14),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.65,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  margin: const EdgeInsets.only(left: 2),
-                  child: Text(
-                    text,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 19),
-                  ),
-                ),
-                Text(
-                  additional,
-                  style: TextStyle(color: primaryTextColor, fontSize: 14),
-                ),
-              ],
+                  0.14,
             ),
-          ),
-        ]),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.65,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    margin: const EdgeInsets.only(left: 2),
+                    child: Text(
+                      text,
+                      style: TextStyle(color: secondaryTextColor, fontSize: 19),
+                    ),
+                  ),
+                  Text(
+                    additional,
+                    style: TextStyle(color: primaryTextColor, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         onPressed: () => AppHandler("eventWidget", context, [keyD]),
       ),
     ),
@@ -816,7 +821,7 @@ Widget ListData(item, add_me, remove_me, delete_item) {
         icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
         onPressed: () => {delete_item(item[1])});
   }
-  if (item[1].runtimeType.toString()!=(ListItem).toString()) {
+  if (item[1].runtimeType.toString() != (ListItem).toString()) {
     return Container();
   }
   if (item[1].bringer != "") {

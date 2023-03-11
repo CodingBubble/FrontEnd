@@ -131,7 +131,7 @@ class _transactionsWidget extends State<transactionsWidget> {
         body: Scrollbar(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.95,
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.1,
             child: Column(
               children: [
                 const Padding(padding: constPadding),
@@ -337,7 +337,7 @@ class _transactionsWidget extends State<transactionsWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
-                  color: widgetColor,
+                  color: variationColor,
                 ),
                 child: TextButton(
                   onPressed: () {
@@ -345,14 +345,14 @@ class _transactionsWidget extends State<transactionsWidget> {
                   },
                   child: Text(
                     "Abbrechen",
-                    style: TextStyle(fontSize: 8, color: primaryTextColor),
+                    style: TextStyle(fontSize: 8, color: variationColor),
                   ),
                 ),
               ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
-                  color: widgetColor,
+                  color: variationColor,
                 ),
                 child: TextButton(
                   onPressed: () {
@@ -360,7 +360,7 @@ class _transactionsWidget extends State<transactionsWidget> {
                   },
                   child: Text(
                     "Löschen",
-                    style: TextStyle(fontSize: 8, color: primaryTextColor),
+                    style: TextStyle(fontSize: 8, color: variationColor),
                   ),
                 ),
               )
@@ -432,7 +432,7 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         child: Text(
                                           transaction.from.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                              color: primaryTextColor),
                                         ),
                                       ),
                                     ],
@@ -466,7 +466,7 @@ class _transactionsWidget extends State<transactionsWidget> {
                                         child: Text(
                                           transaction.to.username,
                                           style: TextStyle(
-                                            color: secondaryTextColor,
+                                            color: primaryTextColor,
                                           ),
                                         ),
                                       ),

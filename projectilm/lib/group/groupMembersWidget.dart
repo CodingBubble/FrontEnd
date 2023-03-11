@@ -49,47 +49,25 @@ class _groupMembersWidget extends State<groupMembersWidget> {
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Mitglieder"),
-        body: Column(
+        body: ListView(
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
-              child: Scrollbar(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Scrollbar(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: Member.length,
-                        itemBuilder: (context, index) {
-                          return Material(
-                            color: backgroundColor,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(
-                                      discanceBetweenWidgets),
-                                  child: Container(
-                                    padding: constPadding,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        get_memberBlock(
-                                            Member[index], get_members)
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: Member.length,
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Container(
+                      padding: constPadding,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [get_memberBlock(Member[index], get_members)],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -98,49 +76,45 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: IconButton(
-                          onPressed: () {
-                            current_transaction_group = current_group;
-                            AppHandler("splid_info_group", context, []);
-                          },
-                          iconSize: 50.0,
-                          icon: Icon(
-                            Icons.playlist_add_check_circle_sharp,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: IconButton(
+                        onPressed: () {
+                          current_transaction_group = current_group;
+                          AppHandler("splid_info_group", context, []);
+                        },
+                        iconSize: 50.0,
+                        icon: Icon(
+                          Icons.playlist_add_check_circle_sharp,
 
-                            color: widgetColor,
-                            //fill: 1,
-                          ),
+                          color: widgetColor,
+                          //fill: 1,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          onPressed: () {
-                            current_transaction_group = current_group;
-                            AppHandler("create_transaction", context, const []);
-                          },
-                          iconSize: 50.0,
-                          icon: Icon(
-                            Icons.add_circle,
-                            color: widgetColor,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        onPressed: () {
+                          current_transaction_group = current_group;
+                          AppHandler("create_transaction", context, const []);
+                        },
+                        iconSize: 50.0,
+                        icon: Icon(
+                          Icons.add_circle,
+                          color: widgetColor,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -151,7 +125,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
     double balance = vals[member.id] ?? 0;
     return SizedBox(
       child: Padding(
-        padding: constPadding,
+        padding: constPadding / 2,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),

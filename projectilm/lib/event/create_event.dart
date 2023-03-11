@@ -24,76 +24,86 @@ class _StateEvent_Create extends State<Event_Create> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: get_simple_app_bar(context, "Event erstellen"),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: name_controller,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: 'Titel',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
-                  ),
+      backgroundColor: backgroundColor,
+      appBar: get_simple_app_bar(context, "Event erstellen"),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Form(
+              child: TextFormField(
+                style: TextStyle(color: primaryTextColor),
+                controller: name_controller,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  hintText: 'Titel',
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: desc_controller,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: 'Ort',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
-                  ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Form(
+              child: TextFormField(
+                style: TextStyle(color: primaryTextColor),
+                controller: desc_controller,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  hintText: 'Ort',
+                  hintStyle: TextStyle(color: primaryTextColor),
+                  floatingLabelStyle: TextStyle(color: variationColor),
                 ),
               ),
             ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon:
-                          Icon(Icons.calendar_month, color: secondaryTextColor),
-                      onPressed: () {
-                        DatePicker.showDateTimePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime.now(),
-                            maxTime: DateTime.now().add(Duration(days: 365)),
-                            onChanged: (date) {}, onConfirm: (date) {
-                          cur_date = date;
-                          setState(() {});
-                        }, currentTime: DateTime.now(), locale: LocaleType.de);
-                      },
-                    ),
-                    Text(
-                      formatter.format(cur_date),
-                      style: TextStyle(color: primaryTextColor),
-                    )
-                  ],
-                )),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: TextButton(
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.calendar_month, color: secondaryTextColor),
                   onPressed: () {
-                    create_event();
+                    DatePicker.showDateTimePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now(),
+                        maxTime: DateTime.now().add(Duration(days: 365)),
+                        onChanged: (date) {}, onConfirm: (date) {
+                      cur_date = date;
+                      setState(() {});
+                    }, currentTime: DateTime.now(), locale: LocaleType.de);
                   },
-                  child: Text('Event erstellen',
-                      style: new TextStyle(color: variationColor)),
-                )),
-          ],
-        ));
+                ),
+                Text(
+                  formatter.format(cur_date),
+                  style: TextStyle(color: primaryTextColor),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: variationColor),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  create_event();
+                },
+                child: Text(
+                  'Event erstellen',
+                  style: TextStyle(color: variationColor),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void create_event() async {
