@@ -15,20 +15,37 @@ class transactionsMeWidget extends StatefulWidget {
   State<transactionsMeWidget> createState() => _transactionsMeWidget();
 }
 
+// Wofür ist das ?
 String invitationCode = "";
 
 List<Transaction> transactions = [];
 
 List<DropdownMenuItem<Group>> dropdown_groups = [
   DropdownMenuItem(
-      value: null,
-      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
+    value: null,
+    child: Text(
+      "Alle",
+      style: TextStyle(
+        color: primaryTextColor,
+        fontSize: descriptionfontOfWidget,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ),
 ];
 
 List<DropdownMenuItem<User>> dropdown_users = [
   DropdownMenuItem(
-      value: null,
-      child: Text("Alle", style: TextStyle(color: primaryTextColor))),
+    value: null,
+    child: Text(
+      "Alle",
+      style: TextStyle(
+        color: primaryTextColor,
+        fontSize: descriptionfontOfWidget,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ),
 ];
 
 class _transactionsMeWidget extends State<transactionsMeWidget> {
@@ -36,6 +53,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
   @override
   void initState() {
     super.initState();
+    selected_user2 = null;
     reload_group_options();
     reload_user_options();
     reload_transactions().then((value) => setState(() {}));
@@ -187,6 +205,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         reload_transactions();
                                         setState(() {});
                                       },
+                                      index,
                                     )
                                   ],
                                 ),
@@ -198,46 +217,64 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                     ),
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "in:  ",
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  Expanded(
-                    child: DropdownButton(
+                const Padding(
+                  padding: EdgeInsets.all(discanceBetweenWidgets * 2),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 2),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "in:  ",
+                        style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      DropdownButton(
                         dropdownColor: widgetColor,
                         value: current_transaction_group,
                         onChanged: (Group? newValue) async {
+                          current_transaction_group = newValue!;
+                          selected_user1 = null;
                           selected_user2 = null;
-                          current_transaction_group = newValue;
                           await reload_user_options();
                           await reload_transactions();
                           setState(() {});
                         },
-                        items: dropdown_groups),
+                        style: TextStyle(
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                          color: primaryTextColor,
+                        ),
+                        isExpanded: true,
+                        items: dropdown_groups,
+                      ),
+                    ],
                   ),
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "mit: ",
-                      style: TextStyle(color: primaryTextColor),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                  Expanded(
-                    child: DropdownButton(
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 2),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "mit:  ",
+                        style: TextStyle(
+                          color: primaryTextColor,
+                          fontSize: descriptionfontOfWidget,
+                        ),
+                      ),
+                      DropdownButton(
                         dropdownColor: widgetColor,
                         value: selected_user2,
                         onChanged: (User? newValue) async {
@@ -245,9 +282,17 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                           await reload_transactions();
                           setState(() {});
                         },
-                        items: dropdown_users),
-                  )
-                ]),
+                        style: TextStyle(
+                          fontSize: descriptionfontOfWidget,
+                          fontWeight: FontWeight.w400,
+                          color: primaryTextColor,
+                        ),
+                        isExpanded: true,
+                        items: dropdown_users,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -255,13 +300,14 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => AppHandler("create_transaction", context, []),
           backgroundColor: widgetColor,
+          mini: true,
           child: const Icon(Icons.add_circle),
         ),
       ),
     );
   }
 
-  Dismissible get_transaction(Transaction transaction, reload_list) {
+  Dismissible get_transaction(Transaction transaction, reload_list, index) {
     Color c_color = secondaryTextColor;
     if (transaction.to.id == me!.id) {
       if (transaction.balance > 0) {
@@ -337,8 +383,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
       },
       onDismissed: (DismissDirection direction) async {
         if (direction == DismissDirection.endToStart) {
-          await transaction.delete();
-          reload_list();
+          setState(() async {
+            transactions.removeAt(index);
+            await transaction.delete();
+            reload_list();
+          });
         }
       },
       child: SizedBox(
@@ -354,7 +403,7 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 5.0),
                   child: Text(
                     transaction.title,
                     style: TextStyle(
@@ -383,7 +432,9 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           "von: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -392,7 +443,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           transaction.from.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                            color: secondaryTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -415,7 +467,9 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           "an: ",
                                           style: TextStyle(
-                                              color: primaryTextColor),
+                                            color: secondaryTextColor,
+                                            fontSize: descriptionfontOfWidget,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -424,7 +478,8 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                                         child: Text(
                                           transaction.to.username,
                                           style: TextStyle(
-                                              color: secondaryTextColor),
+                                            color: secondaryTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -440,8 +495,12 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
                       width: standWidthForTabular(context) * 2,
                       child: Expanded(
                         child: Text(
-                          transaction.balance.toString() + "€",
-                          style: TextStyle(color: c_color),
+                          "${transaction.balance}€",
+                          style: TextStyle(
+                            color: c_color,
+                            fontSize: descriptionfontOfWidget + 2,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),

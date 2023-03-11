@@ -39,6 +39,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
   Map<int, double> vals = <int, double>{};
   void get_transaction_hashmap() async {
     vals = get_group_balances(await current_group!.get_all_transactions());
+    setState(() {});
   }
 
   @override
@@ -91,39 +92,35 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              margin: const EdgeInsets.only(bottom: 5.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Transform.translate(
-                    offset: const Offset(-20, 0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      child: Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              current_transaction_group = current_group;
-                              AppHandler("splid_info_group", context, []);
-                            },
-                            icon: Icon(
-                              Icons.playlist_add_check_circle_sharp,
-                              size: 60,
-                              color: widgetColor,
-                              //fill: 1,
-                            ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: IconButton(
+                          onPressed: () {
+                            current_transaction_group = current_group;
+                            AppHandler("splid_info_group", context, []);
+                          },
+                          iconSize: 50.0,
+                          icon: Icon(
+                            Icons.playlist_add_check_circle_sharp,
+
+                            color: widgetColor,
+                            //fill: 1,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Expanded(
                       child: Align(
                         alignment: Alignment.bottomRight,
@@ -132,11 +129,10 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                             current_transaction_group = current_group;
                             AppHandler("create_transaction", context, const []);
                           },
+                          iconSize: 50.0,
                           icon: Icon(
                             Icons.add_circle,
-                            size: 60,
                             color: widgetColor,
-                            //fill: 1,
                           ),
                         ),
                       ),

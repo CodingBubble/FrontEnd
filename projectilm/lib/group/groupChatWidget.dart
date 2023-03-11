@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/app_bars/simple_app_bar.dart';
 import 'package:projectilm/controlWidget.dart';
@@ -62,31 +63,36 @@ class _stateChatWidget extends State<chatWidget> {
         body: Column(
           children: [
             // history of messages
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Scrollbar(
-                child: ListView.builder(
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Material(
-                      color: backgroundColor,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets)),
-                          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: Expanded(
+                child: Scrollbar(
+                  child: ListView.builder(
+                    reverse: true,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Material(
+                        color: backgroundColor,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(discanceBetweenWidgets),
+                            ),
+                            SizedBox(
                               width: MediaQuery.of(context).size.width *
                                   0.9, // the distance to the margin of display
-                              child:
-                                  WidgetmessageDesign(messageshistory[index])),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: messageshistory.length,
+                              child: WidgetmessageDesign(
+                                messageshistory[index],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: messageshistory.length,
+                  ),
                 ),
               ),
             ),
@@ -95,8 +101,9 @@ class _stateChatWidget extends State<chatWidget> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.1,
                 padding: constPadding * 0.5,
-                child: Container(
+                child: Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -206,7 +213,24 @@ class _stateChatWidget extends State<chatWidget> {
       int id = int.parse(message.substring(image_signalizer.length));
       MessageInp = Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.network(get_image_url(id)));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.4,
+                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+                ),
+                child: Image.network(get_image_url(id), fit: BoxFit.contain),
+              ),
+              IconButton(
+                onPressed: () async {
+                  await ImageDownloader.downloadImage(get_image_url(id));
+                },
+                icon: Icon(Icons.download, color: primaryTextColor),
+              )
+            ],
+          ));
     }
 
     if (_me == true) {

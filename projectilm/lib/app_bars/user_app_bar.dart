@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/group/groupWidget.dart';
 import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';

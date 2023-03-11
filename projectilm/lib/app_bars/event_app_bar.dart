@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/event/eventWidget.dart';
-import 'package:projectilm/group/groupWidget.dart';
-import 'package:projectilm/alert_fnc.dart';
-import 'package:projectilm/main.dart';
+import '../alert_fnc.dart';
+import '../event/eventWidget.dart';
+import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
@@ -83,7 +82,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Ankündigungen"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Ankündigungen"),
               ),
             ],
           ),
@@ -112,7 +115,12 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
               ),
               Expanded(
-                child: Text(style: TextStyle(color: primaryTextColor), "Chat"),
+                child: Text(
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Chat"),
               ),
             ],
           ),
@@ -142,7 +150,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Einkaufsliste"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Einkaufsliste"),
               ),
             ],
           ),
@@ -171,8 +183,12 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
                     EdgeInsets.symmetric(horizontal: discanceBetweenWidgets),
               ),
               Expanded(
-                child:
-                    Text(style: TextStyle(color: primaryTextColor), "Umfragen"),
+                child: Text(
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Umfragen"),
               ),
             ],
           ),
@@ -203,7 +219,11 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               ),
               Expanded(
                 child: Text(
-                    style: TextStyle(color: primaryTextColor), "Mitglieder"),
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    "Mitglieder"),
               ),
             ],
           ),

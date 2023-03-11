@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'notification.dart';
 
 const color_modes = {
   "light": {
@@ -65,8 +67,8 @@ const discanceBetweenWidgets = 8.0;
 
 // Size of different fonts
 const GigafontOfWidget = 40.0;
-const HeadfontOfWidget = 25.0;
-const SecondfontOfWidget = 20.0;
+const HeadfontOfWidget = 22.0;
+const SecondfontOfWidget = 18.0;
 const descriptionfontOfWidget = 14.0;
 
 Group? current_group;

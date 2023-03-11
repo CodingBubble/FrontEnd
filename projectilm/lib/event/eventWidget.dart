@@ -3,9 +3,11 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
+import 'package:projectilm/group/mainWidget.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 import 'package:projectilm/app_bars/event_app_bar.dart';
 import 'package:projectilm/src/projectillm_bridgelib_lists.dart';
@@ -26,7 +28,7 @@ String lastAnnouncement = "";
 List<String> list_items = ["", ""];
 final DateFormat formatter = DateFormat('dd. MM. yyyy HH:mm');
 bool joined_event = false;
-
+bool has_unvoted_poll = false;
 class _EventWidget extends State<EventWidget> {
   int state;
   final ImagePicker picker = ImagePicker();
@@ -38,9 +40,11 @@ class _EventWidget extends State<EventWidget> {
     update_joined();
     switch (state) {
       case -1:
+        has_unvoted_poll = false;
         get_last_announcement();
         get_last_chat();
         get_last_listitems();
+        get_unvoted_polls();
         break;
       case 0:
         load_announcement_history();
@@ -146,6 +150,15 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
+  void get_unvoted_polls() async {
+    List<Poll> polls = await current_event!.get_polls();
+    polls.forEach((poll) async {
+      List<VoteOption> options = await poll.get_my_voted_options();
+      has_unvoted_poll = has_unvoted_poll || options.length==0;
+      setState(() { });
+    });
+  }
+
   void load_members() {
     current_event!.get_members().then((mbrs) {
       event_data_list = [];
@@ -182,14 +195,13 @@ class _EventWidget extends State<EventWidget> {
     });
   }
 
-  void load_list_items() {
-    current_event!.get_list_items().then((msgs) {
-      event_data_list = [];
-      msgs.forEach((msg) {
+  void load_list_items() async {
+    var msgs = await current_event!.get_list_items();
+    event_data_list = [];
+    msgs.forEach((msg) {
         event_data_list.add([msg.title, msg]);
-      });
-      setState(() {});
     });
+    setState(() {});
   }
 
   void create_list_item() {
@@ -284,8 +296,7 @@ class _EventWidget extends State<EventWidget> {
         return;
       }
       current_event!.creator_send_announcement(
-          "Es wurde eine neue Umfrage erstellt: " +
-              inputMessageController.text.trim());
+          "Es wurde eine neue Umfrage erstellt: ${inputMessageController.text.trim()}");
       inputMessageController.text = "";
       load_poll_history();
     });
@@ -351,6 +362,13 @@ class _EventWidget extends State<EventWidget> {
   }
 }
 
+// var Einkaufsliste;
+// void checkIfEinkaufslisteIsEmpty() {
+//   if (list_items[0] == "") {
+//     Einkaufsliste = "Keine Sachen fehlen";
+//   } else {}
+// }
+
 var inputMessageController = TextEditingController();
 Widget get_body(
   int i,
@@ -372,38 +390,41 @@ Widget get_body(
   switch (i) {
     case -1:
       return SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Padding(padding: EdgeInsets.all(15)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Text(
-              "Ort:  " + current_event!.description,
-              style: TextStyle(color: primaryTextColor, fontSize: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Padding(padding: EdgeInsets.all(15)),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                "Ort:  ${current_event!.description}",
+                style: TextStyle(color: primaryTextColor, fontSize: 20),
+              ),
             ),
-          ),
-          const Padding(padding: EdgeInsets.all(5)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Text(
-              "Zeit: " + formatter.format(current_event!.time.toLocal()),
-              style: TextStyle(color: primaryTextColor, fontSize: 20),
+            const Padding(padding: EdgeInsets.all(5)),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Text(
+                "Zeit: ${formatter.format(current_event!.time.toLocal())}",
+                style: TextStyle(color: primaryTextColor, fontSize: 20),
+              ),
             ),
-          ),
-          Column(children: [
-            get_home_item("Ankündigungen", Icons.info_outline, 0,
-                lastAnnouncement, context),
-            get_home_item(
-                "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
-            get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
-                list_items[0] + "\n" + list_items[1], context),
-            get_home_item(
-                "Umfragen", Icons.how_to_vote_outlined, 3, "", context),
-            //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
-          ]),
-        ],
-      ));
+            Column(
+              children: [
+                get_home_item("Ankündigungen", Icons.info_outline, 0,
+                    lastAnnouncement, context),
+                get_home_item(
+                    "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
+                get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
+                    "${list_items[0]}\n${list_items[1]}", context),
+                get_home_item(
+                    "Umfragen", Icons.how_to_vote_outlined, 3, has_unvoted_poll?"Neue Umfrage!":"", context),
+                //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
+              ],
+            ),
+          ],
+        ),
+      );
 
     case 0:
       ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
@@ -413,7 +434,7 @@ Widget get_body(
           height: MediaQuery.of(context).size.height * 0.8,
           child: Scrollbar(
             child: ListView.builder(
-              reverse: true,
+              reverse: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Material(
@@ -439,27 +460,36 @@ Widget get_body(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
-            child: Container(
-                child: Row(
+            child: Row(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextFormField(
-                    style: TextStyle(color: primaryTextColor),
-                    controller: inputMessageController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      hintText: "Rundnachricht",
-                      hintStyle: TextStyle(color: primaryTextColor),
-                      floatingLabelStyle: TextStyle(color: variationColor),
-                    ),
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "Rundnachricht",
+                            hintStyle: TextStyle(color: primaryTextColor),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                IconButton(
+                Expanded(
+                  child: IconButton(
                     onPressed: () => {send_announcement()},
-                    icon: Icon(Icons.send, color: secondaryTextColor))
+                    icon: Icon(Icons.send, color: secondaryTextColor),
+                  ),
+                ),
               ],
-            )),
+            ),
           ),
         ),
       ]);
@@ -490,7 +520,10 @@ Widget get_body(
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.9, // the distance to the margin of display
-                          child: WidgetmessageDesign(event_data_list[index]),
+                          child: WidgetmessageDesign(
+                            event_data_list[index],
+                            context,
+                          ),
                         ),
                       ],
                     ),
@@ -506,44 +539,41 @@ Widget get_body(
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: constPadding * 0.5,
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: IconButton(
-                        icon: const Icon(Icons.image),
-                        onPressed: () {
-                          getImage();
-                        },
-                      ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: IconButton(
+                      icon: const Icon(Icons.image),
+                      onPressed: () {
+                        getImage();
+                      },
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "chat . . .",
-                            hintStyle: TextStyle(
-                              color: primaryTextColor,
-                              fontSize: 13,
-                            ),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      child: TextFormField(
+                        style: TextStyle(color: primaryTextColor),
+                        controller: inputMessageController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: "chat . . .",
+                          hintStyle: TextStyle(
+                            color: primaryTextColor,
+                            fontSize: 13,
                           ),
+                          floatingLabelStyle: TextStyle(color: variationColor),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () => {send_message()},
-                        icon: Icon(Icons.send, color: secondaryTextColor),
-                      ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () => {send_message()},
+                      icon: Icon(Icons.send, color: secondaryTextColor),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -564,14 +594,17 @@ Widget get_body(
                   child: Column(
                     children: [
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets),
+                      ),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: ListData(
-                              event_data_list[index],
-                              bring_list_item,
-                              unbring_list_item,
-                              delete_list_item)),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: ListData(
+                          event_data_list[index],
+                          bring_list_item,
+                          unbring_list_item,
+                          delete_list_item,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -590,18 +623,22 @@ Widget get_body(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: Expanded(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Neuer Eintrag",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              style: TextStyle(color: primaryTextColor),
+                              controller: inputMessageController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: "Neuer Eintrag",
+                                hintStyle: TextStyle(color: primaryTextColor),
+                                floatingLabelStyle:
+                                    TextStyle(color: variationColor),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     Expanded(
@@ -630,19 +667,23 @@ Widget get_body(
                   child: Column(
                     children: [
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 3)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets * 3),
+                      ),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: PollData(
-                              event_data_list[index],
-                              create_voteoption,
-                              delete_voteoption,
-                              delete_poll,
-                              vote_for,
-                              unvote_for,
-                              context)),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: PollData(
+                          event_data_list[index],
+                          create_voteoption,
+                          delete_voteoption,
+                          delete_poll,
+                          vote_for,
+                          unvote_for,
+                          context,
+                        ),
+                      ),
                       const Padding(
-                          padding: EdgeInsets.all(discanceBetweenWidgets * 5)),
+                        padding: EdgeInsets.all(discanceBetweenWidgets * 5),
+                      ),
                     ],
                   ),
                 );
@@ -652,41 +693,45 @@ Widget get_body(
           ),
         ),
         ret_if(
-            current_event!.creator_id == me!.id,
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Container(
+          current_event!.creator_id == me!.id,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Expanded(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Neue Umfrage",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            style: TextStyle(color: primaryTextColor),
+                            controller: inputMessageController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: "Neue Umfrage",
+                              hintStyle: TextStyle(color: primaryTextColor),
+                              floatingLabelStyle:
+                                  TextStyle(color: variationColor),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () => {create_poll()},
-                        icon: Icon(Icons.add_box, color: secondaryTextColor),
-                      ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () => {create_poll()},
+                      icon: Icon(Icons.add_box, color: secondaryTextColor),
                     ),
-                  ],
-                )),
+                  ),
+                ],
               ),
-            )),
+            ),
+          ),
+        ),
       ]);
     case 4:
       ///////////////////// EVENT MEMBERS ///////////////////////////////////////
@@ -768,8 +813,11 @@ Widget ListData(item, add_me, remove_me, delete_item) {
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
-        icon: Icon(Icons.delete_forever_outlined, color: positiveColor),
+        icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
         onPressed: () => {delete_item(item[1])});
+  }
+  if (item[1].runtimeType.toString()!=(ListItem).toString()) {
+    return Container();
   }
   if (item[1].bringer != "") {
     icon = Icon(Icons.check, color: variationColor);
@@ -837,69 +885,138 @@ Widget MemberData(member) {
   );
 }
 
-Widget AnnouncentsData(message) {
-  return Padding(
-    padding: constPadding,
-    child: Text(
-      message[0],
-      style: TextStyle(color: primaryTextColor),
-    ),
+Row AnnouncentsData(list) {
+  var message = list[0];
+
+  // größter Bubatz => nicht dynamisch => gibt nur einen creator => bei einführung von Admins => bitte änder => Announcements haben keinen Autor => danke GOTT
+  Widget MessageInp = Text(
+    message,
+    style: const TextStyle(color: Colors.white, fontSize: 15),
+  );
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Flexible(
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.fromLTRB(10, 0, 0, 5),
+          decoration: BoxDecoration(
+            color: Colors.green[900],
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(19),
+              topLeft: Radius.circular(19),
+              bottomLeft: Radius.circular(19),
+            ),
+          ),
+          child: MessageInp,
+        ),
+      ),
+    ],
   );
 }
 
+@override
 Widget PollData(
-    item, add_item, remove_item, delete_this, vote, unvote, context) {
+  item,
+  add_item,
+  remove_item,
+  delete_this,
+  vote,
+  unvote,
+  context,
+) {
   final controller = TextEditingController();
   Widget del_button = Container();
   if (current_event!.creator_id == me!.id) {
     del_button = IconButton(
-        icon: Icon(Icons.delete_forever_outlined, color: variationColor),
-        onPressed: () => {delete_this(item[1])});
+      icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
+      onPressed: () => {delete_this(item[1])},
+    );
   }
-  var c = Column(children: [
-    Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(item[2].toString(), style: TextStyle(color: secondaryTextColor)),
-        Text(item[0],
-            style: TextStyle(
-                color: secondaryTextColor,
-                decoration: TextDecoration.underline,
-                fontSize: 16)),
-        del_button,
-      ],
-    ),
-    ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Material(
-            color: backgroundColor,
-            child: VoteOptionData(item[3][index], item[4][index], item[5],
-                remove_item, vote, unvote, context));
-      },
-      itemCount: item[3].length,
-    ),
-    Row(
-      children: [
-        IconButton(
-            onPressed: () => {add_item(item[1], controller)},
-            icon: Icon(Icons.add_box, color: secondaryTextColor)),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
-          child: TextFormField(
-            controller: controller,
-            style: TextStyle(color: secondaryTextColor),
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              hintText: "Neue Option",
-              hintStyle: TextStyle(color: secondaryTextColor),
-              floatingLabelStyle: TextStyle(color: primaryTextColor),
-            ),
+  var c = Column(
+    children: [
+      Center(
+        child: Text(
+          item[0],
+          style: TextStyle(
+            color: secondaryTextColor,
+            fontWeight: FontWeight.w500,
+            fontSize: SecondfontOfWidget,
           ),
-        )
-      ],
-    )
-  ]);
+        ),
+      ),
+      ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Material(
+            color: backgroundColor,
+            child: VoteOptionData(
+              item[3][index],
+              item[4][index],
+              item[5],
+              remove_item,
+              vote,
+              unvote,
+              context,
+              index,
+            ),
+          );
+        },
+        itemCount: item[3].length,
+      ),
+      // Anzahl der Stimmen
+      Container(
+        margin: constMargin,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Stimmen: ${item[2].toString()}",
+              style: TextStyle(
+                color: secondaryTextColor,
+                fontSize: descriptionfontOfWidget,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            del_button,
+          ],
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.all(discanceBetweenWidgets),
+      ),
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: widgetColor),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () => {add_item(item[1], controller)},
+              icon: Icon(Icons.add_box, color: secondaryTextColor),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: TextFormField(
+                controller: controller,
+                style: TextStyle(color: secondaryTextColor),
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Neue Option",
+                  hintStyle: TextStyle(color: secondaryTextColor),
+                  floatingLabelStyle: TextStyle(color: primaryTextColor),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ],
+  );
+
   if (current_event!.creator_id != me!.id) {
     c.children.removeAt(2);
   }
@@ -915,45 +1032,138 @@ bool voted_for(List<VoteOption> l, VoteOption o) {
   return false;
 }
 
-Widget VoteOptionData(VoteOption data, int num, List<VoteOption> my_opts,
-    delete, vote, unvote, context) {
+Dismissible VoteOptionData(
+  VoteOption data,
+  int num,
+  List<VoteOption> my_opts,
+  delete,
+  vote,
+  unvote,
+  context,
+  index,
+) {
   Widget del_button = Container();
-  if (current_event!.creator_id == me!.id) {
-    del_button = IconButton(
-        icon: Icon(Icons.remove, color: variationColor),
-        onPressed: () => {delete(data)});
-  }
+
   Widget vote_btn = IconButton(
-      onPressed: () => vote(data),
-      icon: const Icon(Icons.check_box_outline_blank),
-      color: secondaryTextColor);
+    onPressed: () => vote(data),
+    icon: const Icon(Icons.check_box_outline_blank),
+    color: secondaryTextColor,
+  );
+
   if (voted_for(my_opts, data)) {
     vote_btn = IconButton(
-        onPressed: () => unvote(data),
-        icon: const Icon(Icons.check_box),
-        color: positiveColor);
+      onPressed: () => unvote(data),
+      icon: const Icon(Icons.check_box),
+      color: positiveColor,
+    );
   }
 
-  return Container(
+  return Dismissible(
+    key: Key(data.title),
+    direction: DismissDirection.endToStart,
+    confirmDismiss: (direction) {
+      return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text(
+            "Option löschen?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+            ),
+          ),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: widgetColor,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                child: Text(
+                  "Abbrechen",
+                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: widgetColor,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                child: Text(
+                  "Löschen",
+                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    },
+    background: Container(
+      color: Colors.redAccent,
+      padding: constPadding,
+      margin: const EdgeInsets.fromLTRB(30, 10, 10, 10), // EdgeInsets.all(10)
+      child: const Icon(Icons.remove_circle_outline, color: Colors.white),
+    ),
+    onDismissed: (direction) {
+      if (direction == DismissDirection.endToStart) {
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => () {
+            my_opts.removeAt(index);
+          },
+        );
+        delete(data);
+      }
+    },
+    child: Padding(
+      padding: constPadding * 1.5,
       child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(num.toString(), style: TextStyle(color: secondaryTextColor)),
-      Text(data.title, style: TextStyle(color: primaryTextColor)),
-      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          vote_btn,
-          del_button,
+          Text(
+            data.title,
+            style: TextStyle(
+              color: primaryTextColor,
+              fontSize: descriptionfontOfWidget,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                num.toString(),
+                style: TextStyle(
+                  color: secondaryTextColor,
+                  fontSize: descriptionfontOfWidget,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
+              ),
+              vote_btn,
+            ],
+          ),
         ],
-      )
-    ],
-  ));
+      ),
+    ),
+  );
 }
 
 var event_data_list = [];
 
 var inputMessage = "";
-Widget WidgetmessageDesign(list) {
+Widget WidgetmessageDesign(list, context) {
   var message = list[0];
   var _me = list[1];
   var author = list[2];
@@ -964,84 +1174,98 @@ Widget WidgetmessageDesign(list) {
     style: const TextStyle(color: Colors.white, fontSize: 15),
   );
   if (message.startsWith(image_signalizer)) {
-    int id = int.parse(message.substring(image_signalizer.length));
+    int id = int.parse(
+      message.substring(image_signalizer.length),
+    );
     MessageInp = Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Image.network(
-        get_image_url(id),
+      child: Column(
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
+            ),
+            child: Image.network(get_image_url(id), fit: BoxFit.contain),
+          ),
+          IconButton(
+            onPressed: () async {
+              await ImageDownloader.downloadImage(
+                get_image_url(id),
+              );
+            },
+            icon: Icon(Icons.download, color: primaryTextColor),
+          )
+        ],
       ),
     );
   }
 
   if (_me == true) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.green[900],
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(19),
-                  topLeft: Radius.circular(19),
-                  bottomLeft: Radius.circular(19),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                    textAlign: TextAlign.right,
-                  ),
-                  MessageInp
-                ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              color: Colors.green[900],
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(19),
+                topLeft: Radius.circular(19),
+                bottomLeft: Radius.circular(19),
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  textAlign: TextAlign.right,
+                ),
+                MessageInp
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   } else {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                color: widgetColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(19),
-                  topRight: Radius.circular(19),
-                  bottomRight: Radius.circular(19),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                    textAlign: TextAlign.left,
-                  ),
-                  MessageInp
-                ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              color: widgetColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(19),
+                topRight: Radius.circular(19),
+                bottomRight: Radius.circular(19),
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  author,
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  textAlign: TextAlign.left,
+                ),
+                MessageInp
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

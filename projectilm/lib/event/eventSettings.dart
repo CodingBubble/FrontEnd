@@ -109,22 +109,20 @@ Widget configSettings(BuildContext context, setState) {
                           color: primaryTextColor,
                           fontSize: SecondfontOfWidget),
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: change_title_controller,
-                        decoration: InputDecoration(
-                          hintText: 'Gebe einen neuen Eventnamen ein',
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gebe einen neunen Eventnamem ein';
-                          }
-                          return null;
-                        },
+                    TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: change_title_controller,
+                      decoration: InputDecoration(
+                        hintText: 'Gebe einen neuen Eventnamen ein',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
                       ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Bitte gebe einen neunen Eventnamem ein';
+                        }
+                        return null;
+                      },
                     ),
                   ],
                 ),
@@ -141,22 +139,20 @@ Widget configSettings(BuildContext context, setState) {
                           color: primaryTextColor,
                           fontSize: SecondfontOfWidget),
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        style: TextStyle(color: primaryTextColor),
-                        controller: change_desc_controller,
-                        decoration: InputDecoration(
-                          hintText: 'Gebe einen neuen Ort ein',
-                          hintStyle: TextStyle(color: primaryTextColor),
-                          floatingLabelStyle: TextStyle(color: variationColor),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gebe einen neunen Ort ein';
-                          }
-                          return null;
-                        },
+                    TextFormField(
+                      style: TextStyle(color: primaryTextColor),
+                      controller: change_desc_controller,
+                      decoration: InputDecoration(
+                        hintText: 'Gebe einen neuen Ort ein',
+                        hintStyle: TextStyle(color: primaryTextColor),
+                        floatingLabelStyle: TextStyle(color: variationColor),
                       ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Bitte gebe einen neunen Ort ein';
+                        }
+                        return null;
+                      },
                     ),
                   ],
                 ),

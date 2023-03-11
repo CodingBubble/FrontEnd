@@ -174,7 +174,7 @@ Widget configSettings(BuildContext context) {
                       update_values(
                           change_title_controller, change_desc_controller);
                     },
-                    child: const Text('Gruppeneinstellungen ändern'),
+                    child: const Text('Einstellungen ändern'),
                   ),
                 ),
                 Padding(
@@ -237,9 +237,10 @@ Widget themeSettings(Function generateID) {
         SizedBox(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Einladungcode",
+                "Einladungscode",
                 style: TextStyle(
                   color: secondaryTextColor,
                   fontSize: SecondfontOfWidget + 2,
@@ -256,7 +257,6 @@ Widget themeSettings(Function generateID) {
               const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
               SizedBox(
                 child: Wrap(
-                  alignment: WrapAlignment.spaceAround,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),

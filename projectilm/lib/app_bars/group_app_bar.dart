@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/group/groupWidget.dart';
 import '../main.dart';
 import '../global.dart';
 import 'package:projectilm/projectillm_bridgelib.dart';
 
-AppBar get_group_app_bar(BuildContext context, Function onSearch) {
+AppBar get_group_app_bar(
+    BuildContext context, Function onSearch, bool archived) {
   return AppBar(
     backgroundColor: widgetColor,
     automaticallyImplyLeading: false,
@@ -54,6 +54,16 @@ AppBar get_group_app_bar(BuildContext context, Function onSearch) {
               color: backgroundColor,
               onPressed: () => {
                 AppHandler("groupSettingsWidget", context, []),
+              },
+            ),
+          ),
+          Expanded(
+            child: IconButton(
+              icon: Icon(archived ? Icons.timer : Icons.archive,
+                  color: secondaryTextColor),
+              color: backgroundColor,
+              onPressed: () => {
+                AppHandler("groupWidget", context, [!archived]),
               },
             ),
           ),
