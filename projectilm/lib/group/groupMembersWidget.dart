@@ -52,7 +52,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
         body: ListView(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: Member.length,
@@ -70,52 +70,68 @@ class _groupMembersWidget extends State<groupMembersWidget> {
                 },
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: IconButton(
-                        onPressed: () {
-                          current_transaction_group = current_group;
-                          AppHandler("splid_info_group", context, []);
-                        },
-                        iconSize: 50.0,
-                        icon: Icon(
-                          Icons.playlist_add_check_circle_sharp,
-
-                          color: widgetColor,
-                          //fill: 1,
-                        ),
+          ],
+        ),
+        floatingActionButton: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 65,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: widgetColor,
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: IconButton(
-                        onPressed: () {
-                          current_transaction_group = current_group;
-                          AppHandler("create_transaction", context, const []);
-                        },
-                        iconSize: 50.0,
-                        icon: Icon(
-                          Icons.add_circle,
-                          color: widgetColor,
-                        ),
+                    padding: constPadding / 2,
+                    child: IconButton(
+                      onPressed: () {
+                        current_transaction_group = current_group;
+                        AppHandler("splid_info_group", context, []);
+                      },
+                      iconSize: 40.0,
+                      icon: Icon(
+                        Icons.playlist_add_check,
+                        color: primaryTextColor,
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: widgetColor,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: constPadding / 2,
+                    child: IconButton(
+                      onPressed: () {
+                        current_transaction_group = current_group;
+                        AppHandler("create_transaction", context, const []);
+                      },
+                      iconSize: 40.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: primaryTextColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
