@@ -64,8 +64,8 @@ class _stateChatWidget extends State<chatWidget> {
           children: [
             // history of messages
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.75,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 1 - 125,
               child: Expanded(
                 child: Scrollbar(
                   child: ListView.builder(
@@ -166,15 +166,14 @@ class _stateChatWidget extends State<chatWidget> {
     current_group!.get_messages().then((msgs) {
       messageshistory = [];
       msgs.forEach((msg) {
-        messageshistory
-            .add([msg.text, msg.author.id == me!.id, msg.author.username]);
+        messageshistory.add(
+            [msg.text, msg.author.id == me!.id, msg.author.username, msg.time]);
       });
       setState(() {});
     });
   }
 
   void send_message() async {
-    print("p2");
     if (me == null) {
       return;
     }
@@ -184,7 +183,6 @@ class _stateChatWidget extends State<chatWidget> {
     if (inputMessageController.text.trim() == "") {
       return;
     }
-    print("sendmessage");
 
     current_group!
         .send_message(inputMessageController.text.trim())
@@ -202,73 +200,108 @@ class _stateChatWidget extends State<chatWidget> {
     String message = list[0];
     var _me = list[1];
     var author = list[2];
+    var msgTime = list[3];
     var wColor;
     var bubbleCorner;
+    // var date = msgTime.split(' ');
+    msgTime = msgTime.toString().split(' ');
+
+    // date of message
+    var date = msgTime[0].split("-");
+    // hour minute secound
+    var HMS = msgTime[1].split(":");
+
+    var finalTimeString =
+        "${date[2]}/${date[1]}/${date[0]} ${HMS[0]}:${HMS[1]}";
 
     Widget MessageInp = Text(
       message,
-      style: const TextStyle(color: Colors.white, fontSize: 15),
+      style: const TextStyle(
+          color: Colors.white, fontSize: descriptionfontOfWidget),
     );
     if (message.startsWith(image_signalizer)) {
       int id = int.parse(message.substring(image_signalizer.length));
       MessageInp = Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.4,
-                  maxWidth: MediaQuery.of(context).size.width * 0.75,
-                ),
-                child: Image.network(get_image_url(id), fit: BoxFit.contain),
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.4,
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
               ),
-              IconButton(
-                onPressed: () async {
-                  await ImageDownloader.downloadImage(get_image_url(id));
-                },
-                icon: Icon(Icons.download, color: primaryTextColor),
-              )
-            ],
-          ));
+              child: Image.network(get_image_url(id), fit: BoxFit.contain),
+            ),
+            IconButton(
+              onPressed: () async {
+                await ImageDownloader.downloadImage(get_image_url(id));
+              },
+              icon: Icon(Icons.download, color: primaryTextColor),
+            )
+          ],
+        ),
+      );
     }
 
     if (_me == true) {
-      return Container(
-          child: Row(
+      return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
             child: Container(
-                padding: const EdgeInsets.all(15),
-                margin: const EdgeInsets.only(bottom: 5),
-                decoration: BoxDecoration(
-                  color: Colors.green[900],
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(19),
-                    topLeft: Radius.circular(19),
-                    bottomLeft: Radius.circular(19),
-                  ),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.green[900],
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(19),
+                  topLeft: Radius.circular(19),
+                  bottomLeft: Radius.circular(19),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      author,
-                      style: TextStyle(
-                        color: secondaryTextColor,
-                        fontSize: 12,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        author,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: SecondfontOfWidget - 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.right,
-                    ),
-                    MessageInp
-                  ],
-                )),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          finalTimeString.toString(),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: descriptionfontOfWidget - 2,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
+                  ),
+                  MessageInp
+                ],
+              ),
+            ),
           ),
         ],
-      ));
+      );
     } else {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -290,10 +323,34 @@ class _stateChatWidget extends State<chatWidget> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    author,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                    textAlign: TextAlign.left,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        author,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: SecondfontOfWidget - 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          finalTimeString.toString(),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: descriptionfontOfWidget - 2,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
                   ),
                   MessageInp
                 ],
@@ -305,13 +362,3 @@ class _stateChatWidget extends State<chatWidget> {
     }
   }
 }
-
-
-
-/** 
-* Box to write new Message
-* Align(
-*  alignment: Alignment.bottomCenter,
-*  child: Text("Hello from the dark side!"),
-* ),
-*/
