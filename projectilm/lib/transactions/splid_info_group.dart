@@ -195,8 +195,9 @@ class _transactionsWidget extends State<transactionsWidget> {
                             value: current_transaction_group,
                             isExpanded: true,
                             onChanged: (Group? newValue) async {
+                              current_transaction_group = newValue!;
+                              selected_user1 = null;
                               selected_user2 = null;
-                              current_transaction_group = newValue;
                               await reload_user_options();
                               await reload_transactions();
                               setState(() {});
@@ -206,7 +207,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                               fontWeight: FontWeight.w400,
                               color: primaryTextColor,
                             ),
-                            items: dropdown_groups),
+                            items: dropdown_groups,
+                          ),
                       ),
                     ],
                   ),
