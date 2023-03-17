@@ -158,11 +158,15 @@ class _StateTransaction_Create extends State<Transaction_Create> {
                       onPressed: () {
                         create_transaction();
                       },
-                      child: Expanded(
-                        child: Text(
-                          'Transaktion erstellen',
-                          style: TextStyle(color: secondaryTextColor),
-                        ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Transaktion erstellen',
+                              style: TextStyle(color: secondaryTextColor),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

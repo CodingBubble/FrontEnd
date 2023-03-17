@@ -58,34 +58,38 @@ class _stateChatWidget extends State<chatWidget> {
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.95 - 125,
-              child: Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    reverse: true,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Material(
-                        color: backgroundColor,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        reverse: true,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Material(
+                            color: backgroundColor,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.9, // the distance to the margin of display
+                                  child: WidgetmessageDesign(
+                                    messageshistory[index],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(
-                                messageshistory[index],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: messageshistory.length,
+                          );
+                        },
+                        itemCount: messageshistory.length,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             // button to enter a message to the chat
@@ -95,44 +99,42 @@ class _stateChatWidget extends State<chatWidget> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.1,
                 padding: constPadding * 0.5,
-                child: Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: IconButton(
-                          icon: const Icon(Icons.image),
-                          onPressed: () {
-                            getImage();
-                          },
-                        ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: () {
+                          getImage();
+                        },
                       ),
-                      Expanded(
-                        child: SizedBox(
-                          child: TextFormField(
-                            style: TextStyle(color: primaryTextColor),
-                            controller: inputMessageController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintText: "chat . . .",
-                              hintStyle: TextStyle(
-                                color: primaryTextColor,
-                                fontSize: 13,
-                              ),
-                              floatingLabelStyle:
-                                  TextStyle(color: variationColor),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "chat . . .",
+                            hintStyle: TextStyle(
+                              color: primaryTextColor,
+                              fontSize: 13,
                             ),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: IconButton(
-                          onPressed: () => {send_message()},
-                          icon: Icon(Icons.send, color: secondaryTextColor),
-                        ),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {send_message()},
+                        icon: Icon(Icons.send, color: secondaryTextColor),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -196,7 +198,7 @@ class _stateChatWidget extends State<chatWidget> {
     var wColor;
     var bubbleCorner;
     // var date = msgTime.split(' ');
-    msgTime = msgTime.toString().split(' ');
+    msgTime = msgTime.toLocal().toString().split(' ');
 
     // date of message
     var date = msgTime[0].split("-");

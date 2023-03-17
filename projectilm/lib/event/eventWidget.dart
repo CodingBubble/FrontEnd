@@ -414,7 +414,7 @@ Widget get_body(
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: Text(
-                      "Zeit: ${formatter.format(current_event!.time.toLocal())}",
+                      "Zeit: ${formatter.format(current_event!.time)}",
                       style: TextStyle(
                         color: primaryTextColor,
                         fontSize: SecondfontOfWidget - 2,
@@ -1476,7 +1476,7 @@ Widget WidgetmessageDesign(list, context) {
   var wColor;
   var bubbleCorner;
 
-  msgTime = msgTime.toString().split(' ');
+  msgTime = msgTime.toLocal().toString().split(' ');
 
   // date of message
   var date = msgTime[0].split("-");
