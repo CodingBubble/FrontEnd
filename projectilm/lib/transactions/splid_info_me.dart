@@ -312,13 +312,11 @@ class _transactionsMeWidget extends State<transactionsMeWidget> {
 
   Dismissible get_transaction(Transaction transaction, reload_list, index) {
     Color c_color = secondaryTextColor;
-    if (transaction.balance < 0) {
+    if (transaction.from.id == me!.id) {
       c_color = positiveColor;
     } else {
       c_color = negativeColor;
     }
-  
-
     if (transaction.balance < 0) {
       transaction = transaction.flipped();
     }

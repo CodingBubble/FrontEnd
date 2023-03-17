@@ -1,16 +1,9 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/app_bars/simple_app_bar.dart';
-import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/group/settingsWidget.dart';
-import 'mainWidget.dart';
 import 'package:projectilm/global.dart';
 import 'package:projectilm/src/projectillm_bridgelib_base.dart';
-import 'groupWidget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class chatWidget extends StatefulWidget {
@@ -64,7 +57,7 @@ class _stateChatWidget extends State<chatWidget> {
             // history of messages
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 1 - 125,
+              height: MediaQuery.of(context).size.height * 0.95 - 125,
               child: Expanded(
                 child: Scrollbar(
                   child: ListView.builder(

@@ -467,7 +467,7 @@ Widget get_body(
         Container(
           padding: constPadding,
           width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 1 - 120,
+          height: MediaQuery.of(context).size.height * 0.95 - 120,
           child: Scrollbar(
             child: ListView.builder(
               reverse: false,
@@ -544,7 +544,7 @@ Widget get_body(
           // history of messages
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1 - 125,
+            height: MediaQuery.of(context).size.height * 0.95 - 125,
             child: Scrollbar(
               child: ListView.builder(
                 reverse: true,

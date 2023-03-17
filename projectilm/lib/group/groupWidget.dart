@@ -227,7 +227,7 @@ class _StateGroup extends State<GroupWidget> {
               padding: EdgeInsets.only(bottom: 30),
             ),
             Text(
-              "Klicke auf das Plus unten rechts um eine Event zu erstellen.",
+              "Klicke auf das Plus unten rechts, um ein Event zu erstellen.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryTextColor,
