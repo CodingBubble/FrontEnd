@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
@@ -1505,14 +1504,6 @@ Widget WidgetmessageDesign(list, context) {
             ),
             child: Image.network(get_image_url(id), fit: BoxFit.contain),
           ),
-          IconButton(
-            onPressed: () async {
-              await ImageDownloader.downloadImage(
-                get_image_url(id),
-              );
-            },
-            icon: Icon(Icons.download, color: primaryTextColor),
-          )
         ],
       ),
     );
