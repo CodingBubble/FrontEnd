@@ -396,32 +396,39 @@ Widget get_body(
             const Padding(
               padding: EdgeInsets.all(15),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Text(
-                "Ort:  ${current_event!.description}",
-                style: TextStyle(
-                  color: primaryTextColor,
-                  fontSize: SecondfontOfWidget - 2,
-                  fontWeight: FontWeight.w500,
-                ),
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      "Ort:  ${current_event!.description}",
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontSize: SecondfontOfWidget - 2,
+                        fontWeight: FontWeight.w500,
+                      )
+                      ,textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      "Zeit: ${formatter.format(current_event!.time.toLocal())}",
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontSize: SecondfontOfWidget - 2,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-            ),
-            Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Text(
-                  "Zeit: ${formatter.format(current_event!.time.toLocal())}",
-                  style: TextStyle(
-                    color: primaryTextColor,
-                    fontSize: SecondfontOfWidget - 2,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
             ),
             Column(
               children: [
@@ -640,7 +647,7 @@ Widget get_body(
                     padding: EdgeInsets.only(bottom: 30),
                   ),
                   Text(
-                    "Erstelle einen Eintrag, wenn noch Sachen benötigt werden.",
+                    current_event!.creator_id==me!.id?"Erstelle einen Eintrag, wenn noch Sachen benötigt werden.":"",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryTextColor,

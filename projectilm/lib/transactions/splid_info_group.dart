@@ -131,7 +131,7 @@ class _transactionsWidget extends State<transactionsWidget> {
         body: Scrollbar(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.95,
-            height: MediaQuery.of(context).size.height * 0.1,
+            // height: MediaQuery.of(context).size.height * 1,
             child: Column(
               children: [
                 const Padding(padding: constPadding),
@@ -249,8 +249,8 @@ class _transactionsWidget extends State<transactionsWidget> {
                 Container(
                   margin: const EdgeInsets.only(left: 2),
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -261,21 +261,20 @@ class _transactionsWidget extends State<transactionsWidget> {
                         ),
                       ),
                       DropdownButton(
-                        dropdownColor: widgetColor,
-                        value: selected_user2,
-                        onChanged: (User? newValue) async {
-                          selected_user2 = newValue;
-                          await reload_transactions();
-                          setState(() {});
-                        },
-                        style: TextStyle(
-                          fontSize: descriptionfontOfWidget,
-                          fontWeight: FontWeight.w400,
-                          color: primaryTextColor,
-                        ),
-                        isExpanded: true,
-                        items: dropdown_users,
-                      ),
+                          dropdownColor: widgetColor,
+                          value: selected_user2,
+                          onChanged: (User? newValue) async {
+                            selected_user2 = newValue;
+                            await reload_transactions();
+                            setState(() {});
+                          },
+                          style: TextStyle(
+                            fontSize: descriptionfontOfWidget,
+                            fontWeight: FontWeight.w400,
+                            color: primaryTextColor,
+                          ),
+                          isExpanded: true,
+                          items: dropdown_users),
                     ],
                   ),
                 ),
@@ -295,19 +294,14 @@ class _transactionsWidget extends State<transactionsWidget> {
 
   Dismissible get_transaction(Transaction transaction, reload_list, index) {
     Color c_color = secondaryTextColor;
-    if (transaction.to.id == me!.id) {
-      if (transaction.balance > 0) {
-        c_color = positiveColor;
-      } else {
-        c_color = negativeColor;
-      }
+
+    if (transaction.balance < 0) {
+      c_color = positiveColor;
     } else {
-      if (transaction.balance > 0) {
-        c_color = positiveColor;
-      } else {
-        c_color = negativeColor;
-      }
+      c_color = negativeColor;
     }
+  
+
 
     if (transaction.balance < 0) {
       transaction = transaction.flipped();
@@ -481,15 +475,19 @@ class _transactionsWidget extends State<transactionsWidget> {
                     ),
                     SizedBox(
                       width: standWidthForTabular(context) * 2,
-                      child: Expanded(
-                        child: Text(
-                          "${transaction.balance}€",
-                          style: TextStyle(
-                            color: c_color,
-                            fontSize: descriptionfontOfWidget + 2,
-                            fontWeight: FontWeight.w600,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "${transaction.balance}€",
+                              style: TextStyle(
+                                color: c_color,
+                                fontSize: descriptionfontOfWidget + 2,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ],

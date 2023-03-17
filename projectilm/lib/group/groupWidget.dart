@@ -104,7 +104,7 @@ class _StateGroup extends State<GroupWidget> {
               fontSize: descriptionfontOfWidget,
             ),
           ),
-          SizedBox(
+          ev.creator_id!=me!.id?SizedBox(
             width: double.infinity,
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -123,7 +123,7 @@ class _StateGroup extends State<GroupWidget> {
                 ],
               ),
             ),
-          ),
+          ):Container(height: 45,)
         ],
       ),
     );
