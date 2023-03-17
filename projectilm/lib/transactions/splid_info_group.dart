@@ -133,6 +133,7 @@ class _transactionsWidget extends State<transactionsWidget> {
             width: MediaQuery.of(context).size.width * 0.95,
             // height: MediaQuery.of(context).size.height * 1,
             child: Column(
+              mainAxisSize:  MainAxisSize.min,
               children: [
                 const Padding(padding: constPadding),
                 Expanded(
@@ -172,14 +173,14 @@ class _transactionsWidget extends State<transactionsWidget> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets * 2),
+                  padding: EdgeInsets.all(discanceBetweenWidgets/2),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 2),
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "in:  ",
@@ -188,35 +189,37 @@ class _transactionsWidget extends State<transactionsWidget> {
                           fontSize: descriptionfontOfWidget,
                         ),
                       ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: current_transaction_group,
-                          isExpanded: true,
-                          onChanged: (Group? newValue) async {
-                            selected_user2 = null;
-                            current_transaction_group = newValue;
-                            await reload_user_options();
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          style: TextStyle(
-                            fontSize: descriptionfontOfWidget,
-                            fontWeight: FontWeight.w400,
-                            color: primaryTextColor,
-                          ),
-                          items: dropdown_groups),
+                      Expanded(
+                        child: DropdownButton(
+                            dropdownColor: widgetColor,
+                            value: current_transaction_group,
+                            isExpanded: true,
+                            onChanged: (Group? newValue) async {
+                              selected_user2 = null;
+                              current_transaction_group = newValue;
+                              await reload_user_options();
+                              await reload_transactions();
+                              setState(() {});
+                            },
+                            style: TextStyle(
+                              fontSize: descriptionfontOfWidget,
+                              fontWeight: FontWeight.w400,
+                              color: primaryTextColor,
+                            ),
+                            items: dropdown_groups),
+                      ),
                     ],
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                  padding: EdgeInsets.all(discanceBetweenWidgets/2),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 2),
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "von:  ",
@@ -225,33 +228,35 @@ class _transactionsWidget extends State<transactionsWidget> {
                           fontSize: descriptionfontOfWidget,
                         ),
                       ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user1,
-                          onChanged: (User? newValue) async {
-                            selected_user1 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          style: TextStyle(
-                            fontSize: descriptionfontOfWidget,
-                            fontWeight: FontWeight.w400,
-                            color: primaryTextColor,
-                          ),
-                          isExpanded: true,
-                          items: dropdown_users),
+                      Expanded(
+                        child: DropdownButton(
+                            dropdownColor: widgetColor,
+                            value: selected_user1,
+                            onChanged: (User? newValue) async {
+                              selected_user1 = newValue;
+                              await reload_transactions();
+                              setState(() {});
+                            },
+                            style: TextStyle(
+                              fontSize: descriptionfontOfWidget,
+                              fontWeight: FontWeight.w400,
+                              color: primaryTextColor,
+                            ),
+                            isExpanded: true,
+                            items: dropdown_users),
+                      ),
                     ],
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                  padding: EdgeInsets.all(discanceBetweenWidgets/2),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 2),
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "an:  ",
@@ -260,21 +265,24 @@ class _transactionsWidget extends State<transactionsWidget> {
                           fontSize: descriptionfontOfWidget,
                         ),
                       ),
-                      DropdownButton(
-                          dropdownColor: widgetColor,
-                          value: selected_user2,
-                          onChanged: (User? newValue) async {
-                            selected_user2 = newValue;
-                            await reload_transactions();
-                            setState(() {});
-                          },
-                          style: TextStyle(
-                            fontSize: descriptionfontOfWidget,
-                            fontWeight: FontWeight.w400,
-                            color: primaryTextColor,
-                          ),
-                          isExpanded: true,
-                          items: dropdown_users),
+                      Expanded(
+                        child: DropdownButton(
+                            dropdownColor: widgetColor,
+                            value: selected_user2,
+                            onChanged: (User? newValue) async {
+                              selected_user2 = newValue;
+                              await reload_transactions();
+                              setState(() {});
+                            },
+                            style: TextStyle(
+                              fontSize: descriptionfontOfWidget,
+                              fontWeight: FontWeight.w400,
+                              color: primaryTextColor,
+                            ),
+                            isExpanded: true,
+                      
+                            items: dropdown_users),
+                      ),
                     ],
                   ),
                 ),
