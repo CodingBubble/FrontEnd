@@ -28,36 +28,32 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.15,
                 child: IconButton(
+                    onPressed: () => {
+                          AppHandler("eventWidget", context, [4])
+                        },
+                    icon: Icon(Icons.group, color: secondaryTextColor)),
+              ),
+              current_event!.creator_id == me!.id?
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
+                  // button for settings
+                  onPressed: () =>
+                      {AppHandler("eventSettingsWidget", context, [])},
+                  icon: Icon(Icons.settings, color: secondaryTextColor),
+                ),
+              ):SizedBox(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: IconButton(
                     onPressed: () => toggle_join(),
                     icon: Icon(
                       Icons.back_hand,
                       color: get_join_button_color(),
                     )),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.15,
-                child: IconButton(
-                    onPressed: () => {
-                          AppHandler("eventWidget", context, [4])
-                        },
-                    icon: Icon(Icons.group, color: secondaryTextColor)),
-              ),
-              ret_if(
-                current_event!.creator_id == me!.id,
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  child: IconButton(
-                    // button for settings
-                    onPressed: () =>
-                        {AppHandler("eventSettingsWidget", context, [])},
-                    icon: Icon(Icons.settings, color: secondaryTextColor),
-                  ),
-                ),
-              ),
             ],
           ),
         );
-        break;
       }
     case 0:
       {
@@ -92,7 +88,6 @@ AppBar get_event_app_bar(BuildContext context, Function toggle_join, index) {
             ],
           ),
         );
-        break;
       }
     case 1:
       {

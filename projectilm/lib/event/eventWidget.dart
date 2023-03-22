@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projectilm/controlWidget.dart';
 import 'package:projectilm/global.dart';
@@ -396,32 +395,39 @@ Widget get_body(
             const Padding(
               padding: EdgeInsets.all(15),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Text(
-                "Ort:  ${current_event!.description}",
-                style: TextStyle(
-                  color: primaryTextColor,
-                  fontSize: SecondfontOfWidget - 2,
-                  fontWeight: FontWeight.w500,
-                ),
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      "Ort:  ${current_event!.description}",
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontSize: SecondfontOfWidget - 2,
+                        fontWeight: FontWeight.w500,
+                      )
+                      ,textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      "Zeit: ${formatter.format(current_event!.time)}",
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontSize: SecondfontOfWidget - 2,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-            ),
-            Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Text(
-                  "Zeit: ${formatter.format(current_event!.time.toLocal())}",
-                  style: TextStyle(
-                    color: primaryTextColor,
-                    fontSize: SecondfontOfWidget - 2,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
             ),
             Column(
               children: [
@@ -461,7 +467,7 @@ Widget get_body(
         Container(
           padding: constPadding,
           width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 1 - 120,
+          height: MediaQuery.of(context).size.height * 0.95 - 120,
           child: Scrollbar(
             child: ListView.builder(
               reverse: false,
@@ -538,7 +544,7 @@ Widget get_body(
           // history of messages
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1 - 125,
+            height: MediaQuery.of(context).size.height * 0.95 - 125,
             child: Scrollbar(
               child: ListView.builder(
                 reverse: true,
@@ -640,7 +646,7 @@ Widget get_body(
                     padding: EdgeInsets.only(bottom: 30),
                   ),
                   Text(
-                    "Erstelle einen Eintrag, wenn noch Sachen benötigt werden.",
+                    current_event!.creator_id==me!.id?"Erstelle einen Eintrag, wenn noch Sachen benötigt werden.":"",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryTextColor,
@@ -1470,7 +1476,7 @@ Widget WidgetmessageDesign(list, context) {
   var wColor;
   var bubbleCorner;
 
-  msgTime = msgTime.toString().split(' ');
+  msgTime = msgTime.toLocal().toString().split(' ');
 
   // date of message
   var date = msgTime[0].split("-");
@@ -1498,14 +1504,6 @@ Widget WidgetmessageDesign(list, context) {
             ),
             child: Image.network(get_image_url(id), fit: BoxFit.contain),
           ),
-          IconButton(
-            onPressed: () async {
-              await ImageDownloader.downloadImage(
-                get_image_url(id),
-              );
-            },
-            icon: Icon(Icons.download, color: primaryTextColor),
-          )
         ],
       ),
     );

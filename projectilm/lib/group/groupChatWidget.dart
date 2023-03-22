@@ -1,17 +1,9 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_downloader/image_downloader.dart';
-import 'package:projectilm/app_bars/group_app_bar.dart';
 import 'package:projectilm/app_bars/simple_app_bar.dart';
-import 'package:projectilm/controlWidget.dart';
-import 'package:projectilm/group/settingsWidget.dart';
-import 'mainWidget.dart';
 import 'package:projectilm/global.dart';
 import 'package:projectilm/src/projectillm_bridgelib_base.dart';
-import 'groupWidget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class chatWidget extends StatefulWidget {
@@ -65,35 +57,39 @@ class _stateChatWidget extends State<chatWidget> {
             // history of messages
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 1 - 125,
-              child: Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    reverse: true,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Material(
-                        color: backgroundColor,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(discanceBetweenWidgets),
+              height: MediaQuery.of(context).size.height * 0.95 - 125,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        reverse: true,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Material(
+                            color: backgroundColor,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.9, // the distance to the margin of display
+                                  child: WidgetmessageDesign(
+                                    messageshistory[index],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.9, // the distance to the margin of display
-                              child: WidgetmessageDesign(
-                                messageshistory[index],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: messageshistory.length,
+                          );
+                        },
+                        itemCount: messageshistory.length,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             // button to enter a message to the chat
@@ -103,44 +99,42 @@ class _stateChatWidget extends State<chatWidget> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.1,
                 padding: constPadding * 0.5,
-                child: Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: IconButton(
-                          icon: const Icon(Icons.image),
-                          onPressed: () {
-                            getImage();
-                          },
-                        ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: () {
+                          getImage();
+                        },
                       ),
-                      Expanded(
-                        child: SizedBox(
-                          child: TextFormField(
-                            style: TextStyle(color: primaryTextColor),
-                            controller: inputMessageController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintText: "chat . . .",
-                              hintStyle: TextStyle(
-                                color: primaryTextColor,
-                                fontSize: 13,
-                              ),
-                              floatingLabelStyle:
-                                  TextStyle(color: variationColor),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: TextFormField(
+                          style: TextStyle(color: primaryTextColor),
+                          controller: inputMessageController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: "chat . . .",
+                            hintStyle: TextStyle(
+                              color: primaryTextColor,
+                              fontSize: 13,
                             ),
+                            floatingLabelStyle:
+                                TextStyle(color: variationColor),
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: IconButton(
-                          onPressed: () => {send_message()},
-                          icon: Icon(Icons.send, color: secondaryTextColor),
-                        ),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {send_message()},
+                        icon: Icon(Icons.send, color: secondaryTextColor),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -204,7 +198,7 @@ class _stateChatWidget extends State<chatWidget> {
     var wColor;
     var bubbleCorner;
     // var date = msgTime.split(' ');
-    msgTime = msgTime.toString().split(' ');
+    msgTime = msgTime.toLocal().toString().split(' ');
 
     // date of message
     var date = msgTime[0].split("-");
@@ -233,12 +227,6 @@ class _stateChatWidget extends State<chatWidget> {
               ),
               child: Image.network(get_image_url(id), fit: BoxFit.contain),
             ),
-            IconButton(
-              onPressed: () async {
-                await ImageDownloader.downloadImage(get_image_url(id));
-              },
-              icon: Icon(Icons.download, color: primaryTextColor),
-            )
           ],
         ),
       );

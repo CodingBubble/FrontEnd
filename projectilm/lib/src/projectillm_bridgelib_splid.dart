@@ -14,7 +14,7 @@ class Transaction {
 
   Transaction flipped()
   {
-      return Transaction(id, title, from, to, -balance);
+      return Transaction(id, title, to, from, -balance);
   }
 
   Future<bool> delete() async {

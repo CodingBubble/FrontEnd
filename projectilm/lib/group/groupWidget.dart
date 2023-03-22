@@ -104,7 +104,7 @@ class _StateGroup extends State<GroupWidget> {
               fontSize: descriptionfontOfWidget,
             ),
           ),
-          SizedBox(
+          ev.creator_id!=me!.id?SizedBox(
             width: double.infinity,
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -123,7 +123,7 @@ class _StateGroup extends State<GroupWidget> {
                 ],
               ),
             ),
-          ),
+          ):Container(height: 45,)
         ],
       ),
     );
@@ -227,7 +227,7 @@ class _StateGroup extends State<GroupWidget> {
               padding: EdgeInsets.only(bottom: 30),
             ),
             Text(
-              "Klicke auf das Plus unten rechts um eine Event zu erstellen.",
+              "Klicke auf das Plus unten rechts, um ein Event zu erstellen.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryTextColor,
