@@ -23,7 +23,7 @@ AppBar get_simple_app_bar(BuildContext context, title) {
         ),
         Expanded(
           child: Container(
-            margin: EdgeInsets.only(left: 2),
+            margin: const EdgeInsets.only(left: 2),
             child: Text(
               title,
               style: TextStyle(

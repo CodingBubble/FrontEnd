@@ -49,99 +49,89 @@ class _groupMembersWidget extends State<groupMembersWidget> {
       home: Scaffold(
         backgroundColor: backgroundColor,
         appBar: get_simple_app_bar(context, "Mitglieder"),
-        body: Column(
+        body: ListView(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.75,
-              child: Scrollbar(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Scrollbar(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: Member.length,
-                        itemBuilder: (context, index) {
-                          return Material(
-                            color: backgroundColor,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(
-                                      discanceBetweenWidgets),
-                                  child: Container(
-                                    padding: constPadding,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        get_memberBlock(
-                                            Member[index], get_members)
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: Member.length,
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Container(
+                      padding: constPadding,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [get_memberBlock(Member[index], get_members)],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: IconButton(
-                          onPressed: () {
-                            current_transaction_group = current_group;
-                            AppHandler("splid_info_group", context, []);
-                          },
-                          iconSize: 50.0,
-                          icon: Icon(
-                            Icons.playlist_add_check_circle_sharp,
-
-                            color: widgetColor,
-                            //fill: 1,
-                          ),
-                        ),
+          ],
+        ),
+        floatingActionButton: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 65,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: widgetColor,
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          onPressed: () {
-                            current_transaction_group = current_group;
-                            AppHandler("create_transaction", context, const []);
-                          },
-                          iconSize: 50.0,
-                          icon: Icon(
-                            Icons.add_circle,
-                            color: widgetColor,
-                          ),
-                        ),
+                  Padding(
+                    padding: constPadding / 2,
+                    child: IconButton(
+                      onPressed: () {
+                        current_transaction_group = current_group;
+                        AppHandler("splid_info_group", context, []);
+                      },
+                      iconSize: 40.0,
+                      icon: Icon(
+                        Icons.playlist_add_check,
+                        color: primaryTextColor,
                       ),
                     ),
                   ),
                 ],
               ),
-            )
-          ],
+              Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: widgetColor,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: constPadding / 2,
+                    child: IconButton(
+                      onPressed: () {
+                        current_transaction_group = current_group;
+                        AppHandler("create_transaction", context, const []);
+                      },
+                      iconSize: 40.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: primaryTextColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -151,7 +141,7 @@ class _groupMembersWidget extends State<groupMembersWidget> {
     double balance = vals[member.id] ?? 0;
     return SizedBox(
       child: Padding(
-        padding: constPadding,
+        padding: constPadding / 2,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),

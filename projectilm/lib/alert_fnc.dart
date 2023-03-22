@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:projectilm/global.dart';
 
 showAlertDialog(BuildContext context, String title_text, String desc_text) {
-  Widget okButton = TextButton(
+  Widget okButton = Container(
+    decoration: BoxDecoration(
+      border: Border.all(width: 1, color: variationColor),
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    child: TextButton(
       child: Text(
         "OK",
-        style: TextStyle(color: secondaryTextColor),
+        style: TextStyle(color: variationColor),
       ),
       onPressed: () {
         Navigator.pop(context);
-      });
+      },
+    ),
+  );
 
   AlertDialog alert = AlertDialog(
     backgroundColor: widgetColor,

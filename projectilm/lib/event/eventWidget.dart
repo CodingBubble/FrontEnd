@@ -29,6 +29,7 @@ List<String> list_items = ["", ""];
 final DateFormat formatter = DateFormat('dd. MM. yyyy HH:mm');
 bool joined_event = false;
 bool has_unvoted_poll = false;
+
 class _EventWidget extends State<EventWidget> {
   int state;
   final ImagePicker picker = ImagePicker();
@@ -91,10 +92,7 @@ class _EventWidget extends State<EventWidget> {
             delete_voteoption,
             vote_for,
             unvote_for,
-            getImage
-            // hinzufuegenButtonDisplay,
-            // hinzufuegenButtonNotDisplay
-            ),
+            getImage),
       ),
     );
   }
@@ -154,8 +152,8 @@ class _EventWidget extends State<EventWidget> {
     List<Poll> polls = await current_event!.get_polls();
     polls.forEach((poll) async {
       List<VoteOption> options = await poll.get_my_voted_options();
-      has_unvoted_poll = has_unvoted_poll || options.length==0;
-      setState(() { });
+      has_unvoted_poll = has_unvoted_poll || options.length == 0;
+      setState(() {});
     });
   }
 
@@ -164,6 +162,7 @@ class _EventWidget extends State<EventWidget> {
       event_data_list = [];
       mbrs.forEach((mbr) {
         event_data_list.add([mbr.username, mbr]);
+        membersList.add([mbr.username, mbr]);
       });
       setState(() {});
     });
@@ -173,8 +172,8 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_messages().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
-        event_data_list
-            .add([msg.text, msg.author.id == me!.id, msg.author.username]);
+        event_data_list.add(
+            [msg.text, msg.author.id == me!.id, msg.author.username, msg.time]);
       });
       setState(() {});
     });
@@ -199,7 +198,7 @@ class _EventWidget extends State<EventWidget> {
     var msgs = await current_event!.get_list_items();
     event_data_list = [];
     msgs.forEach((msg) {
-        event_data_list.add([msg.title, msg]);
+      event_data_list.add([msg.title, msg]);
     });
     setState(() {});
   }
@@ -247,7 +246,7 @@ class _EventWidget extends State<EventWidget> {
     current_event!.get_announcements().then((msgs) {
       event_data_list = [];
       msgs.forEach((msg) {
-        event_data_list.add([msg.text]);
+        event_data_list.add([msg.text, msg.time]);
       });
       setState(() {});
     });
@@ -392,21 +391,36 @@ Widget get_body(
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(padding: EdgeInsets.all(15)),
+            const Padding(
+              padding: EdgeInsets.all(15),
+            ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: Text(
                 "Ort:  ${current_event!.description}",
-                style: TextStyle(color: primaryTextColor, fontSize: 20),
+                style: TextStyle(
+                  color: primaryTextColor,
+                  fontSize: SecondfontOfWidget - 2,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-            const Padding(padding: EdgeInsets.all(5)),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Text(
-                "Zeit: ${formatter.format(current_event!.time.toLocal())}",
-                style: TextStyle(color: primaryTextColor, fontSize: 20),
+            const Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Text(
+                  "Zeit: ${formatter.format(current_event!.time.toLocal())}",
+                  style: TextStyle(
+                    color: primaryTextColor,
+                    fontSize: SecondfontOfWidget - 2,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
             Column(
@@ -417,8 +431,8 @@ Widget get_body(
                     "Chat", Icons.chat_bubble_outline, 1, lastChat, context),
                 get_home_item("Einkaufsliste", Icons.list_alt_outlined, 2,
                     "${list_items[0]}\n${list_items[1]}", context),
-                get_home_item(
-                    "Umfragen", Icons.how_to_vote_outlined, 3, has_unvoted_poll?"Neue Umfrage!":"", context),
+                get_home_item("Umfragen", Icons.how_to_vote_outlined, 3,
+                    has_unvoted_poll ? "Neue Umfrage!" : "", context),
                 //  get_home_item("Teilnehmer",    Icons.group,                4, "",               context),
               ],
             ),
@@ -428,10 +442,26 @@ Widget get_body(
 
     case 0:
       ///////////////////////////// EVENT ANNOUNCEMENTS ///////////////////////////////
+      ///
+      ///
+      // String getMemberList() {
+      //   String o = "Admin";
+      //   // List leer weil -
+      //   print(membersList);
+      //   membersList.forEach((mbr) {
+      //     if (current_event!.creator_id == mbr.username) {
+      //       // ignore: void_checks
+      //       o = mbr.username;
+      //     }
+      //   });
+      //   return o;
+      // }
+
       var c = Column(children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.8,
+        Container(
+          padding: constPadding,
+          width: MediaQuery.of(context).size.width * 1,
+          height: MediaQuery.of(context).size.height * 1 - 120,
           child: Scrollbar(
             child: ListView.builder(
               reverse: false,
@@ -446,7 +476,7 @@ Widget get_body(
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: AnnouncentsData(event_data_list[index]),
+                        child: AnnouncentsData(event_data_list[index], "Admin"),
                       ),
                     ],
                   ),
@@ -473,9 +503,13 @@ Widget get_body(
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             hintText: "Rundnachricht",
-                            hintStyle: TextStyle(color: primaryTextColor),
-                            floatingLabelStyle:
-                                TextStyle(color: variationColor),
+                            hintStyle: TextStyle(
+                              color: primaryTextColor,
+                              fontSize: descriptionfontOfWidget,
+                            ),
+                            floatingLabelStyle: TextStyle(
+                              color: variationColor,
+                            ),
                           ),
                         ),
                       ),
@@ -503,8 +537,8 @@ Widget get_body(
         children: [
           // history of messages
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 1 - 125,
             child: Scrollbar(
               child: ListView.builder(
                 reverse: true,
@@ -560,7 +594,7 @@ Widget get_body(
                           hintText: "chat . . .",
                           hintStyle: TextStyle(
                             color: primaryTextColor,
-                            fontSize: 13,
+                            fontSize: descriptionfontOfWidget,
                           ),
                           floatingLabelStyle: TextStyle(color: variationColor),
                         ),
@@ -581,48 +615,133 @@ Widget get_body(
       );
     case 2:
       ///////////////////////////// EVENT LIST ITEMS ///////////////////////////////
-      return Column(children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Scrollbar(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: ListData(
-                          event_data_list[index],
-                          bring_list_item,
-                          unbring_list_item,
-                          delete_list_item,
-                        ),
-                      ),
-                    ],
+      if (event_data_list.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 30),
+              ),
+              Column(
+                children: [
+                  Text(
+                    "Noch keine Einträge!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: SecondfontOfWidget,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                );
-              },
-              itemCount: event_data_list.length,
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                  ),
+                  Text(
+                    "Erstelle einen Eintrag, wenn noch Sachen benötigt werden.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: SecondfontOfWidget,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              ret_if(
+                current_event!.creator_id == me!.id,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    padding: constPadding * 0.5,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  style: TextStyle(color: primaryTextColor),
+                                  controller: inputMessageController,
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                    hintText: "Neuer Eintrag",
+                                    hintStyle: TextStyle(
+                                      color: primaryTextColor,
+                                      fontSize: descriptionfontOfWidget,
+                                    ),
+                                    floatingLabelStyle:
+                                        TextStyle(color: variationColor),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: IconButton(
+                            onPressed: () => {create_list_item()},
+                            icon: Icon(Icons.add, color: secondaryTextColor),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 1 - 125,
+            child: Scrollbar(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: ListData(
+                            event_data_list[index],
+                            bring_list_item,
+                            unbring_list_item,
+                            delete_list_item,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: event_data_list.length,
+              ),
             ),
           ),
-        ),
-        ret_if(
+          ret_if(
             current_event!.creator_id == me!.id,
             Align(
               alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: constPadding * 0.5,
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      padding: constPadding * 0.15,
                       child: Row(
                         children: [
                           Expanded(
@@ -632,7 +751,10 @@ Widget get_body(
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 hintText: "Neuer Eintrag",
-                                hintStyle: TextStyle(color: primaryTextColor),
+                                hintStyle: TextStyle(
+                                  color: primaryTextColor,
+                                  fontSize: descriptionfontOfWidget,
+                                ),
                                 floatingLabelStyle:
                                     TextStyle(color: variationColor),
                               ),
@@ -650,89 +772,182 @@ Widget get_body(
                   ],
                 ),
               ),
-            )),
-      ]);
-    case 3:
-      ///////////////////////////// EVENT POLLS ///////////////////////////////
-      return Column(children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Scrollbar(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets * 3),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: PollData(
-                          event_data_list[index],
-                          create_voteoption,
-                          delete_voteoption,
-                          delete_poll,
-                          vote_for,
-                          unvote_for,
-                          context,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets * 5),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              itemCount: event_data_list.length,
             ),
           ),
-        ),
-        ret_if(
-          current_event!.creator_id == me!.id,
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        ]);
+      }
+    case 3:
+      ///////////////////////////// EVENT POLLS ///////////////////////////////
+      if (event_data_list.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 30),
+              ),
+              Column(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                  Text(
+                    "Noch keine Umfrage!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: primaryTextColor,
+                      fontSize: SecondfontOfWidget,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                  ),
+
+                  ///////////// Noch keine Zusatztext der Sinvoll ist, ist mir eingefallen
+                  // Text(
+                  //   "Erstelle eine Umfrage, wenn noch Sachen benötigt werden.",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     color: primaryTextColor,
+                  //     fontSize: SecondfontOfWidget,
+                  //     fontWeight: FontWeight.w500,
+                  //   ),
+                  // ),
+                ],
+              ),
+              ret_if(
+                current_event!.creator_id == me!.id,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  style: TextStyle(color: primaryTextColor),
+                                  controller: inputMessageController,
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                    hintText: "Neue Umfrage",
+                                    hintStyle: TextStyle(
+                                      color: primaryTextColor,
+                                      fontSize: descriptionfontOfWidget,
+                                    ),
+                                    floatingLabelStyle:
+                                        TextStyle(color: variationColor),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Expanded(
-                          child: TextFormField(
-                            style: TextStyle(color: primaryTextColor),
-                            controller: inputMessageController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintText: "Neue Umfrage",
-                              hintStyle: TextStyle(color: primaryTextColor),
-                              floatingLabelStyle:
-                                  TextStyle(color: variationColor),
-                            ),
+                          child: IconButton(
+                            onPressed: () => {create_poll()},
+                            icon:
+                                Icon(Icons.add_box, color: secondaryTextColor),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () => {create_poll()},
-                      icon: Icon(Icons.add_box, color: secondaryTextColor),
-                    ),
-                  ),
-                ],
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 125,
+              child: Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: backgroundColor,
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(discanceBetweenWidgets * 3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: PollData(
+                              event_data_list[index],
+                              create_voteoption,
+                              delete_voteoption,
+                              delete_poll,
+                              vote_for,
+                              unvote_for,
+                              context,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(discanceBetweenWidgets * 5),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: event_data_list.length,
+                ),
               ),
             ),
-          ),
-        ),
-      ]);
+            ret_if(
+              current_event!.creator_id == me!.id,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                style: TextStyle(color: primaryTextColor),
+                                controller: inputMessageController,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  hintText: "Neue Umfrage",
+                                  hintStyle: TextStyle(
+                                    color: primaryTextColor,
+                                    fontSize: descriptionfontOfWidget,
+                                  ),
+                                  floatingLabelStyle:
+                                      TextStyle(color: variationColor),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () => {create_poll()},
+                          icon: Icon(Icons.add_box, color: secondaryTextColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      }
     case 4:
       ///////////////////// EVENT MEMBERS ///////////////////////////////////////
       return SizedBox(
@@ -747,7 +962,8 @@ Widget get_body(
                 child: Column(
                   children: [
                     const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets)),
+                      padding: EdgeInsets.all(discanceBetweenWidgets),
+                    ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width *
                           0.9, // the distance to the margin of display
@@ -774,34 +990,52 @@ Widget get_home_item(String text, IconData icon, int keyD, String additional,
     child: SizedBox(
       height: MediaQuery.of(context).size.height * 0.18,
       child: TextButton(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Icon(icon,
-              color: primaryTextColor,
-              size: min(MediaQuery.of(context).size.width,
-                      MediaQuery.of(context).size.height) *
-                  0.14),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.65,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  margin: const EdgeInsets.only(left: 2),
-                  child: Text(
-                    text,
-                    style: TextStyle(color: secondaryTextColor, fontSize: 19),
-                  ),
-                ),
-                Text(
-                  additional,
-                  style: TextStyle(color: primaryTextColor, fontSize: 14),
-                ),
-              ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.only(top: 15),
+              child: Icon(
+                icon,
+                color: primaryTextColor,
+                size: min(MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height) *
+                    0.14,
+              ),
             ),
-          ),
-        ]),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.65,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    margin: const EdgeInsets.fromLTRB(2, 5, 0, 1),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontSize: SecondfontOfWidget - 1,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      additional,
+                      style: TextStyle(
+                        color: secondaryTextColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         onPressed: () => AppHandler("eventWidget", context, [keyD]),
       ),
     ),
@@ -816,14 +1050,13 @@ Widget ListData(item, add_me, remove_me, delete_item) {
         icon: const Icon(Icons.delete_forever_outlined, color: Colors.red),
         onPressed: () => {delete_item(item[1])});
   }
-  if (item[1].runtimeType.toString()!=(ListItem).toString()) {
+  if (item[1].runtimeType.toString() != (ListItem).toString()) {
     return Container();
   }
   if (item[1].bringer != "") {
     icon = Icon(Icons.check, color: variationColor);
   }
-  return Container(
-      child: Row(
+  return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       IconButton(
@@ -837,13 +1070,25 @@ Widget ListData(item, add_me, remove_me, delete_item) {
           }),
       Column(
         children: [
-          Text(item[0], style: TextStyle(color: primaryTextColor)),
-          Text(item[1].bringer, style: TextStyle(color: secondaryTextColor)),
+          Text(
+            item[0],
+            style: TextStyle(
+              color: primaryTextColor,
+              fontSize: descriptionfontOfWidget,
+            ),
+          ),
+          Text(
+            item[1].bringer,
+            style: TextStyle(
+              color: secondaryTextColor,
+              fontSize: descriptionfontOfWidget,
+            ),
+          ),
         ],
       ),
       del_button
     ],
-  ));
+  );
 }
 
 Widget MemberData(member) {
@@ -885,8 +1130,18 @@ Widget MemberData(member) {
   );
 }
 
-Row AnnouncentsData(list) {
+Row AnnouncentsData(list, admin) {
   var message = list[0];
+  var msgTime = list[1];
+  // var date = msgTime.split(' ');
+  msgTime = msgTime.toString().split(' ');
+
+  // date of message
+  var date = msgTime[0].split("-");
+  // hour minute secound
+  var HMS = msgTime[1].split(":");
+
+  var finalTimeString = "${date[2]}/${date[1]}/${date[0]} ${HMS[0]}:${HMS[1]}";
 
   // größter Bubatz => nicht dynamisch => gibt nur einen creator => bei einführung von Admins => bitte änder => Announcements haben keinen Autor => danke GOTT
   Widget MessageInp = Text(
@@ -901,7 +1156,7 @@ Row AnnouncentsData(list) {
       Flexible(
         child: Container(
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.fromLTRB(10, 0, 0, 5),
+          margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             color: Colors.green[900],
             borderRadius: const BorderRadius.only(
@@ -910,7 +1165,43 @@ Row AnnouncentsData(list) {
               bottomLeft: Radius.circular(19),
             ),
           ),
-          child: MessageInp,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    admin,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: SecondfontOfWidget - 2,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      finalTimeString.toString(),
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: descriptionfontOfWidget - 2,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                  )
+                ],
+              ),
+              MessageInp
+            ],
+          ),
         ),
       ),
     ],
@@ -1006,7 +1297,10 @@ Widget PollData(
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: "Neue Option",
-                  hintStyle: TextStyle(color: secondaryTextColor),
+                  hintStyle: TextStyle(
+                    color: secondaryTextColor,
+                    fontSize: descriptionfontOfWidget,
+                  ),
                   floatingLabelStyle: TextStyle(color: primaryTextColor),
                 ),
               ),
@@ -1069,7 +1363,7 @@ Dismissible VoteOptionData(
             "Option löschen?",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: descriptionfontOfWidget - 3,
             ),
           ),
           actions: [
@@ -1084,7 +1378,9 @@ Dismissible VoteOptionData(
                 },
                 child: Text(
                   "Abbrechen",
-                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                  style: TextStyle(
+                      fontSize: descriptionfontOfWidget - 6,
+                      color: primaryTextColor),
                 ),
               ),
             ),
@@ -1099,7 +1395,9 @@ Dismissible VoteOptionData(
                 },
                 child: Text(
                   "Löschen",
-                  style: TextStyle(fontSize: 8, color: primaryTextColor),
+                  style: TextStyle(
+                      fontSize: descriptionfontOfWidget - 6,
+                      color: primaryTextColor),
                 ),
               ),
             )
@@ -1161,14 +1459,26 @@ Dismissible VoteOptionData(
 }
 
 var event_data_list = [];
+var membersList = [];
 
 var inputMessage = "";
 Widget WidgetmessageDesign(list, context) {
   var message = list[0];
   var _me = list[1];
   var author = list[2];
+  var msgTime = list[3];
   var wColor;
   var bubbleCorner;
+
+  msgTime = msgTime.toString().split(' ');
+
+  // date of message
+  var date = msgTime[0].split("-");
+  // hour minute secound
+  var HMS = msgTime[1].split(":");
+
+  var finalTimeString = "${date[2]}/${date[1]}/${date[0]} ${HMS[0]}:${HMS[1]}";
+
   Widget MessageInp = Text(
     message,
     style: const TextStyle(color: Colors.white, fontSize: 15),
@@ -1209,7 +1519,7 @@ Widget WidgetmessageDesign(list, context) {
         Flexible(
           child: Container(
             padding: const EdgeInsets.all(15),
-            margin: const EdgeInsets.only(bottom: 5),
+            margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: Colors.green[900],
               borderRadius: const BorderRadius.only(
@@ -1220,12 +1530,42 @@ Widget WidgetmessageDesign(list, context) {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  author,
-                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                  textAlign: TextAlign.right,
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.75,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        author,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: SecondfontOfWidget - 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          finalTimeString.toString(),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: descriptionfontOfWidget - 2,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 MessageInp
               ],
@@ -1252,13 +1592,42 @@ Widget WidgetmessageDesign(list, context) {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  author,
-                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
-                  textAlign: TextAlign.left,
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.75,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        author,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: SecondfontOfWidget - 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          finalTimeString.toString(),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: descriptionfontOfWidget - 2,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 MessageInp
               ],

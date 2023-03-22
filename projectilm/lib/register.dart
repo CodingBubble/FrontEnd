@@ -18,111 +18,119 @@ class load_register extends StatelessWidget {
   final TextEditingController password_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 22),
-            child: Center(
-              child: Text(
-                "WILLKOMMEN IN",
-                style: TextStyle(
-                  fontSize: SecondfontOfWidget,
-                  color: secondaryTextColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: RichText(
-              text: TextSpan(
-                text: "G",
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: GigafontOfWidget * 1.25,
-                  fontWeight: FontWeight.w400,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: "rouping",
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 22),
+                child: Center(
+                  child: Text(
+                    "WILLKOMMEN IN",
                     style: TextStyle(
-                        color: primaryTextColor,
-                        fontSize: HeadfontOfWidget * 1.4,
-                        fontWeight: FontWeight.w800),
+                      fontSize: SecondfontOfWidget,
+                      color: secondaryTextColor,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Form(
-              child: TextFormField(
-                style: TextStyle(color: primaryTextColor),
-                controller: username_controller,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  hintText: 'Name',
-                  hintStyle: TextStyle(color: primaryTextColor),
-                  floatingLabelStyle: TextStyle(color: variationColor),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Form(
-              child: TextFormField(
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                style: TextStyle(color: primaryTextColor),
-                controller: password_controller,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  hintText: 'Passwort',
-                  hintStyle: TextStyle(color: primaryTextColor),
-                  floatingLabelStyle: TextStyle(color: variationColor),
+              Align(
+                alignment: Alignment.topCenter,
+                child: RichText(
+                  text: TextSpan(
+                    text: "G",
+                    style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: GigafontOfWidget * 1.25,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "rouping",
+                        style: TextStyle(
+                            color: primaryTextColor,
+                            fontSize: HeadfontOfWidget * 1.4,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: widgetColor),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: TextButton(
-                onPressed: () => evt_register(context),
-                child: Text(
-                  'Erstelllen',
-                  style: TextStyle(color: primaryTextColor),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Form(
+                  child: TextFormField(
+                    style: TextStyle(color: primaryTextColor),
+                    controller: username_controller,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      hintStyle: TextStyle(color: primaryTextColor),
+                      floatingLabelStyle: TextStyle(color: variationColor),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: widgetColor),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: TextButton(
-                onPressed: () => AppHandler("logInWidget", context, []),
-                child: Text(
-                  'Ich habe bereits einen Account',
-                  style: TextStyle(color: primaryTextColor),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Form(
+                  child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    style: TextStyle(color: primaryTextColor),
+                    controller: password_controller,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: InputDecoration(
+                      hintText: 'Passwort',
+                      hintStyle: TextStyle(color: primaryTextColor),
+                      floatingLabelStyle: TextStyle(color: variationColor),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          )
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: variationColor),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () => evt_register(context),
+                    child: Text(
+                      'Erstelllen',
+                      style: TextStyle(color: variationColor),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: variationColor),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () => AppHandler("logInWidget", context, []),
+                    child: Text(
+                      'Ich habe bereits einen Account',
+                      style: TextStyle(color: variationColor),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

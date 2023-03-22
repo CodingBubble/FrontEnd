@@ -21,92 +21,153 @@ class _StateGroup_Create extends State<Group_Create> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: get_simple_app_bar(context, "Gruppe erstellen"),
-        body: SingleChildScrollView(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Text("Gruppe Betreten",
+      backgroundColor: backgroundColor,
+      appBar: get_simple_app_bar(context, "Gruppe hinzufügen"),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: constPadding,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Text(
+                  "Gruppe Betreten",
                   style: TextStyle(
-                      color: secondaryTextColor, fontWeight: FontWeight.bold)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: invite_code_controller,
-                  decoration: InputDecoration(
-                    hintText: 'Einladungscode',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
+                    color: primaryTextColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: SecondfontOfWidget,
                   ),
                 ),
               ),
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Form(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: secondaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    controller: invite_code_controller,
+                    decoration: InputDecoration(
+                      hintText: 'Einladungscode',
+                      hintStyle: TextStyle(
+                        color: secondaryTextColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                      floatingLabelStyle: TextStyle(
+                        color: variationColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                    ),
                   ),
-                  onPressed: () {
-                    use_code();
-                  },
-                  child: Text('Betreten'),
-                )),
-            Padding(
-              padding: EdgeInsets.fromLTRB(8, 60, 8, 16),
-              child: Text("Gruppe Erstellen",
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: variationColor),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(variationColor),
+                    ),
+                    onPressed: () {
+                      use_code();
+                    },
+                    child: const Text('Betreten'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 60, 8, 16),
+                child: Text(
+                  "Gruppe Erstellen",
                   style: TextStyle(
-                      color: secondaryTextColor, fontWeight: FontWeight.bold)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: name_controller,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: 'Name der Gruppe',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
+                    color: primaryTextColor,
+                    fontSize: SecondfontOfWidget,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Form(
-                child: TextFormField(
-                  style: TextStyle(color: primaryTextColor),
-                  controller: desc_controller,
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: 'Beschreibung',
-                    hintStyle: TextStyle(color: primaryTextColor),
-                    floatingLabelStyle: TextStyle(color: variationColor),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Form(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: secondaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    controller: name_controller,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: 'Name der Gruppe',
+                      hintStyle: TextStyle(
+                        color: secondaryTextColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                      floatingLabelStyle: TextStyle(
+                        color: variationColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Form(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: secondaryTextColor,
+                      fontSize: descriptionfontOfWidget,
+                    ),
+                    controller: desc_controller,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: 'Beschreibung',
+                      hintStyle: TextStyle(
+                        color: secondaryTextColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                      floatingLabelStyle: TextStyle(
+                        color: variationColor,
+                        fontSize: descriptionfontOfWidget,
+                      ),
+                    ),
                   ),
-                  onPressed: create_group,
-                  child: Text('Erstellen'),
-                )),
-          ],
-        )));
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: variationColor),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(variationColor),
+                    ),
+                    onPressed: create_group,
+                    child: const Text('Erstellen'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void create_group() async {

@@ -33,7 +33,7 @@ class _StateGroup extends State<GroupWidget> {
         appBar: get_group_app_bar(context, searchFilter, archived),
         body: Column(
           children: [
-            //first widget as official chat
+            //first widget: official chat
             Column(
               children: [
                 const Padding(padding: EdgeInsets.all(discanceBetweenWidgets)),
@@ -162,7 +162,9 @@ class _StateGroup extends State<GroupWidget> {
     if (me == null) {
       return;
     }
-    List<Event> events = await (archived?current_group!.get_events_achieved():current_group!.get_events_active());
+    List<Event> events = await (archived
+        ? current_group!.get_events_achieved()
+        : current_group!.get_events_active());
     Joined = [];
     for (var event in events) {
       Joined.add(await event.am_member());
@@ -205,48 +207,78 @@ class _StateGroup extends State<GroupWidget> {
   }
 
   Widget scrollEvents() {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        constraints: const BoxConstraints.expand(),
-        child: Scrollbar(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Material(
-                color: backgroundColor,
-                child: Column(
-                  children: [
-                    const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets)),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width *
-                          0.9, // the distance to the margin of display
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            widgetColor,
-                          ),
-                        ),
-                        child: eventWidget(Events[index], index),
-                        onPressed: () {
-                          current_event = Events[index];
-                          AppHandler("eventWidget", context, [-1]);
-                        },
-                        // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
+    if (Events.isEmpty) {
+      return Center(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(bottom: 30),
+            ),
+            Text(
+              "Noch kein Event?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: primaryTextColor,
+                fontSize: SecondfontOfWidget,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 30),
+            ),
+            Text(
+              "Klicke auf das Plus unten rechts um eine Event zu erstellen.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: primaryTextColor,
+                fontSize: SecondfontOfWidget,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+      return Expanded(
+        flex: 1,
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          child: Scrollbar(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Material(
+                  color: backgroundColor,
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(discanceBetweenWidgets),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            itemCount: Events.length,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.9, // the distance to the margin of display
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              widgetColor,
+                            ),
+                          ),
+                          child: eventWidget(Events[index], index),
+                          onPressed: () {
+                            current_event = Events[index];
+                            AppHandler("eventWidget", context, [-1]);
+                          },
+                          // first parameter is the keyword to the next widget, other is the context-builder for the nativigator-class, just copy and past it
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: Events.length,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
-
-
-
-
 }
