@@ -63,7 +63,7 @@ class _stateChatWidget extends State<chatWidget> {
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
-                        reverse: true,
+                        reverse: false,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Material(
@@ -72,7 +72,8 @@ class _stateChatWidget extends State<chatWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Padding(
-                                  padding: EdgeInsets.all(discanceBetweenWidgets),
+                                  padding:
+                                      EdgeInsets.all(discanceBetweenWidgets),
                                 ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width *

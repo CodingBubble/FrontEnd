@@ -407,8 +407,8 @@ Widget get_body(
                         color: primaryTextColor,
                         fontSize: SecondfontOfWidget - 2,
                         fontWeight: FontWeight.w500,
-                      )
-                      ,textAlign: TextAlign.center,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   SizedBox(
@@ -463,76 +463,80 @@ Widget get_body(
       //   return o;
       // }
 
-      var c = Column(children: [
-        Container(
-          padding: constPadding,
-          width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 0.95 - 120,
-          child: Scrollbar(
-            child: ListView.builder(
-              reverse: false,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(discanceBetweenWidgets),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: AnnouncentsData(event_data_list[index], "Admin"),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              itemCount: event_data_list.length,
+      var c = Column(
+        children: [
+          Container(
+            padding: constPadding,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.95 - 120,
+            child: Scrollbar(
+              child: ListView.builder(
+                reverse: false,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Material(
+                    color: backgroundColor,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(discanceBetweenWidgets),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child:
+                              AnnouncentsData(event_data_list[index], "Admin"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: event_data_list.length,
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          style: TextStyle(color: primaryTextColor),
-                          controller: inputMessageController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Rundnachricht",
-                            hintStyle: TextStyle(
-                              color: primaryTextColor,
-                              fontSize: descriptionfontOfWidget,
-                            ),
-                            floatingLabelStyle: TextStyle(
-                              color: variationColor,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            style: TextStyle(color: primaryTextColor),
+                            controller: inputMessageController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: "Rundnachricht",
+                              hintStyle: TextStyle(
+                                color: primaryTextColor,
+                                fontSize: descriptionfontOfWidget,
+                              ),
+                              floatingLabelStyle: TextStyle(
+                                color: variationColor,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: IconButton(
-                    onPressed: () => {send_announcement()},
-                    icon: Icon(Icons.send, color: secondaryTextColor),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () => {send_announcement()},
+                      icon: Icon(Icons.send, color: secondaryTextColor),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ]);
+        ],
+      );
       if (current_event!.creator_id != me!.id) {
         c.children.removeAt(1);
       }
@@ -547,7 +551,7 @@ Widget get_body(
             height: MediaQuery.of(context).size.height * 0.95 - 125,
             child: Scrollbar(
               child: ListView.builder(
-                reverse: true,
+                reverse: false,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Material(
@@ -602,7 +606,9 @@ Widget get_body(
                             color: primaryTextColor,
                             fontSize: descriptionfontOfWidget,
                           ),
-                          floatingLabelStyle: TextStyle(color: variationColor),
+                          floatingLabelStyle: TextStyle(
+                            color: variationColor,
+                          ),
                         ),
                       ),
                     ),
@@ -646,7 +652,9 @@ Widget get_body(
                     padding: EdgeInsets.only(bottom: 30),
                   ),
                   Text(
-                    current_event!.creator_id==me!.id?"Erstelle einen Eintrag, wenn noch Sachen benötigt werden.":"",
+                    current_event!.creator_id == me!.id
+                        ? "Erstelle einen Eintrag, wenn noch Sachen benötigt werden."
+                        : "",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryTextColor,
